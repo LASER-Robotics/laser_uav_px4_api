@@ -1,0 +1,6 @@
+api:
+  ros__parameters:
+    setpoint_control_mode: "TTs" # TTs for torque and thrust setpoints or Ps for position setpoints
+
+    rate: # [Hz]
+      send_offboard_control_mode: 100.0

@@ -7,7 +7,7 @@ ApiNode::ApiNode(const rclcpp::NodeOptions & options)
 {
   RCLCPP_INFO(get_logger(), "Creating");
 
-  declare_parameter("setpoint_control_mode", rclcpp::ParameterValue(std::string("TTs")));
+  declare_parameter("setpoint_control_mode", rclcpp::ParameterValue(std::string("Ps")));
 
   declare_parameter("rate.send_offboard_control_mode", rclcpp::ParameterValue(100.0));
 }

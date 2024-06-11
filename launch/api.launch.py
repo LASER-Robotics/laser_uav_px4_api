@@ -16,9 +16,8 @@ from launch_ros.events.lifecycle import ChangeState
 
 import lifecycle_msgs.msg
 
-
 def generate_launch_description():
-    # Declare arguments
+#Declare arguments
     declared_arguments = []
 
     declared_arguments.append(
@@ -31,43 +30,51 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument(
-            'params_file',
+            'api_file',
             default_value=PathJoinSubstitution([FindPackageShare('laser_uav_px4_api'),
-                                                'params', 'default.yaml']),
+                                                'params', 'api.yaml']),
             description='Full path to the file with the all parameters.'
         )
     )
 
-    # Initialize arguments
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'uav_constants_file',
+            default_value=PathJoinSubstitution([FindPackageShare('laser_uav_px4_api'),
+                                                'params', 'uav_constants.yaml']),
+            description='Full path to the file with the all parameters.'
+        )
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'uav_constraints_file',
+            default_value=PathJoinSubstitution([FindPackageShare('laser_uav_px4_api'),
+                                                'params', 'uav_constraints.yaml']),
+            description='Full path to the file with the all parameters.'
+        )
+    )
+
+#Initialize arguments
     namespace = LaunchConfiguration('namespace')
-    params_file = LaunchConfiguration('params_file')
-
-    # Replace '<robot_namespace>' tag with the real robot namespace
-    # params_file = ReplaceString(
-    #     source_file=params_file,
-    #     replacements={'<robot_namespace>': namespace}
-    # )
-
-    # configured_params = RewrittenYaml(
-    #     source_file=params_file,
-    #     root_key=namespace,
-    #     param_rewrites={},
-    #     convert_types=True
-    # )
+    api_file = LaunchConfiguration('api_file')
+    uav_constants_file = LaunchConfiguration('uav_constants_file')
+    uav_constraints_file = LaunchConfiguration('uav_constraints_file')
 
     api_lifecycle_node = LifecycleNode(
         package='laser_uav_px4_api',
         executable='api',
-        name='px4_api',
+        name='api',
         namespace=namespace,
         output='screen',
-        # parameters=[configured_params]
+        parameters=[api_file, uav_constants_file, uav_constraints_file],
         remappings=[
             ('/uav1/vehicle_command_px4_out', '/fmu/in/vehicle_command'),
             ('/uav1/torque_setpoint_px4_out', '/fmu/in/vehicle_torque_setpoint'),
             ('/uav1/thrust_setpoint_px4_out', '/fmu/in/vehicle_thrust_setpoint'),
             ('/uav1/offboard_control_mode_px4_out', '/fmu/in/offboard_control_mode'),
-            ('/uav1/trajectory_setpoint_px4_out', '/fmu/in/trajectory_setpoint'),
+            ('/uav1/position_setpoint_px4_out', '/fmu/in/trajectory_setpoint'),
+            ('/uav1/landing_position_px4_out', '/fmu/in/landing_target_pose'),
             ('/uav1/vehicle_odometry_px4_in', '/fmu/out/vehicle_odometry'),
             ('/uav1/vehicle_control_mode_px4_in', '/fmu/out/vehicle_control_mode'),
         ]
@@ -76,7 +83,7 @@ def generate_launch_description():
     event_handlers = []
 
     event_handlers.append(
-        # Right after the node starts, make it take the 'configure' transition.
+#Right after the node starts, make it take the 'configure' transition.
         RegisterEventHandler(
             OnProcessStart(
                 target_action=api_lifecycle_node,
@@ -108,14 +115,14 @@ def generate_launch_description():
 
     ld = LaunchDescription()
 
-    # Declare the arguments
+#Declare the arguments
     for argument in declared_arguments:
         ld.add_action(argument)
 
-    # Add client node
+#Add client node
     ld.add_action(api_lifecycle_node)
 
-    # Add event handlers
+#Add event handlers
     for event_handler in event_handlers:
         ld.add_action(event_handler)
 

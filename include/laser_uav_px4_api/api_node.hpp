@@ -7,9 +7,12 @@
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <std_srvs/srv/trigger.hpp>
+#include <std_msgs/msg/bool.hpp>
 #include <nav_msgs/msg/odometry.hpp>
-#include <geometry_msgs/msg/point.hpp>
+#include <geometry_msgs/msg/pose.hpp>
 
 #include <px4_msgs/msg/vehicle_command.hpp>
 #include <px4_msgs/msg/vehicle_control_mode.hpp>
@@ -18,40 +21,28 @@
 #include <px4_msgs/msg/vehicle_thrust_setpoint.hpp>
 #include <px4_msgs/msg/trajectory_setpoint.hpp>
 #include <px4_msgs/msg/vehicle_odometry.hpp>
+#include <px4_msgs/msg/landing_target_pose.hpp>
 
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
-using VehicleCommandPx4 = px4_msgs::msg::VehicleCommand;
-using OffboardControlModePx4 = px4_msgs::msg::OffboardControlMode;
-using VehicleControlModePx4 = px4_msgs::msg::VehicleControlMode;
-using TorqueSetpointPx4 = px4_msgs::msg::VehicleTorqueSetpoint;
-using ThrustSetpointPx4 = px4_msgs::msg::VehicleThrustSetpoint;
-using TrajectorySetpointPx4 = px4_msgs::msg::TrajectorySetpoint;
-using VehicleOdometryPx4 = px4_msgs::msg::VehicleOdometry;
-
-using Trigger = std_srvs::srv::Trigger;
-using NavOdometry = nav_msgs::msg::Odometry;
-using GeometryPoint = geometry_msgs::msg::Point;
-
 namespace laser_uav_px4_api
 {
-class ApiNode : public rclcpp_lifecycle::LifecycleNode
-{
+class ApiNode : public rclcpp_lifecycle::LifecycleNode {
 public:
-  explicit ApiNode(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+  explicit ApiNode(const rclcpp::NodeOptions &options = rclcpp::NodeOptions());
 
   ~ApiNode() override;
 
 private:
   CallbackReturn on_configure(const rclcpp_lifecycle::State &);
 
-  CallbackReturn on_activate(const rclcpp_lifecycle::State & state);
+  CallbackReturn on_activate(const rclcpp_lifecycle::State &state);
 
-  CallbackReturn on_deactivate(const rclcpp_lifecycle::State & state);
+  CallbackReturn on_deactivate(const rclcpp_lifecycle::State &state);
 
   CallbackReturn on_cleanup(const rclcpp_lifecycle::State &);
 
-  CallbackReturn on_shutdown(const rclcpp_lifecycle::State & state);
+  CallbackReturn on_shutdown(const rclcpp_lifecycle::State &state);
 
   rclcpp::CallbackGroup::SharedPtr callback_group_;
 
@@ -60,53 +51,68 @@ private:
   void configTimers();
   void configServices();
 
-  rclcpp::Subscription<VehicleControlModePx4>::ConstSharedPtr sub_vehicle_control_mode_px4_;
-  void                                                        vehicleControlModePx4Received(
-    const VehicleControlModePx4 & msg);
+  rclcpp::Subscription<px4_msgs::msg::VehicleOdometry>::ConstSharedPtr     sub_odometry_px4_;
+  void                                                                     subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg);
+  rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>::SharedPtr pub_nav_odometry_;
 
-  rclcpp_lifecycle::LifecyclePublisher<NavOdometry>::SharedPtr pub_nav_odometry_;
-  rclcpp::Subscription<VehicleOdometryPx4>::ConstSharedPtr sub_vehicle_odometry_px4_;
-  void                                                     vehicleOdometryPx4Received(
-    const VehicleOdometryPx4 & msg);
+  rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::VehicleCommand>::SharedPtr pub_vehicle_command_px4_;
+  void pubVehicleCommandPx4(int command, float param1 = 0.0, float param2 = 0.0, float param3 = 0.0, float param4 = 0.0, float param5 = 0.0, float param6 = 0.0,
+                            float param7 = 0.0);
 
-  /* rclcpp::Subscription<TorqueAndThrustSetpoint>::ConstSharedPtr sub_torque_and_thrust_setpoint_; */
-  /* void                                                          torqueAndThrustSetpointReceived(const TorqueAndThrustSetpoint& msg); */
+  double                                                                              _rate_pub_offboard_control_mode_px4_;
+  rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::OffboardControlMode>::SharedPtr pub_offboard_control_mode_px4_;
+  rclcpp::TimerBase::SharedPtr                                                        tmr_pub_offboard_control_mode_px4_;
+  void                                                                                tmrPubOffboardControlModePx4();
 
-  rclcpp::Subscription<GeometryPoint>::ConstSharedPtr sub_position_setpoint_;
-  void                                                          positionSetpointReceived(
-    const GeometryPoint & msg);
+  rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::LandingTargetPose>::SharedPtr  pub_landing_position_px4_;
+  rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::TrajectorySetpoint>::SharedPtr pub_position_setpoint_px4_;
 
-  rclcpp_lifecycle::LifecyclePublisher<VehicleCommandPx4>::SharedPtr pub_vehicle_command_px4_;
-  void                                                               pubVehicleCommandPx4(
-    int command, float param1 = 0.0, float param2 = 0.0);
+  rclcpp::Subscription<geometry_msgs::msg::Pose>::SharedPtr sub_goto_;
+  void                                                      subGoto(const geometry_msgs::msg::Pose &msg);
 
-  rclcpp_lifecycle::LifecyclePublisher<TorqueSetpointPx4>::SharedPtr pub_torque_setpoint_px4_;
-  rclcpp_lifecycle::LifecyclePublisher<ThrustSetpointPx4>::SharedPtr pub_thrust_setpoint_px4_;
-  void                                                               pubTorqueAndThrustSetpointPx4();
+  rclcpp::Subscription<geometry_msgs::msg::Pose>::SharedPtr sub_goto_relative_;
+  void                                                      subGotoRelative(const geometry_msgs::msg::Pose &msg);
 
-  rclcpp_lifecycle::LifecyclePublisher<TrajectorySetpointPx4>::SharedPtr pub_position_setpoint_px4_;
+  rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr srv_takeoff_;
+  void srvTakeoff(const std::shared_ptr<std_srvs::srv::Trigger::Request> request, std::shared_ptr<std_srvs::srv::Trigger::Response> response);
 
-  double rate_send_offboard_control_mode_px4_;
-  rclcpp_lifecycle::LifecyclePublisher<OffboardControlModePx4>::SharedPtr
-    pub_offboard_control_mode_px4_;
-  rclcpp::TimerBase::SharedPtr timer_send_offboard_control_mode_px4_;
-  void
-  sendOffboardControlModePx4Callback();
+  rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr srv_land_;
+  void srvLand(const std::shared_ptr<std_srvs::srv::Trigger::Request> request, std::shared_ptr<std_srvs::srv::Trigger::Response> response);
 
-  rclcpp::Service<Trigger>::SharedPtr srv_arm_;
-  void                                arm(
-    const std::shared_ptr<Trigger::Request> request,
-    std::shared_ptr<Trigger::Response> response);
+  rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr srv_arm_;
+  void srvArm(const std::shared_ptr<std_srvs::srv::Trigger::Request> request, std::shared_ptr<std_srvs::srv::Trigger::Response> response);
 
-  rclcpp::Service<Trigger>::SharedPtr srv_disarm_;
-  void                                disarm(
-    const std::shared_ptr<Trigger::Request> request,
-    std::shared_ptr<Trigger::Response> response);
+  rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr srv_disarm_;
+  void srvDisarm(const std::shared_ptr<std_srvs::srv::Trigger::Request> request, std::shared_ptr<std_srvs::srv::Trigger::Response> response);
 
-  std::string setpoint_control_mode_px4_;
+  double                                                               _rate_pub_api_diagnostic_;
+  rclcpp::TimerBase::SharedPtr                                         tmr_pub_api_diagnostic_;
+  void                                                                 tmrPubApiDiagnostic();
+  rclcpp_lifecycle::LifecyclePublisher<std_msgs::msg::Bool>::SharedPtr pub_have_goal_;
+  std_msgs::msg::Bool                                                  have_goal_;
 
+  double _takeoff_height_;
+  double _speed_x_;
+  double _speed_y_;
+  double _speed_z_;
+  double _speed_yaw_;
+  double _acceleration_x_;
+  double _acceleration_y_;
+  double _acceleration_z_;
+
+  geometry_msgs::msg::Pose current_reference_;
+  geometry_msgs::msg::Pose derivative_position_;
+  geometry_msgs::msg::Pose derivative_position_filtered_;
+  nav_msgs::msg::Odometry  current_nav_odometry_;
+  nav_msgs::msg::Odometry  last_nav_odometry_;
+
+  bool first_iteraction_{true};
+  bool last_have_goal_{false};
+  bool requested_goto_{false};
+  bool requested_takeoff_{false};
+  bool requested_land_{false};
   bool is_active_{false};
 };
-}  // namespace laser_uav_api_px4
+}  // namespace laser_uav_px4_api
 
 #endif

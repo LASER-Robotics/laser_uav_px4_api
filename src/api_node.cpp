@@ -55,7 +55,6 @@ CallbackReturn ApiNode::on_activate([[maybe_unused]] const rclcpp_lifecycle::Sta
 
   pub_vehicle_command_px4_->on_activate();
   pub_position_setpoint_px4_->on_activate();
-  pub_landing_position_px4_->on_activate();
   pub_offboard_control_mode_px4_->on_activate();
   pub_nav_odometry_->on_activate();
   pub_have_goal_->on_activate();
@@ -72,7 +71,6 @@ CallbackReturn ApiNode::on_deactivate([[maybe_unused]] const rclcpp_lifecycle::S
 
   pub_vehicle_command_px4_->on_deactivate();
   pub_position_setpoint_px4_->on_deactivate();
-  pub_landing_position_px4_->on_deactivate();
   pub_offboard_control_mode_px4_->on_deactivate();
   pub_nav_odometry_->on_deactivate();
   pub_have_goal_->on_deactivate();
@@ -91,7 +89,6 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
 
   pub_vehicle_command_px4_.reset();
   pub_position_setpoint_px4_.reset();
-  pub_landing_position_px4_.reset();
   pub_offboard_control_mode_px4_.reset();
   pub_nav_odometry_.reset();
   pub_have_goal_.reset();
@@ -135,7 +132,6 @@ void ApiNode::configPubSub() {
                                                                           std::bind(&ApiNode::subOdometryPx4, this, std::placeholders::_1));
 
   pub_position_setpoint_px4_     = create_publisher<px4_msgs::msg::TrajectorySetpoint>("position_setpoint_px4_out", 10);
-  pub_landing_position_px4_      = create_publisher<px4_msgs::msg::LandingTargetPose>("landing_position_px4_out", 10);
   pub_vehicle_command_px4_       = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
   pub_offboard_control_mode_px4_ = create_publisher<px4_msgs::msg::OffboardControlMode>("offboard_control_mode_px4_out", 10);
 
@@ -302,6 +298,10 @@ void ApiNode::subGoto(const geometry_msgs::msg::Pose &msg) {
     return;
   }
 
+  if (!is_flying_) {
+    return;
+  }
+
   if (requested_takeoff_ || requested_land_) {
     return;
   }
@@ -342,6 +342,10 @@ void ApiNode::subGoto(const geometry_msgs::msg::Pose &msg) {
 /* subGotoRelative() //{ */
 void ApiNode::subGotoRelative(const geometry_msgs::msg::Pose &msg) {
   if (!is_active_) {
+    return;
+  }
+
+  if (!is_flying_) {
     return;
   }
 
@@ -396,9 +400,9 @@ void ApiNode::srvTakeoff([[maybe_unused]] const std::shared_ptr<std_srvs::srv::T
     return;
   }
 
-  if (current_reference_.position.z > 0) {
+  if (is_flying_) {
     response->success = false;
-    response->message = "takeoff requested failed";
+    response->message = "takeoff requested failed, uav is already in flight";
     return;
   }
 
@@ -432,6 +436,7 @@ void ApiNode::srvTakeoff([[maybe_unused]] const std::shared_ptr<std_srvs::srv::T
   position_setpoint.timestamp = this->get_clock()->now().nanoseconds() / 1000;
   pub_position_setpoint_px4_->publish(position_setpoint);
 
+  is_flying_        = true;
   response->success = true;
   response->message = "takeoff requested success";
 }
@@ -444,9 +449,9 @@ void ApiNode::srvLand([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trig
     return;
   }
 
-  if (current_reference_.position.z == 0) {
+  if (!is_flying_) {
     response->success = false;
-    response->message = "land requested failed";
+    response->message = "land requested failed, uav is already landed";
     return;
   }
 
@@ -455,6 +460,7 @@ void ApiNode::srvLand([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trig
   current_reference_.position.z = 0;
   pubVehicleCommandPx4(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_NAV_LAND);
 
+  is_flying_        = false;
   response->success = true;
   response->message = "land requested success";
 }
@@ -467,11 +473,17 @@ void ApiNode::srvArm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trigg
     return;
   }
 
+  if (is_flying_) {
+    response->success = false;
+    response->message = "arm requested failed, uav is already in flight";
+    return;
+  }
+
   pubVehicleCommandPx4(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 6);
   pubVehicleCommandPx4(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 1.0);
 
   response->success = true;
-  response->message = "arming";
+  response->message = "arm requested success";
 }
 //}
 
@@ -482,10 +494,16 @@ void ApiNode::srvDisarm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Tr
     return;
   }
 
+  if (is_flying_) {
+    response->success = false;
+    response->message = "disarm requested failed, uav is already in flight";
+    return;
+  }
+
   pubVehicleCommandPx4(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 0.0);
 
   response->success = true;
-  response->message = "disarming";
+  response->message = "disarm requested success";
 }
 //}
 }  // namespace laser_uav_px4_api

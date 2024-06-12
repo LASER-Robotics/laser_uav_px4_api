@@ -21,7 +21,7 @@
 #include <px4_msgs/msg/vehicle_thrust_setpoint.hpp>
 #include <px4_msgs/msg/trajectory_setpoint.hpp>
 #include <px4_msgs/msg/vehicle_odometry.hpp>
-#include <px4_msgs/msg/landing_target_pose.hpp>
+#include <px4_msgs/msg/takeoff_status.hpp>
 
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
@@ -55,6 +55,9 @@ private:
   void                                                                     subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg);
   rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>::SharedPtr pub_nav_odometry_;
 
+  rclcpp::Subscription<px4_msgs::msg::TakeoffStatus>::SharedPtr sub_takeoff_status_;
+  void                                                          subTakeoffStatus(const px4_msgs::msg::TakeoffStatus &msg);
+
   rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::VehicleCommand>::SharedPtr pub_vehicle_command_px4_;
   void pubVehicleCommandPx4(int command, float param1 = 0.0, float param2 = 0.0, float param3 = 0.0, float param4 = 0.0, float param5 = 0.0, float param6 = 0.0,
                             float param7 = 0.0);
@@ -64,7 +67,6 @@ private:
   rclcpp::TimerBase::SharedPtr                                                        tmr_pub_offboard_control_mode_px4_;
   void                                                                                tmrPubOffboardControlModePx4();
 
-  rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::LandingTargetPose>::SharedPtr  pub_landing_position_px4_;
   rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::TrajectorySetpoint>::SharedPtr pub_position_setpoint_px4_;
 
   rclcpp::Subscription<geometry_msgs::msg::Pose>::SharedPtr sub_goto_;
@@ -85,9 +87,10 @@ private:
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr srv_disarm_;
   void srvDisarm(const std::shared_ptr<std_srvs::srv::Trigger::Request> request, std::shared_ptr<std_srvs::srv::Trigger::Response> response);
 
-  double                                                               _rate_pub_api_diagnostic_;
-  rclcpp::TimerBase::SharedPtr                                         tmr_pub_api_diagnostic_;
-  void                                                                 tmrPubApiDiagnostic();
+  double                       _rate_pub_api_diagnostic_;
+  rclcpp::TimerBase::SharedPtr tmr_pub_api_diagnostic_;
+  void                         tmrPubApiDiagnostic();
+
   rclcpp_lifecycle::LifecyclePublisher<std_msgs::msg::Bool>::SharedPtr pub_have_goal_;
   std_msgs::msg::Bool                                                  have_goal_;
 
@@ -107,6 +110,7 @@ private:
   nav_msgs::msg::Odometry  last_nav_odometry_;
 
   bool first_iteraction_{true};
+  bool is_flying_{false};
   bool last_have_goal_{false};
   bool requested_goto_{false};
   bool requested_takeoff_{false};

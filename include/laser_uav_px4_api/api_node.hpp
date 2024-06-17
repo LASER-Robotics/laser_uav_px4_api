@@ -95,13 +95,6 @@ private:
   std_msgs::msg::Bool                                                  have_goal_;
 
   double _takeoff_height_;
-  double _speed_x_;
-  double _speed_y_;
-  double _speed_z_;
-  double _speed_yaw_;
-  double _acceleration_x_;
-  double _acceleration_y_;
-  double _acceleration_z_;
 
   geometry_msgs::msg::Pose current_reference_;
   geometry_msgs::msg::Pose derivative_position_;

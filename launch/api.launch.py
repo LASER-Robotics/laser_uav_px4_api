@@ -46,20 +46,10 @@ def generate_launch_description():
         )
     )
 
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            'uav_constraints_file',
-            default_value=PathJoinSubstitution([FindPackageShare('laser_uav_px4_api'),
-                                                'params', 'uav_constraints.yaml']),
-            description='Full path to the file with the all parameters.'
-        )
-    )
-
 #Initialize arguments
     namespace = LaunchConfiguration('namespace')
     api_file = LaunchConfiguration('api_file')
     uav_constants_file = LaunchConfiguration('uav_constants_file')
-    uav_constraints_file = LaunchConfiguration('uav_constraints_file')
 
     api_lifecycle_node = LifecycleNode(
         package='laser_uav_px4_api',
@@ -67,7 +57,7 @@ def generate_launch_description():
         name='api',
         namespace=namespace,
         output='screen',
-        parameters=[api_file, uav_constants_file, uav_constraints_file],
+        parameters=[api_file, uav_constants_file],
         remappings=[
             ('/uav1/vehicle_command_px4_out', '/fmu/in/vehicle_command'),
             ('/uav1/torque_setpoint_px4_out', '/fmu/in/vehicle_torque_setpoint'),

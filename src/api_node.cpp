@@ -9,13 +9,6 @@ ApiNode::ApiNode(const rclcpp::NodeOptions &options) : rclcpp_lifecycle::Lifecyc
   declare_parameter("rate.pub_offboard_control_mode", rclcpp::ParameterValue(100.0));
   declare_parameter("rate.pub_api_diagnostic", rclcpp::ParameterValue(10.0));
   declare_parameter("constants.takeoff.height", rclcpp::ParameterValue(1.5));
-  declare_parameter("constraints.speed.x", rclcpp::ParameterValue(2.0));
-  declare_parameter("constraints.speed.y", rclcpp::ParameterValue(2.0));
-  declare_parameter("constraints.speed.z", rclcpp::ParameterValue(1.0));
-  declare_parameter("constraints.speed.yaw", rclcpp::ParameterValue(0.5));
-  declare_parameter("constraints.acceleration.x", rclcpp::ParameterValue(2.0));
-  declare_parameter("constraints.acceleration.y", rclcpp::ParameterValue(2.0));
-  declare_parameter("constraints.acceleration.z", rclcpp::ParameterValue(2.0));
 
   current_reference_.position.x = 0;
   current_reference_.position.y = 0;
@@ -113,13 +106,6 @@ void ApiNode::getParameters() {
   get_parameter("rate.pub_offboard_control_mode", _rate_pub_offboard_control_mode_px4_);
   get_parameter("rate.pub_api_diagnostic", _rate_pub_api_diagnostic_);
   get_parameter("constants.takeoff.height", _takeoff_height_);
-  get_parameter("constraints.speed.x", _speed_x_);
-  get_parameter("constraints.speed.y", _speed_y_);
-  get_parameter("constraints.speed.z", _speed_z_);
-  get_parameter("constraints.speed.yaw", _speed_yaw_);
-  get_parameter("constraints.acceleration.x", _acceleration_x_);
-  get_parameter("constraints.acceleration.y", _acceleration_y_);
-  get_parameter("constraints.acceleration.z", _acceleration_z_);
 }
 //}
 
@@ -308,22 +294,12 @@ void ApiNode::subGoto(const geometry_msgs::msg::Pose &msg) {
 
   requested_goto_ = true;
 
-  current_reference_ = msg;
-
   px4_msgs::msg::TrajectorySetpoint position_setpoint{};
 
   // Position values are assigned in this order due to the ENU to NED frame conversion
-  position_setpoint.position[0] = current_reference_.position.x;
-  position_setpoint.position[1] = -current_reference_.position.y;
-  position_setpoint.position[2] = -current_reference_.position.z;
-
-  position_setpoint.velocity[0] = _speed_x_;
-  position_setpoint.velocity[1] = -_speed_y_;
-  position_setpoint.velocity[2] = -_speed_z_;
-
-  position_setpoint.acceleration[0] = _acceleration_x_;
-  position_setpoint.acceleration[1] = -_acceleration_y_;
-  position_setpoint.acceleration[2] = -_acceleration_z_;
+  position_setpoint.position[0] = msg.position.x;
+  position_setpoint.position[1] = -msg.position.y;
+  position_setpoint.position[2] = -msg.position.z;
 
   tf2::Quaternion q(current_reference_.orientation.x, current_reference_.orientation.y, current_reference_.orientation.z, current_reference_.orientation.w);
 
@@ -331,11 +307,12 @@ void ApiNode::subGoto(const geometry_msgs::msg::Pose &msg) {
   double         roll, pitch, yaw;
   m.getRPY(roll, pitch, yaw);
 
-  position_setpoint.yaw      = yaw;
-  position_setpoint.yawspeed = _speed_yaw_;
+  position_setpoint.yaw = yaw;
 
   position_setpoint.timestamp = this->get_clock()->now().nanoseconds() / 1000;
   pub_position_setpoint_px4_->publish(position_setpoint);
+
+  current_reference_ = msg;
 }
 //}
 
@@ -371,22 +348,13 @@ void ApiNode::subGotoRelative(const geometry_msgs::msg::Pose &msg) {
   position_setpoint.position[1] = -current_reference_.position.y;
   position_setpoint.position[2] = -current_reference_.position.z;
 
-  position_setpoint.velocity[0] = _speed_x_;
-  position_setpoint.velocity[1] = -_speed_y_;
-  position_setpoint.velocity[2] = -_speed_z_;
-
-  position_setpoint.acceleration[0] = _acceleration_x_;
-  position_setpoint.acceleration[1] = -_acceleration_y_;
-  position_setpoint.acceleration[2] = -_acceleration_z_;
-
   tf2::Quaternion q(current_reference_.orientation.x, current_reference_.orientation.y, current_reference_.orientation.z, current_reference_.orientation.w);
 
   tf2::Matrix3x3 m(q);
   double         roll, pitch, yaw;
   m.getRPY(roll, pitch, yaw);
 
-  position_setpoint.yaw      = yaw;
-  position_setpoint.yawspeed = _speed_yaw_;
+  position_setpoint.yaw = yaw;
 
   position_setpoint.timestamp = this->get_clock()->now().nanoseconds() / 1000;
   pub_position_setpoint_px4_->publish(position_setpoint);
@@ -411,27 +379,8 @@ void ApiNode::srvTakeoff([[maybe_unused]] const std::shared_ptr<std_srvs::srv::T
   px4_msgs::msg::TrajectorySetpoint position_setpoint{};
 
   // Position values are assigned in this order due to the ENU to NED frame conversion
-  position_setpoint.position[0] = current_reference_.position.x;
-  position_setpoint.position[1] = -current_reference_.position.y;
   position_setpoint.position[2] = -_takeoff_height_;
   current_reference_.position.z = _takeoff_height_;
-
-  position_setpoint.velocity[0] = 0;
-  position_setpoint.velocity[1] = 0;
-  position_setpoint.velocity[2] = -_speed_z_;
-
-  position_setpoint.acceleration[0] = 0;
-  position_setpoint.acceleration[1] = 0;
-  position_setpoint.acceleration[2] = -_acceleration_z_;
-
-  tf2::Quaternion q(current_reference_.orientation.x, current_reference_.orientation.y, current_reference_.orientation.z, current_reference_.orientation.w);
-
-  tf2::Matrix3x3 m(q);
-  double         roll, pitch, yaw;
-  m.getRPY(roll, pitch, yaw);
-
-  position_setpoint.yaw      = yaw;
-  position_setpoint.yawspeed = 0;
 
   position_setpoint.timestamp = this->get_clock()->now().nanoseconds() / 1000;
   pub_position_setpoint_px4_->publish(position_setpoint);

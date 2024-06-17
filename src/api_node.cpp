@@ -416,12 +416,12 @@ void ApiNode::srvTakeoff([[maybe_unused]] const std::shared_ptr<std_srvs::srv::T
   position_setpoint.position[2] = -_takeoff_height_;
   current_reference_.position.z = _takeoff_height_;
 
-  position_setpoint.velocity[0] = _speed_x_;
-  position_setpoint.velocity[1] = -_speed_y_;
+  position_setpoint.velocity[0] = 0;
+  position_setpoint.velocity[1] = 0;
   position_setpoint.velocity[2] = -_speed_z_;
 
-  position_setpoint.acceleration[0] = _acceleration_x_;
-  position_setpoint.acceleration[1] = -_acceleration_y_;
+  position_setpoint.acceleration[0] = 0;
+  position_setpoint.acceleration[1] = 0;
   position_setpoint.acceleration[2] = -_acceleration_z_;
 
   tf2::Quaternion q(current_reference_.orientation.x, current_reference_.orientation.y, current_reference_.orientation.z, current_reference_.orientation.w);
@@ -431,7 +431,7 @@ void ApiNode::srvTakeoff([[maybe_unused]] const std::shared_ptr<std_srvs::srv::T
   m.getRPY(roll, pitch, yaw);
 
   position_setpoint.yaw      = yaw;
-  position_setpoint.yawspeed = _speed_yaw_;
+  position_setpoint.yawspeed = 0;
 
   position_setpoint.timestamp = this->get_clock()->now().nanoseconds() / 1000;
   pub_position_setpoint_px4_->publish(position_setpoint);

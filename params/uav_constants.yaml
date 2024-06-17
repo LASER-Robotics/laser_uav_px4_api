@@ -2,4 +2,4 @@
   ros__parameters:
     constants:
       takeoff:
-        height: 3.5 # [M]
+        height: 1.5 # [M]

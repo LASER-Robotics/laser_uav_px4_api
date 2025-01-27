@@ -11,31 +11,30 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(ament_cmake REQUIRED)
+find_package(Eigen3 REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(laser_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(px4_msgs REQUIRED)
-find_package(tf2 REQUIRED)
-find_package(tf2_ros REQUIRED)
-find_package(tf2_geometry_msgs REQUIRED)
 
 set(dependencies
+Eigen3
 rclcpp 
 rclcpp_lifecycle 
 rclcpp_components
 nav_msgs 
 std_srvs 
 px4_msgs
-tf2
-tf2_ros
-tf2_geometry_msgs
+laser_msgs
 )
 
 include_directories(
   include
+  ${EIGEN3_INCLUDE_DIR}
 )
 
 set(executable_name api)

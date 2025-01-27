@@ -37,19 +37,9 @@ def generate_launch_description():
         )
     )
 
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            'uav_constants_file',
-            default_value=PathJoinSubstitution([FindPackageShare('laser_uav_px4_api'),
-                                                'params', 'uav_constants.yaml']),
-            description='Full path to the file with the all parameters.'
-        )
-    )
-
 #Initialize arguments
     namespace = LaunchConfiguration('namespace')
     api_file = LaunchConfiguration('api_file')
-    uav_constants_file = LaunchConfiguration('uav_constants_file')
 
     api_lifecycle_node = LifecycleNode(
         package='laser_uav_px4_api',
@@ -57,16 +47,15 @@ def generate_launch_description():
         name='api',
         namespace=namespace,
         output='screen',
-        parameters=[api_file, uav_constants_file],
+        parameters=[api_file],
         remappings=[
             ('/uav1/vehicle_command_px4_out', '/fmu/in/vehicle_command'),
             ('/uav1/torque_setpoint_px4_out', '/fmu/in/vehicle_torque_setpoint'),
             ('/uav1/thrust_setpoint_px4_out', '/fmu/in/vehicle_thrust_setpoint'),
             ('/uav1/offboard_control_mode_px4_out', '/fmu/in/offboard_control_mode'),
-            ('/uav1/position_setpoint_px4_out', '/fmu/in/trajectory_setpoint'),
-            ('/uav1/landing_position_px4_out', '/fmu/in/landing_target_pose'),
             ('/uav1/vehicle_odometry_px4_in', '/fmu/out/vehicle_odometry'),
-            ('/uav1/vehicle_control_mode_px4_in', '/fmu/out/vehicle_control_mode'),
+            ('/uav1/thrust_and_torque_in', '/uav1/api/thrust_and_torque'),
+            ('/uav1/odometry', '/uav1/api/odometry'),
         ]
     )
 

@@ -1,5 +1,0 @@
-/uav1/api:
-  ros__parameters:
-    constants:
-      takeoff:
-        height: 1.5 # [M]

@@ -1,6 +1,8 @@
 #ifndef LASER_UAV_API_PX4__API_NODE_HPP
 #define LASER_UAV_API_PX4__API_NODE_HPP
 
+#include <Eigen/Dense>
+
 #include <memory>
 #include <mutex>
 
@@ -34,6 +36,9 @@ public:
   ~ApiNode() override;
 
 private:
+  Eigen::Vector3d enuToNed(Eigen::Vector3d p);
+  Eigen::Quaterniond enuToNedOrientation(Eigen::Quaterniond q);
+
   CallbackReturn on_configure(const rclcpp_lifecycle::State &);
 
   CallbackReturn on_activate(const rclcpp_lifecycle::State &state);
@@ -102,9 +107,15 @@ private:
   nav_msgs::msg::Odometry  current_nav_odometry_;
   nav_msgs::msg::Odometry  last_nav_odometry_;
 
+  Eigen::Quaterniond               ned_enu_quaternion_first_rotation_;
+  Eigen::Quaterniond               ned_enu_quaternion_second_rotation_;
+  Eigen::PermutationMatrix<3>      ned_enu_reflection_xy_;
+  Eigen::DiagonalMatrix<double, 3> ned_enu_reflection_z_;
+
   bool first_iteraction_{true};
   bool is_flying_{false};
   bool last_have_goal_{false};
+  bool received_odometry_{false};
   bool requested_goto_{false};
   bool requested_takeoff_{false};
   bool requested_land_{false};

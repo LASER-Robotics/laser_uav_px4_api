@@ -10,6 +10,13 @@ ApiNode::ApiNode(const rclcpp::NodeOptions &options) : rclcpp_lifecycle::Lifecyc
   declare_parameter("rate.pub_api_diagnostic", rclcpp::ParameterValue(10.0));
   declare_parameter("constants.takeoff.height", rclcpp::ParameterValue(1.5));
 
+  ned_enu_quaternion_first_rotation_ = Eigen::Quaterniond(Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY()) *
+                                                          Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX()));
+  ned_enu_quaternion_second_rotation_ = Eigen::Quaterniond(Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY()) *
+                                                           Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX()));
+  ned_enu_reflection_xy_              = Eigen::PermutationMatrix<3>(Eigen::Vector3i(1, 0, 2));
+  ned_enu_reflection_z_ = Eigen::DiagonalMatrix<double, 3>(1, 1, -1);
+
   current_reference_.position.x = 0;
   current_reference_.position.y = 0;
   current_reference_.position.z = 0;
@@ -159,30 +166,46 @@ void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
   }
 
   nav_msgs::msg::Odometry current_nav_odometry{};
-  current_nav_odometry.header.frame_id = "fmu";
+  current_nav_odometry.header.frame_id = "odom";
   current_nav_odometry.header.stamp    = rclcpp::Clock().now();
-  current_nav_odometry.child_frame_id  = "center_body";
+  current_nav_odometry.child_frame_id  = "fcu";
 
-  current_nav_odometry.pose.pose.position.x = msg.position[0];
-  current_nav_odometry.pose.pose.position.y = msg.position[1];
-  current_nav_odometry.pose.pose.position.z = -msg.position[2];
+  Eigen::Vector3d ned_to_enu_tf(msg.position[0], msg.position[1], msg.position[2]);
+  ned_to_enu_tf = enuToNed(ned_to_enu_tf);
 
-  current_nav_odometry.pose.pose.orientation.x = msg.q[0];
-  current_nav_odometry.pose.pose.orientation.y = msg.q[1];
-  current_nav_odometry.pose.pose.orientation.z = msg.q[2];
-  current_nav_odometry.pose.pose.orientation.w = msg.q[3];
+  current_nav_odometry.pose.pose.position.x = ned_to_enu_tf(0);
+  current_nav_odometry.pose.pose.position.y = ned_to_enu_tf(1);
+  current_nav_odometry.pose.pose.position.z = ned_to_enu_tf(2);
+
+  Eigen::Quaterniond ned_to_enu_orientation_tf(msg.q[0], msg.q[1], msg.q[2], msg.q[3]);
+  ned_to_enu_orientation_tf = enuToNedOrientation(ned_to_enu_orientation_tf);
+
+  current_nav_odometry.pose.pose.orientation.x = ned_to_enu_orientation_tf.x();
+  current_nav_odometry.pose.pose.orientation.y = ned_to_enu_orientation_tf.y();
+  current_nav_odometry.pose.pose.orientation.z = ned_to_enu_orientation_tf.z();
+  current_nav_odometry.pose.pose.orientation.w = ned_to_enu_orientation_tf.w();
 
   current_nav_odometry.pose.covariance = {msg.position_variance[0],    0, 0, 0, 0, 0, 0, msg.position_variance[1],    0, 0, 0, 0, 0, 0,
                                           msg.position_variance[2],    0, 0, 0, 0, 0, 0, msg.orientation_variance[0], 0, 0, 0, 0, 0, 0,
                                           msg.orientation_variance[1], 0, 0, 0, 0, 0, 0, msg.orientation_variance[2]};
 
-  current_nav_odometry.twist.twist.linear.x = msg.velocity[0];
-  current_nav_odometry.twist.twist.linear.y = msg.velocity[1];
-  current_nav_odometry.twist.twist.linear.z = msg.velocity[2];
+  ned_to_enu_tf(0) = msg.velocity[0];
+  ned_to_enu_tf(1) = msg.velocity[1];
+  ned_to_enu_tf(2) = msg.velocity[2];
+  ned_to_enu_tf    = enuToNed(ned_to_enu_tf);
 
-  current_nav_odometry.twist.twist.angular.x = msg.angular_velocity[0];
-  current_nav_odometry.twist.twist.angular.y = msg.angular_velocity[1];
-  current_nav_odometry.twist.twist.angular.z = msg.angular_velocity[2];
+  current_nav_odometry.twist.twist.linear.x = ned_to_enu_tf(0);
+  current_nav_odometry.twist.twist.linear.y = ned_to_enu_tf(1);
+  current_nav_odometry.twist.twist.linear.z = ned_to_enu_tf(2);
+
+  ned_to_enu_tf(0) = msg.angular_velocity[0];
+  ned_to_enu_tf(1) = msg.angular_velocity[1];
+  ned_to_enu_tf(2) = msg.angular_velocity[2];
+  ned_to_enu_tf    = enuToNed(ned_to_enu_tf);
+
+  current_nav_odometry.twist.twist.angular.x = ned_to_enu_tf(0);
+  current_nav_odometry.twist.twist.angular.y = ned_to_enu_tf(1);
+  current_nav_odometry.twist.twist.angular.z = ned_to_enu_tf(2);
 
   current_nav_odometry.twist.covariance = {msg.velocity_variance[0], 0, 0, 0, 0, 0, 0, msg.velocity_variance[1], 0, 0, 0, 0, 0, 0,
                                            msg.velocity_variance[2], 0, 0, 0, 0, 0, 0, msg.velocity_variance[0], 0, 0, 0, 0, 0, 0,
@@ -203,6 +226,7 @@ void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
       derivative_position_.position.z = abs((current_nav_odometry.pose.pose.position.z - last_nav_odometry_.pose.pose.position.z) / (0.01));
 
       last_nav_odometry_ = current_nav_odometry;
+      received_odometry_ = true;
     }
 
     double check_x = abs(0.005 * derivative_position_.position.x + (1 - 0.005) * derivative_position_filtered_.position.x);
@@ -210,7 +234,8 @@ void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
     double check_z = abs(0.005 * derivative_position_.position.z + (1 - 0.005) * derivative_position_filtered_.position.z);
 
     if (requested_takeoff_ || requested_land_ || requested_goto_) {
-      have_goal_.data = ((check_x > 0.0005) || (check_y > 0.0005) || (check_z > 0.0005)) && (requested_takeoff_ || requested_land_ || requested_goto_);
+      have_goal_.data = ((check_x > 0.0005) || (check_y > 0.0005) || (check_z > 0.0005) || (abs(current_nav_odometry_.twist.twist.angular.z) > 0.0005)) &&
+                        (requested_takeoff_ || requested_land_ || requested_goto_);
 
       if (last_have_goal_ && !have_goal_.data) {
         requested_takeoff_ = false;
@@ -297,11 +322,17 @@ void ApiNode::subGoto(const geometry_msgs::msg::Pose &msg) {
   px4_msgs::msg::TrajectorySetpoint position_setpoint{};
 
   // Position values are assigned in this order due to the ENU to NED frame conversion
-  position_setpoint.position[0] = msg.position.x;
-  position_setpoint.position[1] = -msg.position.y;
-  position_setpoint.position[2] = -msg.position.z;
+  Eigen::Vector3d enu_to_ned_tf(msg.position.x, msg.position.y, msg.position.z);
+  enu_to_ned_tf = enuToNed(enu_to_ned_tf);
 
-  tf2::Quaternion q(current_reference_.orientation.x, current_reference_.orientation.y, current_reference_.orientation.z, current_reference_.orientation.w);
+  position_setpoint.position[0] = enu_to_ned_tf(0);
+  position_setpoint.position[1] = enu_to_ned_tf(1);
+  position_setpoint.position[2] = enu_to_ned_tf(2);
+
+  Eigen::Quaterniond enu_to_ned_orientation_tf(msg.orientation.w, msg.orientation.x, msg.orientation.y, msg.orientation.z);
+  enu_to_ned_orientation_tf = enuToNedOrientation(enu_to_ned_orientation_tf);
+
+  tf2::Quaternion q(enu_to_ned_orientation_tf.x(), enu_to_ned_orientation_tf.y(), enu_to_ned_orientation_tf.z(), enu_to_ned_orientation_tf.w());
 
   tf2::Matrix3x3 m(q);
   double         roll, pitch, yaw;
@@ -344,11 +375,18 @@ void ApiNode::subGotoRelative(const geometry_msgs::msg::Pose &msg) {
   px4_msgs::msg::TrajectorySetpoint position_setpoint{};
 
   // Position values are assigned in this order due to the ENU to NED frame conversion
-  position_setpoint.position[0] = current_reference_.position.x;
-  position_setpoint.position[1] = -current_reference_.position.y;
-  position_setpoint.position[2] = -current_reference_.position.z;
+  Eigen::Vector3d enu_to_ned_tf(current_reference_.position.x, current_reference_.position.y, current_reference_.position.z);
+  enu_to_ned_tf = enuToNed(enu_to_ned_tf);
 
-  tf2::Quaternion q(current_reference_.orientation.x, current_reference_.orientation.y, current_reference_.orientation.z, current_reference_.orientation.w);
+  position_setpoint.position[0] = enu_to_ned_tf(0);
+  position_setpoint.position[1] = enu_to_ned_tf(1);
+  position_setpoint.position[2] = enu_to_ned_tf(2);
+
+  Eigen::Quaterniond enu_to_ned_orientation_tf(current_reference_.orientation.w, current_reference_.orientation.x, current_reference_.orientation.y,
+                                               current_reference_.orientation.z);
+  enu_to_ned_orientation_tf = enuToNedOrientation(enu_to_ned_orientation_tf);
+
+  tf2::Quaternion q(enu_to_ned_orientation_tf.x(), enu_to_ned_orientation_tf.y(), enu_to_ned_orientation_tf.z(), enu_to_ned_orientation_tf.w());
 
   tf2::Matrix3x3 m(q);
   double         roll, pitch, yaw;
@@ -368,6 +406,12 @@ void ApiNode::srvTakeoff([[maybe_unused]] const std::shared_ptr<std_srvs::srv::T
     return;
   }
 
+  if (!received_odometry_) {
+    response->success = false;
+    response->message = "arm requested failed, api dont received odometry";
+    return;
+  }
+
   if (is_flying_) {
     response->success = false;
     response->message = "takeoff requested failed, uav is already in flight";
@@ -379,8 +423,27 @@ void ApiNode::srvTakeoff([[maybe_unused]] const std::shared_ptr<std_srvs::srv::T
   px4_msgs::msg::TrajectorySetpoint position_setpoint{};
 
   // Position values are assigned in this order due to the ENU to NED frame conversion
-  position_setpoint.position[2] = -_takeoff_height_;
+  current_reference_            = last_nav_odometry_.pose.pose;
   current_reference_.position.z = _takeoff_height_;
+
+  Eigen::Vector3d enu_to_ned_tf(current_reference_.position.x, current_reference_.position.y, current_reference_.position.z);
+  enu_to_ned_tf = enuToNed(enu_to_ned_tf);
+
+  position_setpoint.position[0] = enu_to_ned_tf(0);
+  position_setpoint.position[1] = enu_to_ned_tf(1);
+  position_setpoint.position[2] = enu_to_ned_tf(2);
+
+  Eigen::Quaterniond enu_to_ned_orientation_tf(current_reference_.orientation.w, current_reference_.orientation.x, current_reference_.orientation.y,
+                                               current_reference_.orientation.z);
+  enu_to_ned_orientation_tf = enuToNedOrientation(enu_to_ned_orientation_tf);
+
+  tf2::Quaternion q(enu_to_ned_orientation_tf.x(), enu_to_ned_orientation_tf.y(), enu_to_ned_orientation_tf.z(), enu_to_ned_orientation_tf.w());
+
+  tf2::Matrix3x3 m(q);
+  double         roll, pitch, yaw;
+  m.getRPY(roll, pitch, yaw);
+
+  position_setpoint.yaw = yaw;
 
   position_setpoint.timestamp = this->get_clock()->now().nanoseconds() / 1000;
   pub_position_setpoint_px4_->publish(position_setpoint);
@@ -453,6 +516,18 @@ void ApiNode::srvDisarm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Tr
 
   response->success = true;
   response->message = "disarm requested success";
+}
+//}
+
+/* enuToNed() //{ */
+Eigen::Vector3d ApiNode::enuToNed(Eigen::Vector3d p) {
+  return ned_enu_reflection_xy_ * (ned_enu_reflection_z_ * p);
+}
+//}
+
+/* enuToNedOrientation() //{ */
+Eigen::Quaterniond ApiNode::enuToNedOrientation(Eigen::Quaterniond q) {
+  return (ned_enu_quaternion_first_rotation_ * q) * ned_enu_quaternion_second_rotation_;
 }
 //}
 }  // namespace laser_uav_px4_api

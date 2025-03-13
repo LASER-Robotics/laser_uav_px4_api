@@ -8,11 +8,11 @@ This API provides a level of abstraction so that mission strategies using UAV ar
 
 ``` yaml
 topic: /uav1/goto
-type: geometry_msgs:msg:Pose
+type: geometry_msgs::msg::Pose
 I/O: input
 
 topic: /uav1/goto_relative
-type: geometry_msgs:msg:Pose
+type: geometry_msgs::msg::Pose
 I/O: input
 
 topic: /uav1/have_goal

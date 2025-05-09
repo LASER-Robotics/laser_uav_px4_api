@@ -6,8 +6,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
-#include <laser_msgs/msg/thrust_and_torque.hpp>
-#include <laser_msgs/msg/quadrotor_thrust_motors.hpp>
+#include <laser_msgs/msg/attitude_rates_and_thrust.hpp>
 
 #include <std_srvs/srv/trigger.hpp>
 #include <nav_msgs/msg/odometry.hpp>
@@ -15,10 +14,8 @@
 #include <px4_msgs/msg/vehicle_command.hpp>
 #include <px4_msgs/msg/vehicle_control_mode.hpp>
 #include <px4_msgs/msg/offboard_control_mode.hpp>
-#include <px4_msgs/msg/vehicle_torque_setpoint.hpp>
-#include <px4_msgs/msg/vehicle_thrust_setpoint.hpp>
-#include <px4_msgs/msg/actuator_motors.hpp>
 #include <px4_msgs/msg/vehicle_odometry.hpp>
+#include <px4_msgs/msg/vehicle_rates_setpoint.hpp>
 
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
@@ -61,14 +58,9 @@ private:
   rclcpp::TimerBase::SharedPtr                                                        tmr_pub_offboard_control_mode_px4_;
   void                                                                                tmrPubOffboardControlModePx4();
 
-  rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::VehicleThrustSetpoint>::SharedPtr pub_thrust_setpoint_px4_;
-  rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::VehicleTorqueSetpoint>::SharedPtr pub_torque_setpoint_px4_;
-  rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::ActuatorMotors>::SharedPtr        pub_individual_thrust_setpoint_px4_;
-
-  rclcpp::Subscription<laser_msgs::msg::ThrustAndTorque>::SharedPtr       sub_thrust_and_torque_reference_;
-  void                                                                    subThrustAndTorqueReference(const laser_msgs::msg::ThrustAndTorque &msg);
-  rclcpp::Subscription<laser_msgs::msg::QuadrotorThrustMotors>::SharedPtr sub_individual_thrust_reference_;
-  void                                                                    subIndividualThrustMotorsReference(const laser_msgs::msg::QuadrotorThrustMotors &msg);
+  rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::VehicleRatesSetpoint>::SharedPtr pub_attitude_rates_setpoint_px4_;
+  rclcpp::Subscription<laser_msgs::msg::AttitudeRatesAndThrust>::SharedPtr                    sub_attitude_rates_and_thrust_reference_;
+  void subAttitudeRatesAndThrustReference(const laser_msgs::msg::AttitudeRatesAndThrust &msg);
 
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr srv_arm_;
   void srvArm(const std::shared_ptr<std_srvs::srv::Trigger::Request> request, std::shared_ptr<std_srvs::srv::Trigger::Response> response);

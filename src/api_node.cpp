@@ -34,9 +34,7 @@ CallbackReturn ApiNode::on_activate([[maybe_unused]] const rclcpp_lifecycle::Sta
   RCLCPP_INFO(get_logger(), "Activating");
 
   pub_vehicle_command_px4_->on_activate();
-  pub_thrust_setpoint_px4_->on_activate();
-  pub_individual_thrust_setpoint_px4_->on_activate();
-  pub_torque_setpoint_px4_->on_activate();
+  pub_attitude_rates_setpoint_px4_->on_activate();
   pub_offboard_control_mode_px4_->on_activate();
   pub_nav_odometry_->on_activate();
 
@@ -50,10 +48,7 @@ CallbackReturn ApiNode::on_activate([[maybe_unused]] const rclcpp_lifecycle::Sta
 CallbackReturn ApiNode::on_deactivate([[maybe_unused]] const rclcpp_lifecycle::State &state) {
   RCLCPP_INFO(get_logger(), "Deactivating");
 
-  pub_vehicle_command_px4_->on_deactivate();
-  pub_thrust_setpoint_px4_->on_deactivate();
-  pub_individual_thrust_setpoint_px4_->on_deactivate();
-  pub_torque_setpoint_px4_->on_deactivate();
+  pub_attitude_rates_setpoint_px4_->on_deactivate();
   pub_offboard_control_mode_px4_->on_deactivate();
   pub_nav_odometry_->on_deactivate();
 
@@ -68,11 +63,9 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
   RCLCPP_INFO(get_logger(), "Cleaning up");
 
   sub_odometry_px4_.reset();
+  sub_attitude_rates_and_thrust_reference_.reset();
 
-  pub_vehicle_command_px4_.reset();
-  pub_thrust_setpoint_px4_.reset();
-  pub_individual_thrust_setpoint_px4_.reset();
-  pub_torque_setpoint_px4_.reset();
+  pub_attitude_rates_setpoint_px4_.reset();
   pub_offboard_control_mode_px4_.reset();
   pub_nav_odometry_.reset();
 
@@ -106,19 +99,15 @@ void ApiNode::configPubSub() {
   sub_odometry_px4_ = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
                                                                           std::bind(&ApiNode::subOdometryPx4, this, std::placeholders::_1));
 
-  pub_thrust_setpoint_px4_            = create_publisher<px4_msgs::msg::VehicleThrustSetpoint>("thrust_setpoint_px4_out", 10);
-  pub_torque_setpoint_px4_            = create_publisher<px4_msgs::msg::VehicleTorqueSetpoint>("torque_setpoint_px4_out", 10);
-  pub_individual_thrust_setpoint_px4_ = create_publisher<px4_msgs::msg::ActuatorMotors>("individual_thrust_setpoint_px4_out", 10);
-  pub_vehicle_command_px4_            = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
-  pub_offboard_control_mode_px4_      = create_publisher<px4_msgs::msg::OffboardControlMode>("offboard_control_mode_px4_out", 10);
+  pub_attitude_rates_setpoint_px4_ = create_publisher<px4_msgs::msg::VehicleRatesSetpoint>("attitude_rates_setpoint_px4_out", 10);
+  pub_vehicle_command_px4_         = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
+  pub_offboard_control_mode_px4_   = create_publisher<px4_msgs::msg::OffboardControlMode>("offboard_control_mode_px4_out", 10);
 
   // Pubs and Subs for System topics
   pub_nav_odometry_ = create_publisher<nav_msgs::msg::Odometry>("odometry", 10);
 
-  sub_thrust_and_torque_reference_ = create_subscription<laser_msgs::msg::ThrustAndTorque>(
-      "thrust_and_torque_in", 1, std::bind(&ApiNode::subThrustAndTorqueReference, this, std::placeholders::_1));
-  sub_individual_thrust_reference_ = create_subscription<laser_msgs::msg::QuadrotorThrustMotors>(
-      "individual_thrust_in", 1, std::bind(&ApiNode::subIndividualThrustMotorsReference, this, std::placeholders::_1));
+  sub_attitude_rates_and_thrust_reference_ = create_subscription<laser_msgs::msg::AttitudeRatesAndThrust>(
+      "attitude_rates_thrust_in", 1, std::bind(&ApiNode::subAttitudeRatesAndThrustReference, this, std::placeholders::_1));
 }
 //}
 
@@ -191,12 +180,12 @@ void ApiNode::tmrPubOffboardControlModePx4() {
   px4_msgs::msg::OffboardControlMode msg{};
 
   msg.position          = false;
-  msg.thrust_and_torque = false;
   msg.velocity          = false;
   msg.acceleration      = false;
   msg.attitude          = false;
-  msg.body_rate         = false;
-  msg.direct_actuator   = true;
+  msg.body_rate         = true;
+  msg.thrust_and_torque = false;
+  msg.direct_actuator   = false;
   msg.timestamp         = get_clock()->now().nanoseconds() / 1000;
   pub_offboard_control_mode_px4_->publish(msg);
 }
@@ -235,14 +224,13 @@ void ApiNode::tmrPubApiDiagnostic() {
 }
 //}
 
-/* subThrustAndTorqueReference() //{ */
-void ApiNode::subThrustAndTorqueReference(const laser_msgs::msg::ThrustAndTorque &msg) {
+/* subAttitudeRatesAndThrustReference() //{ */
+void ApiNode::subAttitudeRatesAndThrustReference(const laser_msgs::msg::AttitudeRatesAndThrust &msg) {
   if (!is_active_) {
     return;
   }
 
-  px4_msgs::msg::VehicleThrustSetpoint thrust_setpoint{};
-  px4_msgs::msg::VehicleTorqueSetpoint torque_setpoint{};
+  px4_msgs::msg::VehicleRatesSetpoint attitude_rates_setpoint{};
 
   // Frame Transformation FLU to FRD
   Eigen::Matrix4d rot_x = Eigen::Matrix4d::Identity();
@@ -252,46 +240,21 @@ void ApiNode::subThrustAndTorqueReference(const laser_msgs::msg::ThrustAndTorque
   rot_x(2, 2)           = std::cos(M_PI);
 
   Eigen::Vector4d aux;
-  aux << msg.thrust.x, msg.thrust.y, msg.thrust.z, 1;
+  aux << msg.roll_rate, msg.pitch_rate, msg.yaw_rate, 1;
 
   aux = rot_x * aux;
 
-  thrust_setpoint.xyz[0] = aux(0);
-  thrust_setpoint.xyz[1] = aux(1);
-  thrust_setpoint.xyz[2] = aux(2);
+  attitude_rates_setpoint.roll  = aux(0);
+  attitude_rates_setpoint.pitch = aux(1);
+  attitude_rates_setpoint.yaw   = aux(2);
 
-  aux << msg.torque.x, msg.torque.y, msg.torque.z, 1;
+  attitude_rates_setpoint.thrust_body[0] = 0;
+  attitude_rates_setpoint.thrust_body[1] = 0;
+  attitude_rates_setpoint.thrust_body[2] = -msg.total_thrust_normalized;
 
-  aux = rot_x * aux;
+  attitude_rates_setpoint.timestamp = this->get_clock()->now().nanoseconds() / 1000;
 
-  thrust_setpoint.xyz[0] = aux(0);
-  thrust_setpoint.xyz[1] = aux(1);
-  thrust_setpoint.xyz[2] = aux(2);
-
-  thrust_setpoint.timestamp = this->get_clock()->now().nanoseconds() / 1000;
-  torque_setpoint.timestamp = this->get_clock()->now().nanoseconds() / 1000;
-
-  pub_thrust_setpoint_px4_->publish(thrust_setpoint);
-  pub_torque_setpoint_px4_->publish(torque_setpoint);
-}
-//}
-
-/* subIndividualThrustMotorsReference() //{ */
-void ApiNode::subIndividualThrustMotorsReference(const laser_msgs::msg::QuadrotorThrustMotors &msg) {
-  if (!is_active_) {
-    return;
-  }
-
-  px4_msgs::msg::ActuatorMotors individual_thrust_setpoint;
-
-  individual_thrust_setpoint.timestamp = this->get_clock()->now().nanoseconds() / 1000;
-
-  individual_thrust_setpoint.control[0] = msg.motor_1;
-  individual_thrust_setpoint.control[1] = msg.motor_2;
-  individual_thrust_setpoint.control[2] = msg.motor_3;
-  individual_thrust_setpoint.control[3] = msg.motor_4;
-
-  pub_individual_thrust_setpoint_px4_->publish(individual_thrust_setpoint);
+  pub_attitude_rates_setpoint_px4_->publish(attitude_rates_setpoint);
 }
 //}
 

@@ -50,9 +50,7 @@ def generate_launch_description():
         parameters=[api_file],
         remappings=[
             ('/uav1/vehicle_command_px4_out', '/fmu/in/vehicle_command'),
-            ('/uav1/torque_setpoint_px4_out', '/fmu/in/vehicle_torque_setpoint'),
-            ('/uav1/thrust_setpoint_px4_out', '/fmu/in/vehicle_thrust_setpoint'),
-            ('/uav1/individual_thrust_setpoint_px4_out', '/fmu/in/actuator_motors'),
+            ('/uav1/attitude_rates_setpoint_px4_out', '/fmu/in/vehicle_rates_setpoint'),
             ('/uav1/offboard_control_mode_px4_out', '/fmu/in/offboard_control_mode'),
             ('/uav1/vehicle_odometry_px4_in', '/fmu/out/vehicle_odometry'),
             ('/uav1/thrust_and_torque_in', '/uav1/api/thrust_and_torque'),

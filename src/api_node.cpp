@@ -8,6 +8,15 @@ ApiNode::ApiNode(const rclcpp::NodeOptions &options) : rclcpp_lifecycle::Lifecyc
 
   declare_parameter("rate.pub_offboard_control_mode", rclcpp::ParameterValue(100.0));
   declare_parameter("rate.pub_api_diagnostic", rclcpp::ParameterValue(10.0));
+
+  ned_enu_quaternion_rotation_ = Eigen::Quaterniond(Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY()) *
+                                                    Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX()));
+  frd_flu_rotation_            = Eigen::Quaterniond(Eigen::AngleAxisd(0, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY()) *
+                                                    Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX()));
+  frd_flu_affine_              = Eigen::Affine3d(frd_flu_rotation_);
+
+  ned_enu_reflection_xy_ = Eigen::PermutationMatrix<3>(Eigen::Vector3i(1, 0, 2));
+  ned_enu_reflection_z_  = Eigen::DiagonalMatrix<double, 3>(1, 1, -1);
 }
 //}
 
@@ -138,30 +147,45 @@ void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
   }
 
   nav_msgs::msg::Odometry current_nav_odometry{};
-  current_nav_odometry.header.frame_id = "fmu";
+  current_nav_odometry.header.frame_id = "odom";
   current_nav_odometry.header.stamp    = rclcpp::Clock().now();
-  current_nav_odometry.child_frame_id  = "center_body";
+  current_nav_odometry.child_frame_id  = "fcu";
 
-  current_nav_odometry.pose.pose.position.x = msg.position[0];
-  current_nav_odometry.pose.pose.position.y = msg.position[1];
-  current_nav_odometry.pose.pose.position.z = -msg.position[2];
+  Eigen::Vector3d ned_to_enu_tf(msg.position[0], msg.position[1], msg.position[2]);
+  ned_to_enu_tf = enuToNed(ned_to_enu_tf);
 
-  current_nav_odometry.pose.pose.orientation.x = msg.q[0];
-  current_nav_odometry.pose.pose.orientation.y = msg.q[1];
-  current_nav_odometry.pose.pose.orientation.z = msg.q[2];
-  current_nav_odometry.pose.pose.orientation.w = msg.q[3];
+  current_nav_odometry.pose.pose.position.x = ned_to_enu_tf(0);
+  current_nav_odometry.pose.pose.position.y = ned_to_enu_tf(1);
+  current_nav_odometry.pose.pose.position.z = ned_to_enu_tf(2);
+
+  Eigen::Quaterniond ned_to_enu_orientation_tf(msg.q[0], msg.q[1], msg.q[2], msg.q[3]);
+  ned_to_enu_orientation_tf = enuToNedOrientation(ned_to_enu_orientation_tf);
+
+  current_nav_odometry.pose.pose.orientation.x = ned_to_enu_orientation_tf.x();
+  current_nav_odometry.pose.pose.orientation.y = ned_to_enu_orientation_tf.y();
+  current_nav_odometry.pose.pose.orientation.z = ned_to_enu_orientation_tf.z();
+  current_nav_odometry.pose.pose.orientation.w = ned_to_enu_orientation_tf.w();
 
   current_nav_odometry.pose.covariance = {msg.position_variance[0],    0, 0, 0, 0, 0, 0, msg.position_variance[1],    0, 0, 0, 0, 0, 0,
                                           msg.position_variance[2],    0, 0, 0, 0, 0, 0, msg.orientation_variance[0], 0, 0, 0, 0, 0, 0,
                                           msg.orientation_variance[1], 0, 0, 0, 0, 0, 0, msg.orientation_variance[2]};
 
-  current_nav_odometry.twist.twist.linear.x = msg.velocity[0];
-  current_nav_odometry.twist.twist.linear.y = msg.velocity[1];
-  current_nav_odometry.twist.twist.linear.z = msg.velocity[2];
+  ned_to_enu_tf(0) = msg.velocity[0];
+  ned_to_enu_tf(1) = msg.velocity[1];
+  ned_to_enu_tf(2) = msg.velocity[2];
+  ned_to_enu_tf    = enuToNed(ned_to_enu_tf);
 
-  current_nav_odometry.twist.twist.angular.x = msg.angular_velocity[0];
-  current_nav_odometry.twist.twist.angular.y = msg.angular_velocity[1];
-  current_nav_odometry.twist.twist.angular.z = msg.angular_velocity[2];
+  current_nav_odometry.twist.twist.linear.x = ned_to_enu_tf(0);
+  current_nav_odometry.twist.twist.linear.y = ned_to_enu_tf(1);
+  current_nav_odometry.twist.twist.linear.z = ned_to_enu_tf(2);
+
+  Eigen::Vector3d frd_to_flu;
+  frd_to_flu << msg.angular_velocity[0], msg.angular_velocity[1], msg.angular_velocity[2];
+  frd_to_flu = frdToFlu(frd_to_flu); 
+
+  current_nav_odometry.twist.twist.angular.x = frd_to_flu(0);
+  current_nav_odometry.twist.twist.angular.y = frd_to_flu(1);
+  current_nav_odometry.twist.twist.angular.z = frd_to_flu(2);
 
   current_nav_odometry.twist.covariance = {msg.velocity_variance[0], 0, 0, 0, 0, 0, 0, msg.velocity_variance[1], 0, 0, 0, 0, 0, 0,
                                            msg.velocity_variance[2], 0, 0, 0, 0, 0, 0, msg.velocity_variance[0], 0, 0, 0, 0, 0, 0,
@@ -232,21 +256,13 @@ void ApiNode::subAttitudeRatesAndThrustReference(const laser_msgs::msg::Attitude
 
   px4_msgs::msg::VehicleRatesSetpoint attitude_rates_setpoint{};
 
-  // Frame Transformation FLU to FRD
-  Eigen::Matrix4d rot_x = Eigen::Matrix4d::Identity();
-  rot_x(1, 1)           = std::cos(M_PI);
-  rot_x(1, 2)           = -std::sin(M_PI);
-  rot_x(2, 1)           = std::sin(M_PI);
-  rot_x(2, 2)           = std::cos(M_PI);
+  Eigen::Vector3d flu_to_frd;
+  flu_to_frd << msg.roll_rate, msg.pitch_rate, msg.yaw_rate;
+  flu_to_frd = frdToFlu(flu_to_frd);
 
-  Eigen::Vector4d aux;
-  aux << msg.roll_rate, msg.pitch_rate, msg.yaw_rate, 1;
-
-  aux = rot_x * aux;
-
-  attitude_rates_setpoint.roll  = aux(0);
-  attitude_rates_setpoint.pitch = aux(1);
-  attitude_rates_setpoint.yaw   = aux(2);
+  attitude_rates_setpoint.roll  = flu_to_frd(0);
+  attitude_rates_setpoint.pitch = flu_to_frd(1);
+  attitude_rates_setpoint.yaw   = flu_to_frd(2);
 
   attitude_rates_setpoint.thrust_body[0] = 0;
   attitude_rates_setpoint.thrust_body[1] = 0;
@@ -284,6 +300,24 @@ void ApiNode::srvDisarm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Tr
 
   response->success = true;
   response->message = "disarm requested success";
+}
+//}
+
+/* enuToNed() //{ */
+Eigen::Vector3d ApiNode::enuToNed(Eigen::Vector3d p) {
+  return ned_enu_reflection_xy_ * (ned_enu_reflection_z_ * p);
+}
+//}
+
+/* frdToFlu() //{ */
+Eigen::Vector3d ApiNode::frdToFlu(Eigen::Vector3d p) {
+  return frd_flu_affine_ * p;
+}
+//}
+
+/* enuToNedOrientation() //{ */
+Eigen::Quaterniond ApiNode::enuToNedOrientation(Eigen::Quaterniond q) {
+  return (ned_enu_quaternion_rotation_ * q) * frd_flu_rotation_;
 }
 //}
 }  // namespace laser_uav_px4_api

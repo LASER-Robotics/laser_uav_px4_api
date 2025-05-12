@@ -28,6 +28,10 @@ public:
   ~ApiNode() override;
 
 private:
+  Eigen::Vector3d    enuToNed(Eigen::Vector3d p);
+  Eigen::Vector3d    frdToFlu(Eigen::Vector3d p);
+  Eigen::Quaterniond enuToNedOrientation(Eigen::Quaterniond q);
+
   CallbackReturn on_configure(const rclcpp_lifecycle::State &);
 
   CallbackReturn on_activate(const rclcpp_lifecycle::State &state);
@@ -59,7 +63,7 @@ private:
   void                                                                                tmrPubOffboardControlModePx4();
 
   rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::VehicleRatesSetpoint>::SharedPtr pub_attitude_rates_setpoint_px4_;
-  rclcpp::Subscription<laser_msgs::msg::AttitudeRatesAndThrust>::SharedPtr                    sub_attitude_rates_and_thrust_reference_;
+  rclcpp::Subscription<laser_msgs::msg::AttitudeRatesAndThrust>::SharedPtr             sub_attitude_rates_and_thrust_reference_;
   void subAttitudeRatesAndThrustReference(const laser_msgs::msg::AttitudeRatesAndThrust &msg);
 
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr srv_arm_;
@@ -71,6 +75,12 @@ private:
   double                       _rate_pub_api_diagnostic_;
   rclcpp::TimerBase::SharedPtr tmr_pub_api_diagnostic_;
   void                         tmrPubApiDiagnostic();
+
+  Eigen::Quaterniond               ned_enu_quaternion_rotation_;
+  Eigen::Quaterniond               frd_flu_rotation_;
+  Eigen::Affine3d                  frd_flu_affine_;
+  Eigen::PermutationMatrix<3>      ned_enu_reflection_xy_;
+  Eigen::DiagonalMatrix<double, 3> ned_enu_reflection_z_;
 
   bool first_iteraction_{true};
   bool is_active_{false};

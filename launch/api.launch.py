@@ -53,8 +53,7 @@ def generate_launch_description():
             ('/uav1/attitude_rates_setpoint_px4_out', '/fmu/in/vehicle_rates_setpoint'),
             ('/uav1/offboard_control_mode_px4_out', '/fmu/in/offboard_control_mode'),
             ('/uav1/vehicle_odometry_px4_in', '/fmu/out/vehicle_odometry'),
-            ('/uav1/thrust_and_torque_in', '/uav1/api/thrust_and_torque'),
-            ('/uav1/odometry', '/uav1/api/odometry'),
+            ('/uav1/odometry', '/uav1/odometry'),
         ]
     )
 

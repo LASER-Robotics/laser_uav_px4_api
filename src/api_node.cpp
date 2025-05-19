@@ -161,10 +161,11 @@ void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
   Eigen::Quaterniond ned_to_enu_orientation_tf(msg.q[0], msg.q[1], msg.q[2], msg.q[3]);
   ned_to_enu_orientation_tf = enuToNedOrientation(ned_to_enu_orientation_tf);
 
-  current_nav_odometry.pose.pose.orientation.x = ned_to_enu_orientation_tf.x();
-  current_nav_odometry.pose.pose.orientation.y = ned_to_enu_orientation_tf.y();
-  current_nav_odometry.pose.pose.orientation.z = ned_to_enu_orientation_tf.z();
-  current_nav_odometry.pose.pose.orientation.w = ned_to_enu_orientation_tf.w();
+  // --- Multiply by -1 for adjust rotation
+  current_nav_odometry.pose.pose.orientation.x = -1 * ned_to_enu_orientation_tf.x();
+  current_nav_odometry.pose.pose.orientation.y = -1 * ned_to_enu_orientation_tf.y();
+  current_nav_odometry.pose.pose.orientation.z = -1 * ned_to_enu_orientation_tf.z();
+  current_nav_odometry.pose.pose.orientation.w = -1 * ned_to_enu_orientation_tf.w();
 
   current_nav_odometry.pose.covariance = {msg.position_variance[0],    0, 0, 0, 0, 0, 0, msg.position_variance[1],    0, 0, 0, 0, 0, 0,
                                           msg.position_variance[2],    0, 0, 0, 0, 0, 0, msg.orientation_variance[0], 0, 0, 0, 0, 0, 0,
@@ -181,7 +182,7 @@ void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
 
   Eigen::Vector3d frd_to_flu;
   frd_to_flu << msg.angular_velocity[0], msg.angular_velocity[1], msg.angular_velocity[2];
-  frd_to_flu = frdToFlu(frd_to_flu); 
+  frd_to_flu = frdToFlu(frd_to_flu);
 
   current_nav_odometry.twist.twist.angular.x = frd_to_flu(0);
   current_nav_odometry.twist.twist.angular.y = frd_to_flu(1);

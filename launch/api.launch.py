@@ -21,6 +21,10 @@ import os
 def generate_launch_description():
     uav_name = os.environ['uav_name']
 
+    if uav_name == "":
+        print("The uav name dont set up in yours enviroment variables")
+        return
+
     #Declare arguments
     declared_arguments = []
 

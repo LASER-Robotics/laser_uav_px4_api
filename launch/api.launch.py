@@ -16,17 +16,13 @@ from launch_ros.events.lifecycle import ChangeState
 
 import lifecycle_msgs.msg
 
-def generate_launch_description():
-#Declare arguments
-    declared_arguments = []
+import os
 
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            'namespace',
-            default_value='uav1',
-            description='Top-level namespace.'
-        )
-    )
+def generate_launch_description():
+    uav_name = os.environ['uav_name']
+
+    #Declare arguments
+    declared_arguments = []
 
     declared_arguments.append(
         DeclareLaunchArgument(
@@ -38,22 +34,24 @@ def generate_launch_description():
     )
 
 #Initialize arguments
-    namespace = LaunchConfiguration('namespace')
     api_file = LaunchConfiguration('api_file')
 
     api_lifecycle_node = LifecycleNode(
         package='laser_uav_px4_api',
         executable='api',
         name='api',
-        namespace=namespace,
+        namespace=uav_name,
         output='screen',
         parameters=[api_file],
         remappings=[
-            ('/uav1/vehicle_command_px4_out', '/fmu/in/vehicle_command'),
-            ('/uav1/attitude_rates_setpoint_px4_out', '/fmu/in/vehicle_rates_setpoint'),
-            ('/uav1/offboard_control_mode_px4_out', '/fmu/in/offboard_control_mode'),
-            ('/uav1/vehicle_odometry_px4_in', '/fmu/out/vehicle_odometry'),
-            ('/uav1/odometry', '/uav1/odometry'),
+            ('/' + uav_name + '/vehicle_command_px4_out', '/' + uav_name + '/fmu/in/vehicle_command'),
+            ('/' + uav_name + '/attitude_rates_setpoint_px4_out', '/' + uav_name + '/fmu/in/vehicle_rates_setpoint'),
+            ('/' + uav_name + '/offboard_control_mode_px4_out', '/' + uav_name + '/fmu/in/offboard_control_mode'),
+            ('/' + uav_name + '/vehicle_odometry_px4_in', '/' + uav_name + '/fmu/out/vehicle_odometry'),
+            ('/' + uav_name + '/attitude_rates_thrust_in', '/' + uav_name + '/px4_api/attitude_rates_thrust'),
+            ('/' + uav_name + '/odometry', '/' + uav_name + '/estimation_manager/estimation'),
+            ('/' + uav_name + '/arm', '/' + uav_name + '/px4_api/arm'),
+            ('/' + uav_name + '/disarm', '/' + uav_name + '/px4_api/disarm'),
         ]
     )
 

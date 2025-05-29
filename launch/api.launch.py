@@ -43,7 +43,7 @@ def generate_launch_description():
     api_lifecycle_node = LifecycleNode(
         package='laser_uav_px4_api',
         executable='api',
-        name='api',
+        name='px4_api',
         namespace=uav_name,
         output='screen',
         parameters=[api_file],

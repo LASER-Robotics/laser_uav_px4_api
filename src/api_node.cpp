@@ -17,6 +17,20 @@ ApiNode::ApiNode(const rclcpp::NodeOptions &options) : rclcpp_lifecycle::Lifecyc
 
   ned_enu_reflection_xy_ = Eigen::PermutationMatrix<3>(Eigen::Vector3i(1, 0, 2));
   ned_enu_reflection_z_  = Eigen::DiagonalMatrix<double, 3>(1, 1, -1);
+
+  const char *uav_name = std::getenv("uav_name");
+  if (uav_name != nullptr) {
+    std::smatch match;
+    std::regex  re("(\\d+)$");
+
+    std::string uav_name_str = std::string(uav_name);
+    if (std::regex_search(uav_name_str, match, re)) {
+      std::string numero_str = match[1];
+      target_system_         = std::stoi(std::string(match[1]));
+    }
+  } else {
+    target_system_ = 1;
+  }
 }
 //}
 
@@ -231,7 +245,7 @@ void ApiNode::pubVehicleCommandPx4(int command, float param1, float param2, floa
   msg.param6           = param6;
   msg.param7           = param7;
   msg.command          = command;
-  msg.target_system    = 1;
+  msg.target_system    = target_system_;
   msg.target_component = 1;
   msg.source_system    = 1;
   msg.source_component = 1;

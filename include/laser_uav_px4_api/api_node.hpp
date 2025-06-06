@@ -2,6 +2,9 @@
 #define LASER_UAV_API_PX4__API_NODE_HPP
 
 #include <Eigen/Dense>
+#include <cstdlib>
+#include <regex>
+#include <string>
 
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
@@ -81,6 +84,8 @@ private:
   Eigen::Affine3d                  frd_flu_affine_;
   Eigen::PermutationMatrix<3>      ned_enu_reflection_xy_;
   Eigen::DiagonalMatrix<double, 3> ned_enu_reflection_z_;
+
+  int target_system_;
 
   bool is_active_{false};
 };

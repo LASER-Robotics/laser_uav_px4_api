@@ -52,6 +52,9 @@ private:
   void configTimers();
   void configServices();
 
+  rclcpp::Subscription<px4_msgs::msg::VehicleControlMode>::ConstSharedPtr sub_control_mode_px4_;
+  void                                                                    subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg);
+
   rclcpp::Subscription<px4_msgs::msg::VehicleOdometry>::ConstSharedPtr     sub_odometry_px4_;
   void                                                                     subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg);
   rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>::SharedPtr pub_nav_odometry_;
@@ -87,6 +90,7 @@ private:
 
   int target_system_;
 
+  bool offboard_is_enabled_{false};
   bool is_active_{false};
 };
 }  // namespace laser_uav_px4_api

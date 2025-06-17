@@ -18,19 +18,19 @@ ApiNode::ApiNode(const rclcpp::NodeOptions &options) : rclcpp_lifecycle::Lifecyc
   ned_enu_reflection_xy_ = Eigen::PermutationMatrix<3>(Eigen::Vector3i(1, 0, 2));
   ned_enu_reflection_z_  = Eigen::DiagonalMatrix<double, 3>(1, 1, -1);
 
-  const char *uav_name = std::getenv("uav_name");
-  if (uav_name != nullptr) {
-    std::smatch match;
-    std::regex  re("(\\d+)$");
+  /* const char *uav_name = std::getenv("uav_name"); */
+  /* if (uav_name != nullptr) { */
+  /*   std::smatch match; */
+  /*   std::regex  re("(\\d+)$"); */
 
-    std::string uav_name_str = std::string(uav_name);
-    if (std::regex_search(uav_name_str, match, re)) {
-      std::string numero_str = match[1];
-      target_system_         = std::stoi(std::string(match[1]));
-    }
-  } else {
-    target_system_ = 1;
-  }
+  /*   std::string uav_name_str = std::string(uav_name); */
+  /*   if (std::regex_search(uav_name_str, match, re)) { */
+  /*     std::string numero_str = match[1]; */
+  /*     target_system_         = std::stoi(std::string(match[1])); */
+  /*   } */
+  /* } else { */
+  target_system_ = 1;
+  /* } */
 }
 //}
 
@@ -86,6 +86,7 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
   RCLCPP_INFO(get_logger(), "Cleaning up");
 
   sub_odometry_px4_.reset();
+  sub_control_mode_px4_.reset();
   sub_attitude_rates_and_thrust_reference_.reset();
 
   pub_attitude_rates_setpoint_px4_.reset();
@@ -119,8 +120,10 @@ void ApiNode::configPubSub() {
   RCLCPP_INFO(get_logger(), "initPubSub");
 
   // Pubs and Subs for Px4 topics
-  sub_odometry_px4_ = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
+  sub_odometry_px4_     = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
                                                                           std::bind(&ApiNode::subOdometryPx4, this, std::placeholders::_1));
+  sub_control_mode_px4_ = create_subscription<px4_msgs::msg::VehicleControlMode>("vehicle_control_mode_px4_in", rclcpp::SensorDataQoS(),
+                                                                                 std::bind(&ApiNode::subControlModePx4, this, std::placeholders::_1));
 
   pub_attitude_rates_setpoint_px4_ = create_publisher<px4_msgs::msg::VehicleRatesSetpoint>("attitude_rates_setpoint_px4_out", 10);
   pub_vehicle_command_px4_         = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
@@ -154,6 +157,16 @@ void ApiNode::configServices() {
 }
 //}
 
+/* subControlModePx4() //{ */
+void ApiNode::subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg) {
+  if (!is_active_) {
+    return;
+  }
+
+  offboard_is_enabled_ = msg.flag_control_offboard_enabled;
+}
+//}
+
 /* subOdometryPx4() //{ */
 void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
   if (!is_active_) {
@@ -174,6 +187,7 @@ void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
 
   Eigen::Quaterniond ned_to_enu_orientation_tf(msg.q[0], msg.q[1], msg.q[2], msg.q[3]);
   ned_to_enu_orientation_tf = enuToNedOrientation(ned_to_enu_orientation_tf);
+  ned_to_enu_orientation_tf = ned_to_enu_orientation_tf.normalized();
   ned_to_enu_orientation_tf.coeffs() *= -1;
 
   // --- Multiply by -1 for adjust rotation
@@ -228,6 +242,8 @@ void ApiNode::tmrPubOffboardControlModePx4() {
   msg.thrust_and_torque = false;
   msg.direct_actuator   = false;
   msg.timestamp         = get_clock()->now().nanoseconds() / 1000;
+
+
   pub_offboard_control_mode_px4_->publish(msg);
 }
 //}
@@ -268,6 +284,10 @@ void ApiNode::tmrPubApiDiagnostic() {
 /* subAttitudeRatesAndThrustReference() //{ */
 void ApiNode::subAttitudeRatesAndThrustReference(const laser_msgs::msg::AttitudeRatesAndThrust &msg) {
   if (!is_active_) {
+    return;
+  }
+
+  if (!offboard_is_enabled_) {
     return;
   }
 

@@ -7,7 +7,7 @@ ApiNode::ApiNode(const rclcpp::NodeOptions &options) : rclcpp_lifecycle::Lifecyc
   RCLCPP_INFO(get_logger(), "Creating");
 
   declare_parameter("rate.pub_offboard_control_mode", rclcpp::ParameterValue(100.0));
-  declare_parameter("rate.pub_api_diagnostic", rclcpp::ParameterValue(10.0));
+  declare_parameter("rate.pub_api_diagnostics", rclcpp::ParameterValue(10.0));
 
   ned_enu_quaternion_rotation_ = Eigen::Quaterniond(Eigen::AngleAxisd(M_PI_2, Eigen::Vector3d::UnitZ()) * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY()) *
                                                     Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX()));
@@ -67,6 +67,7 @@ CallbackReturn ApiNode::on_activate([[maybe_unused]] const rclcpp_lifecycle::Sta
   pub_vehicle_command_px4_->on_activate();
   pub_attitude_rates_setpoint_px4_->on_activate();
   pub_offboard_control_mode_px4_->on_activate();
+  pub_api_diagnostics_->on_activate();
   pub_nav_odometry_->on_activate();
 
   is_active_ = true;
@@ -79,9 +80,11 @@ CallbackReturn ApiNode::on_activate([[maybe_unused]] const rclcpp_lifecycle::Sta
 CallbackReturn ApiNode::on_deactivate([[maybe_unused]] const rclcpp_lifecycle::State &state) {
   RCLCPP_INFO(get_logger(), "Deactivating");
 
+  pub_vehicle_command_px4_->on_deactivate();
   pub_attitude_rates_setpoint_px4_->on_deactivate();
   pub_offboard_control_mode_px4_->on_deactivate();
   pub_nav_odometry_->on_deactivate();
+  pub_api_diagnostics_->on_deactivate();
 
   is_active_ = false;
 
@@ -100,9 +103,10 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
   pub_attitude_rates_setpoint_px4_.reset();
   pub_offboard_control_mode_px4_.reset();
   pub_nav_odometry_.reset();
+  pub_api_diagnostics_.reset();
 
   tmr_pub_offboard_control_mode_px4_.reset();
-  tmr_pub_api_diagnostic_.reset();
+  tmr_pub_api_diagnostics_.reset();
 
   return CallbackReturn::SUCCESS;
 }
@@ -119,7 +123,7 @@ CallbackReturn ApiNode::on_shutdown([[maybe_unused]] const rclcpp_lifecycle::Sta
 /* getParameters() //{ */
 void ApiNode::getParameters() {
   get_parameter("rate.pub_offboard_control_mode", _rate_pub_offboard_control_mode_px4_);
-  get_parameter("rate.pub_api_diagnostic", _rate_pub_api_diagnostic_);
+  get_parameter("rate.pub_api_diagnostics", _rate_pub_api_diagnostics_);
 }
 //}
 
@@ -138,6 +142,8 @@ void ApiNode::configPubSub() {
   pub_offboard_control_mode_px4_   = create_publisher<px4_msgs::msg::OffboardControlMode>("offboard_control_mode_px4_out", 10);
 
   // Pubs and Subs for System topics
+  pub_api_diagnostics_ = create_publisher<laser_msgs::msg::ApiPx4Diagnostics>("api_diagnostics", 10);
+
   pub_nav_odometry_ = create_publisher<nav_msgs::msg::Odometry>("odometry", 10);
 
   sub_attitude_rates_and_thrust_reference_ = create_subscription<laser_msgs::msg::AttitudeRatesAndThrust>(
@@ -151,8 +157,8 @@ void ApiNode::configTimers() {
 
   tmr_pub_offboard_control_mode_px4_ = create_wall_timer(std::chrono::duration<double>(1.0 / _rate_pub_offboard_control_mode_px4_),
                                                          std::bind(&ApiNode::tmrPubOffboardControlModePx4, this), nullptr);
-  tmr_pub_api_diagnostic_ =
-      create_wall_timer(std::chrono::duration<double>(1.0 / _rate_pub_api_diagnostic_), std::bind(&ApiNode::tmrPubApiDiagnostic, this), nullptr);
+  tmr_pub_api_diagnostics_ =
+      create_wall_timer(std::chrono::duration<double>(1.0 / _rate_pub_api_diagnostics_), std::bind(&ApiNode::tmrPubApiDiagnostics, this), nullptr);
 }
 //}
 
@@ -171,7 +177,8 @@ void ApiNode::subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg) {
     return;
   }
 
-  offboard_is_enabled_ = msg.flag_control_offboard_enabled;
+  api_diagnostics_.armed = msg.flag_armed;
+  offboard_is_enabled_   = msg.flag_control_offboard_enabled;
 }
 //}
 
@@ -282,10 +289,12 @@ void ApiNode::pubVehicleCommandPx4(int command, float param1, float param2, floa
 //}
 
 /* tmrPubApiDiagnostic() //{ */
-void ApiNode::tmrPubApiDiagnostic() {
+void ApiNode::tmrPubApiDiagnostics() {
   if (!is_active_) {
     return;
   }
+
+  pub_api_diagnostics_->publish(api_diagnostics_);
 }
 //}
 

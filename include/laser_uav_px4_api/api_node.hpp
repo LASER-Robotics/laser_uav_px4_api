@@ -10,6 +10,7 @@
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
 #include <laser_msgs/msg/attitude_rates_and_thrust.hpp>
+#include <laser_msgs/msg/api_px4_diagnostics.hpp>
 
 #include <std_srvs/srv/trigger.hpp>
 #include <nav_msgs/msg/odometry.hpp>
@@ -78,15 +79,18 @@ private:
   rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr srv_disarm_;
   void srvDisarm(const std::shared_ptr<std_srvs::srv::Trigger::Request> request, std::shared_ptr<std_srvs::srv::Trigger::Response> response);
 
-  double                       _rate_pub_api_diagnostic_;
-  rclcpp::TimerBase::SharedPtr tmr_pub_api_diagnostic_;
-  void                         tmrPubApiDiagnostic();
+  double                                                                              _rate_pub_api_diagnostics_;
+  rclcpp_lifecycle::LifecyclePublisher<laser_msgs::msg::ApiPx4Diagnostics>::SharedPtr pub_api_diagnostics_;
+  rclcpp::TimerBase::SharedPtr                                                        tmr_pub_api_diagnostics_;
+  void                                                                                tmrPubApiDiagnostics();
 
   Eigen::Quaterniond               ned_enu_quaternion_rotation_;
   Eigen::Quaterniond               frd_flu_rotation_;
   Eigen::Affine3d                  frd_flu_affine_;
   Eigen::PermutationMatrix<3>      ned_enu_reflection_xy_;
   Eigen::DiagonalMatrix<double, 3> ned_enu_reflection_z_;
+
+  laser_msgs::msg::ApiPx4Diagnostics api_diagnostics_;
 
   int target_system_;
 

@@ -57,6 +57,7 @@ def generate_launch_description():
             ('/' + uav_name + '/odometry', '/' + uav_name + '/estimation_manager/estimation'),
             ('/' + uav_name + '/arm', '/' + uav_name + '/px4_api/arm'),
             ('/' + uav_name + '/disarm', '/' + uav_name + '/px4_api/disarm'),
+            ('/' + uav_name + '/api_diagnostics', '/' + uav_name + '/px4_api/diagnostics'),
         ]
     )
 

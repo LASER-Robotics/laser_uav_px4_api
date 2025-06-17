@@ -18,19 +18,27 @@ ApiNode::ApiNode(const rclcpp::NodeOptions &options) : rclcpp_lifecycle::Lifecyc
   ned_enu_reflection_xy_ = Eigen::PermutationMatrix<3>(Eigen::Vector3i(1, 0, 2));
   ned_enu_reflection_z_  = Eigen::DiagonalMatrix<double, 3>(1, 1, -1);
 
-  /* const char *uav_name = std::getenv("uav_name"); */
-  /* if (uav_name != nullptr) { */
-  /*   std::smatch match; */
-  /*   std::regex  re("(\\d+)$"); */
+  const char *real_uav = std::getenv("real_uav");
+  target_system_       = 1;
+  if (real_uav != nullptr) {
+    std::string real_uav_str = std::string(real_uav);
+    if (real_uav_str == "false") {
+      real_uav_            = false;
+      const char *uav_name = std::getenv("uav_name");
+      if (uav_name != nullptr) {
+        std::smatch match;
+        std::regex  re("(\\d+)$");
 
-  /*   std::string uav_name_str = std::string(uav_name); */
-  /*   if (std::regex_search(uav_name_str, match, re)) { */
-  /*     std::string numero_str = match[1]; */
-  /*     target_system_         = std::stoi(std::string(match[1])); */
-  /*   } */
-  /* } else { */
-  target_system_ = 1;
-  /* } */
+        std::string uav_name_str = std::string(uav_name);
+        if (std::regex_search(uav_name_str, match, re)) {
+          std::string numero_str = match[1];
+          target_system_         = std::stoi(std::string(match[1]));
+        }
+      }
+    } else {
+      real_uav_ = true;
+    }
+  }
 }
 //}
 
@@ -318,6 +326,12 @@ void ApiNode::srvArm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trigg
     return;
   }
 
+  if (real_uav_) {
+    response->success = false;
+    response->message = "arm requested failed, in real drone use the RC to arm";
+    return;
+  }
+
   pubVehicleCommandPx4(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 6);
   pubVehicleCommandPx4(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 1.0);
 
@@ -330,6 +344,12 @@ void ApiNode::srvArm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trigg
 void ApiNode::srvDisarm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trigger::Request> request,
                         [[maybe_unused]] std::shared_ptr<std_srvs::srv::Trigger::Response>      response) {
   if (!is_active_) {
+    return;
+  }
+
+  if (real_uav_) {
+    response->success = false;
+    response->message = "disarm requested failed, in real drone use the RC to disarm";
     return;
   }
 

@@ -90,6 +90,7 @@ private:
 
   int target_system_;
 
+  bool real_uav_{false};
   bool offboard_is_enabled_{false};
   bool is_active_{false};
 };

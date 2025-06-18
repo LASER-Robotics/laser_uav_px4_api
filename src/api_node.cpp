@@ -177,8 +177,9 @@ void ApiNode::subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg) {
     return;
   }
 
-  api_diagnostics_.armed = msg.flag_armed;
-  offboard_is_enabled_   = msg.flag_control_offboard_enabled;
+  api_diagnostics_.armed         = msg.flag_armed;
+  offboard_is_enabled_           = msg.flag_control_offboard_enabled;
+  api_diagnostics_.offboard_mode = offboard_is_enabled_;
 }
 //}
 

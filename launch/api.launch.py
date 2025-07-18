@@ -19,7 +19,7 @@ import lifecycle_msgs.msg
 import os
 
 def generate_launch_description():
-    uav_name = os.environ['uav_name']
+    uav_name = os.environ['UAV_NAME']
 
     if uav_name == "":
         print("The uav name dont set up in yours enviroment variables")

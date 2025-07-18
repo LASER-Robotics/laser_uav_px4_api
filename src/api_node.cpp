@@ -18,13 +18,13 @@ ApiNode::ApiNode(const rclcpp::NodeOptions &options) : rclcpp_lifecycle::Lifecyc
   ned_enu_reflection_xy_ = Eigen::PermutationMatrix<3>(Eigen::Vector3i(1, 0, 2));
   ned_enu_reflection_z_  = Eigen::DiagonalMatrix<double, 3>(1, 1, -1);
 
-  const char *real_uav = std::getenv("real_uav");
+  const char *real_uav = std::getenv("REAL_UAV");
   target_system_       = 1;
   if (real_uav != nullptr) {
     std::string real_uav_str = std::string(real_uav);
     if (real_uav_str == "false") {
       real_uav_            = false;
-      const char *uav_name = std::getenv("uav_name");
+      const char *uav_name = std::getenv("UAV_NAME");
       if (uav_name != nullptr) {
         std::smatch match;
         std::regex  re("(\\d+)$");

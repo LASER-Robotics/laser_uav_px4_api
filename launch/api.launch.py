@@ -25,7 +25,7 @@ def generate_launch_description():
         print("The uav name dont set up in yours enviroment variables")
         return
 
-    #Declare arguments
+#Declare arguments
     declared_arguments = []
 
     declared_arguments.append(
@@ -49,15 +49,22 @@ def generate_launch_description():
         parameters=[api_file],
         remappings=[
             ('/' + uav_name + '/vehicle_command_px4_out', '/' + uav_name + '/fmu/in/vehicle_command'),
-            ('/' + uav_name + '/attitude_rates_setpoint_px4_out', '/' + uav_name + '/fmu/in/vehicle_rates_setpoint'),
+            ('/' + uav_name + '/attitude_rates_reference_px4_out', '/' + uav_name + '/fmu/in/vehicle_rates_setpoint'),
+            ('/' + uav_name + '/motor_speed_reference_px4_out', '/' + uav_name + '/fmu/in/actuator_motors'),
             ('/' + uav_name + '/offboard_control_mode_px4_out', '/' + uav_name + '/fmu/in/offboard_control_mode'),
             ('/' + uav_name + '/vehicle_odometry_px4_in', '/' + uav_name + '/fmu/out/vehicle_odometry'),
+            ('/' + uav_name + '/sensor_combined_px4_in', '/' + uav_name + '/fmu/out/sensor_combined'),
             ('/' + uav_name + '/vehicle_control_mode_px4_in', '/' + uav_name + '/fmu/out/vehicle_control_mode'),
-            ('/' + uav_name + '/attitude_rates_thrust_in', '/' + uav_name + '/px4_api/attitude_rates_thrust'),
+            ('/' + uav_name + '/individual_thrust_in', '/' + uav_name + '/px4_api/individual_thrust'),
             ('/' + uav_name + '/odometry', '/' + uav_name + '/estimation_manager/estimation'),
+            ('/' + uav_name + '/imu', '/' + uav_name + '/px4_api/imu'),
             ('/' + uav_name + '/arm', '/' + uav_name + '/px4_api/arm'),
             ('/' + uav_name + '/disarm', '/' + uav_name + '/px4_api/disarm'),
             ('/' + uav_name + '/api_diagnostics', '/' + uav_name + '/px4_api/diagnostics'),
+            ('/' + uav_name + '/motor_speed_estimation_out', '/' + uav_name + '/px4_api/motor_speed_estimation'),
+            ('/' + uav_name + '/motor_speed_reference_in', '/' + uav_name + '/control_manager/motor_speed_reference'),
+            ('/' + uav_name + '/attitude_rates_thrust_in', '/' + uav_name + '/control_manager/attitude_rates_thrust'),
+            ('/' + uav_name + '/esc_status_px4_in', '/' + uav_name + '/fmu/out/esc_status'),
         ]
     )
 

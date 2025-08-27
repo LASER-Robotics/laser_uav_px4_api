@@ -18,6 +18,7 @@ find_package(rclcpp_components REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(laser_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(px4_msgs REQUIRED)
 
@@ -26,6 +27,7 @@ Eigen3
 rclcpp 
 rclcpp_lifecycle 
 rclcpp_components
+sensor_msgs
 nav_msgs 
 std_srvs 
 px4_msgs

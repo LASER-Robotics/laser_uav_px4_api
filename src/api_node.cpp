@@ -6,6 +6,7 @@ namespace laser_uav_px4_api
 ApiNode::ApiNode(const rclcpp::NodeOptions &options) : rclcpp_lifecycle::LifecycleNode("api_node", "", options) {
   RCLCPP_INFO(get_logger(), "Creating");
 
+  declare_parameter("control_input_mode", rclcpp::ParameterValue(""));
   declare_parameter("rate.pub_offboard_control_mode", rclcpp::ParameterValue(100.0));
   declare_parameter("rate.pub_api_diagnostics", rclcpp::ParameterValue(10.0));
 
@@ -65,10 +66,17 @@ CallbackReturn ApiNode::on_activate([[maybe_unused]] const rclcpp_lifecycle::Sta
   RCLCPP_INFO(get_logger(), "Activating");
 
   pub_vehicle_command_px4_->on_activate();
-  pub_attitude_rates_setpoint_px4_->on_activate();
   pub_offboard_control_mode_px4_->on_activate();
   pub_api_diagnostics_->on_activate();
   pub_nav_odometry_->on_activate();
+  pub_imu_->on_activate();
+  pub_motor_speed_estimation_->on_activate();
+
+  if (_control_input_mode_ == "individual_thrust") {
+    pub_motor_speed_reference_px4_->on_activate();
+  } else if (_control_input_mode_ == "angular_rates_and_thrust") {
+    pub_attitude_rates_reference_px4_->on_activate();
+  }
 
   is_active_ = true;
 
@@ -81,10 +89,17 @@ CallbackReturn ApiNode::on_deactivate([[maybe_unused]] const rclcpp_lifecycle::S
   RCLCPP_INFO(get_logger(), "Deactivating");
 
   pub_vehicle_command_px4_->on_deactivate();
-  pub_attitude_rates_setpoint_px4_->on_deactivate();
   pub_offboard_control_mode_px4_->on_deactivate();
   pub_nav_odometry_->on_deactivate();
+  pub_imu_->on_deactivate();
   pub_api_diagnostics_->on_deactivate();
+  pub_motor_speed_estimation_->on_deactivate();
+
+  if (_control_input_mode_ == "individual_thrust") {
+    pub_motor_speed_reference_px4_->on_deactivate();
+  } else if (_control_input_mode_ == "angular_rates_and_thrust") {
+    pub_attitude_rates_reference_px4_->on_deactivate();
+  }
 
   is_active_ = false;
 
@@ -97,16 +112,27 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
   RCLCPP_INFO(get_logger(), "Cleaning up");
 
   sub_odometry_px4_.reset();
+  sub_sensor_combined_px4_.reset();
   sub_control_mode_px4_.reset();
-  sub_attitude_rates_and_thrust_reference_.reset();
+  sub_esc_status_px4_.reset();
 
-  pub_attitude_rates_setpoint_px4_.reset();
   pub_offboard_control_mode_px4_.reset();
   pub_nav_odometry_.reset();
+  pub_imu_.reset();
   pub_api_diagnostics_.reset();
+  pub_motor_speed_estimation_.reset();
 
   tmr_pub_offboard_control_mode_px4_.reset();
+  tmr_pub_motor_speed_reference_px4_.reset();
   tmr_pub_api_diagnostics_.reset();
+
+  if (_control_input_mode_ == "individual_thrust") {
+    pub_motor_speed_reference_px4_.reset();
+    sub_motor_speed_reference_.reset();
+  } else if (_control_input_mode_ == "angular_rates_and_thrust") {
+    pub_attitude_rates_reference_px4_.reset();
+    sub_attitude_rates_and_thrust_reference_.reset();
+  }
 
   return CallbackReturn::SUCCESS;
 }
@@ -122,6 +148,7 @@ CallbackReturn ApiNode::on_shutdown([[maybe_unused]] const rclcpp_lifecycle::Sta
 
 /* getParameters() //{ */
 void ApiNode::getParameters() {
+  get_parameter("control_input_mode", _control_input_mode_);
   get_parameter("rate.pub_offboard_control_mode", _rate_pub_offboard_control_mode_px4_);
   get_parameter("rate.pub_api_diagnostics", _rate_pub_api_diagnostics_);
 }
@@ -132,22 +159,37 @@ void ApiNode::configPubSub() {
   RCLCPP_INFO(get_logger(), "initPubSub");
 
   // Pubs and Subs for Px4 topics
-  sub_odometry_px4_     = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
+  sub_odometry_px4_ = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
                                                                           std::bind(&ApiNode::subOdometryPx4, this, std::placeholders::_1));
-  sub_control_mode_px4_ = create_subscription<px4_msgs::msg::VehicleControlMode>("vehicle_control_mode_px4_in", rclcpp::SensorDataQoS(),
-                                                                                 std::bind(&ApiNode::subControlModePx4, this, std::placeholders::_1));
 
-  pub_attitude_rates_setpoint_px4_ = create_publisher<px4_msgs::msg::VehicleRatesSetpoint>("attitude_rates_setpoint_px4_out", 10);
-  pub_vehicle_command_px4_         = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
-  pub_offboard_control_mode_px4_   = create_publisher<px4_msgs::msg::OffboardControlMode>("offboard_control_mode_px4_out", 10);
+  sub_sensor_combined_px4_ = create_subscription<px4_msgs::msg::SensorCombined>("sensor_combined_px4_in", rclcpp::SensorDataQoS(),
+                                                                                std::bind(&ApiNode::subSensorCombinedPx4, this, std::placeholders::_1));
+  sub_control_mode_px4_    = create_subscription<px4_msgs::msg::VehicleControlMode>("vehicle_control_mode_px4_in", rclcpp::SensorDataQoS(),
+                                                                                 std::bind(&ApiNode::subControlModePx4, this, std::placeholders::_1));
+  sub_esc_status_px4_      = create_subscription<px4_msgs::msg::EscStatus>("esc_status_px4_in", rclcpp::SensorDataQoS(),
+                                                                      std::bind(&ApiNode::subEscStatusPx4, this, std::placeholders::_1));
+
+  pub_vehicle_command_px4_       = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
+  pub_offboard_control_mode_px4_ = create_publisher<px4_msgs::msg::OffboardControlMode>("offboard_control_mode_px4_out", 10);
 
   // Pubs and Subs for System topics
   pub_api_diagnostics_ = create_publisher<laser_msgs::msg::ApiPx4Diagnostics>("api_diagnostics", 10);
 
   pub_nav_odometry_ = create_publisher<nav_msgs::msg::Odometry>("odometry", 10);
 
-  sub_attitude_rates_and_thrust_reference_ = create_subscription<laser_msgs::msg::AttitudeRatesAndThrust>(
-      "attitude_rates_thrust_in", 1, std::bind(&ApiNode::subAttitudeRatesAndThrustReference, this, std::placeholders::_1));
+  pub_imu_ = create_publisher<sensor_msgs::msg::Imu>("imu", 10);
+
+  pub_motor_speed_estimation_ = create_publisher<laser_msgs::msg::MotorSpeed>("motor_speed_estimation_out", 10);
+
+  if (_control_input_mode_ == "individual_thrust") {
+    pub_motor_speed_reference_px4_ = create_publisher<px4_msgs::msg::ActuatorMotors>("motor_speed_reference_px4_out", 10);
+    sub_motor_speed_reference_     = create_subscription<laser_msgs::msg::MotorSpeed>("motor_speed_reference_in", 1,
+                                                                                  std::bind(&ApiNode::subMotorSpeedReference, this, std::placeholders::_1));
+  } else if (_control_input_mode_ == "angular_rates_and_thrust") {
+    pub_attitude_rates_reference_px4_        = create_publisher<px4_msgs::msg::VehicleRatesSetpoint>("attitude_rates_reference_px4_out", 10);
+    sub_attitude_rates_and_thrust_reference_ = create_subscription<laser_msgs::msg::AttitudeRatesAndThrust>(
+        "attitude_rates_thrust_in", 1, std::bind(&ApiNode::subAttitudeRatesAndThrustReference, this, std::placeholders::_1));
+  }
 }
 //}
 
@@ -159,6 +201,10 @@ void ApiNode::configTimers() {
                                                          std::bind(&ApiNode::tmrPubOffboardControlModePx4, this), nullptr);
   tmr_pub_api_diagnostics_ =
       create_wall_timer(std::chrono::duration<double>(1.0 / _rate_pub_api_diagnostics_), std::bind(&ApiNode::tmrPubApiDiagnostics, this), nullptr);
+  if (_control_input_mode_ == "individual_thrust") {
+    tmr_pub_motor_speed_reference_px4_ =
+        create_wall_timer(std::chrono::duration<double>(1.0 / 1000), std::bind(&ApiNode::tmrPubMotorSpeedReferencePx4, this), nullptr);
+  }
 }
 //}
 
@@ -180,6 +226,52 @@ void ApiNode::subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg) {
   api_diagnostics_.armed         = msg.flag_armed;
   offboard_is_enabled_           = msg.flag_control_offboard_enabled;
   api_diagnostics_.offboard_mode = offboard_is_enabled_;
+}
+//}
+
+/* subEscStatusPx4() //{ */
+void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
+  if (!is_active_) {
+    return;
+  }
+
+  laser_msgs::msg::MotorSpeed motor_speed_estimation;
+
+  for (auto i = 0; i < (int)msg.esc.size(); i++) {
+    motor_speed_estimation.data[i] = msg.esc[i].esc_rpm * 0.1047;
+  }
+  motor_speed_estimation.unit_of_measurement = "rad/s";
+
+  pub_motor_speed_estimation_->publish(motor_speed_estimation);
+}
+//}
+
+/* subSensorCombinedPx4() //{ */
+void ApiNode::subSensorCombinedPx4(const px4_msgs::msg::SensorCombined &msg) {
+  if (!is_active_) {
+    return;
+  }
+
+  sensor_msgs::msg::Imu imu_msg{};
+  imu_msg.header.stamp    = rclcpp::Clock().now();
+  imu_msg.header.frame_id = "fcu";
+
+  Eigen::Vector3d frd_to_flu;
+  frd_to_flu << msg.gyro_rad[0], msg.gyro_rad[1], msg.gyro_rad[2];
+  frd_to_flu = frdToFlu(frd_to_flu);
+
+  imu_msg.angular_velocity.x = frd_to_flu(0);
+  imu_msg.angular_velocity.y = frd_to_flu(1);
+  imu_msg.angular_velocity.z = frd_to_flu(2);
+
+  frd_to_flu << msg.accelerometer_m_s2[0], msg.accelerometer_m_s2[1], msg.accelerometer_m_s2[2];
+  frd_to_flu = frdToFlu(frd_to_flu);
+
+  imu_msg.linear_acceleration.x = frd_to_flu(0);
+  imu_msg.linear_acceleration.y = frd_to_flu(1);
+  imu_msg.linear_acceleration.z = frd_to_flu(2);
+
+  pub_imu_->publish(imu_msg);
 }
 //}
 
@@ -254,10 +346,15 @@ void ApiNode::tmrPubOffboardControlModePx4() {
   msg.velocity          = false;
   msg.acceleration      = false;
   msg.attitude          = false;
-  msg.body_rate         = true;
   msg.thrust_and_torque = false;
-  msg.direct_actuator   = false;
-  msg.timestamp         = get_clock()->now().nanoseconds() / 1000;
+  if (_control_input_mode_ == "individual_thrust") {
+    msg.body_rate       = false;
+    msg.direct_actuator = true;
+  } else if (_control_input_mode_ == "angular_rates_and_thrust") {
+    msg.body_rate       = true;
+    msg.direct_actuator = false;
+  }
+  msg.timestamp = get_clock()->now().nanoseconds() / 1000;
 
 
   pub_offboard_control_mode_px4_->publish(msg);
@@ -309,23 +406,52 @@ void ApiNode::subAttitudeRatesAndThrustReference(const laser_msgs::msg::Attitude
     return;
   }
 
-  px4_msgs::msg::VehicleRatesSetpoint attitude_rates_setpoint{};
+  px4_msgs::msg::VehicleRatesSetpoint attitude_rates_reference{};
 
   Eigen::Vector3d flu_to_frd;
   flu_to_frd << msg.roll_rate, msg.pitch_rate, msg.yaw_rate;
   flu_to_frd = frdToFlu(flu_to_frd);
 
-  attitude_rates_setpoint.roll  = flu_to_frd(0);
-  attitude_rates_setpoint.pitch = flu_to_frd(1);
-  attitude_rates_setpoint.yaw   = flu_to_frd(2);
+  attitude_rates_reference.roll  = flu_to_frd(0);
+  attitude_rates_reference.pitch = flu_to_frd(1);
+  attitude_rates_reference.yaw   = flu_to_frd(2);
 
-  attitude_rates_setpoint.thrust_body[0] = 0;
-  attitude_rates_setpoint.thrust_body[1] = 0;
-  attitude_rates_setpoint.thrust_body[2] = -msg.total_thrust_normalized;
+  attitude_rates_reference.thrust_body[0] = 0;
+  attitude_rates_reference.thrust_body[1] = 0;
+  attitude_rates_reference.thrust_body[2] = -msg.total_thrust_normalized;
 
-  attitude_rates_setpoint.timestamp = this->get_clock()->now().nanoseconds() / 1000;
+  attitude_rates_reference.timestamp = this->get_clock()->now().nanoseconds() / 1000;
 
-  pub_attitude_rates_setpoint_px4_->publish(attitude_rates_setpoint);
+  pub_attitude_rates_reference_px4_->publish(attitude_rates_reference);
+}
+//}
+
+/* subMotorSpeedReference() //{ */
+void ApiNode::subMotorSpeedReference(const laser_msgs::msg::MotorSpeed &msg) {
+  if (!is_active_) {
+    return;
+  }
+
+  for (auto i = 0; i < 4; i++) {
+    actuator_motors_reference_.control[i] = msg.data[i];
+  }
+
+  actuator_motors_reference_.timestamp        = 0;
+  actuator_motors_reference_.timestamp_sample = 0;
+}
+//}
+
+/* tmrPubMotorSpeedReferencePx4() //{ */
+void ApiNode::tmrPubMotorSpeedReferencePx4() {
+  if (!is_active_) {
+    return;
+  }
+
+  if (!offboard_is_enabled_ && _control_input_mode_ != "individual_thrust") {
+    return;
+  }
+
+  pub_motor_speed_reference_px4_->publish(actuator_motors_reference_);
 }
 //}
 

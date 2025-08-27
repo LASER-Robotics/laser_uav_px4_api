@@ -11,8 +11,10 @@
 
 #include <laser_msgs/msg/attitude_rates_and_thrust.hpp>
 #include <laser_msgs/msg/api_px4_diagnostics.hpp>
+#include <laser_msgs/msg/motor_speed.hpp>
 
 #include <std_srvs/srv/trigger.hpp>
+#include <sensor_msgs/msg/imu.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 
 #include <px4_msgs/msg/vehicle_command.hpp>
@@ -20,6 +22,9 @@
 #include <px4_msgs/msg/offboard_control_mode.hpp>
 #include <px4_msgs/msg/vehicle_odometry.hpp>
 #include <px4_msgs/msg/vehicle_rates_setpoint.hpp>
+#include <px4_msgs/msg/esc_status.hpp>
+#include <px4_msgs/msg/sensor_combined.hpp>
+#include <px4_msgs/msg/actuator_motors.hpp>
 
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
@@ -60,6 +65,20 @@ private:
   void                                                                     subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg);
   rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>::SharedPtr pub_nav_odometry_;
 
+  rclcpp::Subscription<px4_msgs::msg::SensorCombined>::ConstSharedPtr    sub_sensor_combined_px4_;
+  void                                                                   subSensorCombinedPx4(const px4_msgs::msg::SensorCombined &msg);
+  rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::Imu>::SharedPtr pub_imu_;
+
+  rclcpp::Subscription<px4_msgs::msg::EscStatus>::ConstSharedPtr               sub_esc_status_px4_;
+  void                                                                         subEscStatusPx4(const px4_msgs::msg::EscStatus &msg);
+  rclcpp_lifecycle::LifecyclePublisher<laser_msgs::msg::MotorSpeed>::SharedPtr pub_motor_speed_estimation_;
+
+  rclcpp::Subscription<laser_msgs::msg::MotorSpeed>::ConstSharedPtr              sub_motor_speed_reference_;
+  void                                                                           subMotorSpeedReference(const laser_msgs::msg::MotorSpeed &msg);
+  rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::ActuatorMotors>::SharedPtr pub_motor_speed_reference_px4_;
+  rclcpp::TimerBase::SharedPtr                                                   tmr_pub_motor_speed_reference_px4_;
+  void                                                                           tmrPubMotorSpeedReferencePx4();
+
   rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::VehicleCommand>::SharedPtr pub_vehicle_command_px4_;
   void pubVehicleCommandPx4(int command, float param1 = 0.0, float param2 = 0.0, float param3 = 0.0, float param4 = 0.0, float param5 = 0.0, float param6 = 0.0,
                             float param7 = 0.0);
@@ -69,7 +88,7 @@ private:
   rclcpp::TimerBase::SharedPtr                                                        tmr_pub_offboard_control_mode_px4_;
   void                                                                                tmrPubOffboardControlModePx4();
 
-  rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::VehicleRatesSetpoint>::SharedPtr pub_attitude_rates_setpoint_px4_;
+  rclcpp_lifecycle::LifecyclePublisher<px4_msgs::msg::VehicleRatesSetpoint>::SharedPtr pub_attitude_rates_reference_px4_;
   rclcpp::Subscription<laser_msgs::msg::AttitudeRatesAndThrust>::SharedPtr             sub_attitude_rates_and_thrust_reference_;
   void subAttitudeRatesAndThrustReference(const laser_msgs::msg::AttitudeRatesAndThrust &msg);
 
@@ -91,8 +110,11 @@ private:
   Eigen::DiagonalMatrix<double, 3> ned_enu_reflection_z_;
 
   laser_msgs::msg::ApiPx4Diagnostics api_diagnostics_;
+  px4_msgs::msg::ActuatorMotors      actuator_motors_reference_;
 
   int target_system_;
+
+  std::string _control_input_mode_;
 
   bool real_uav_{false};
   bool offboard_is_enabled_{false};

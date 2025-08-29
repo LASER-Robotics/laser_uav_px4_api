@@ -7,40 +7,42 @@ This API provides a level of abstraction so that mission strategies using UAV ar
 ### Topics
 
 ``` yaml
-topic: /uav1/goto
-type: geometry_msgs::msg::Pose
+topic: /uav1/control_manager/motor_speed_reference
+type: laser_msgs::msg::MotorSpeed
 I/O: input
 
-topic: /uav1/goto_relative
-type: geometry_msgs::msg::Pose
+topic: /uav1/control_manager/attitude_rates_thrust
+type:laser_msgs::msg::AttitudeRatesAndThrust
 I/O: input
 
-topic: /uav1/have_goal
-type: std_msgs::msg::Bool
+topic: /uav1/px4_api/imu
+type: sensor_msgs::msg::Imu
 I/O: output
 
-topic: /uav1/odometry
+topic: /uav1/px4_api/motor_speed_estimated
+type: laser_msgs::msg::MotorSpeed
+I/O: output
+
+topic: /uav1/px4_api/odometry
 type: nav_msgs::msg::Odometry
 I/O: output
 ```
 
-**/uav1/goto** is a topic that makes it possible to send a setpoint to the uav. The setpoint coordinates for this topic are absolute in relation to the world frame.
+**/uav1/control_manager/motor_speed_reference**: This topic is used to send normalized individual thrust commands when the controller is in the corresponding mode.
 
-**/uav1/goto_relative** is a topic that makes it possible to send a setpoint to the uav. The setpoint coordinates for this topic are relative to the uav frame.
+**/uav1/control_manager/attitude_rates_thrust**: This topic is used to send angular velocity references and a total normalized thrust value when in the corresponding mode.
 
-**/uav1/have_goal** is a topic that notifies whether the uav has a goal or not, this facilitates the implementation of state machines in mission algorithms, being the state change flag.
+Note: The topics above are namespaced with /control_manager/ because this component is the intended source of control inputs for the autopilot pipeline.
 
-**/uav1/odometry** is a topic that provides the information of estimating states of the uav its position, orientation and speed.
+**/uav1/px4_api/imu** is a topic that provides information from the autopilot's internal IMU.
+
+**/uav1/px4_api/motor_speed_estimated** is a topic that provides the estimated current motor speed.
+
+**/uav1/px4_api/odometry** is a topic that provides the estimated state of the UAV, including its position, orientation, and velocity.
 
 ### Services
 
 ``` yaml
-service: /uav1/takeoff
-type: std_srvs::srv::Trigger
-
-service: /uav1/land
-type: std_srvs::srv::Trigger
-
 service: /uav1/arm
 type: std_srvs::srv::Trigger
 
@@ -48,10 +50,6 @@ service: /uav1/disarm
 type: std_srvs::srv::Trigger
 ```
 
-**/uav1/takeoff** provides takeoff request for uav.
+**/uav1/arm** provides the request to arm the uav engines [ONLY SIMULATION].
 
-**/uav1/land** provides landing request for uav.
-
-**/uav1/arm** provides the request to arm the uav engines.
-
-**/uav1/disarm** provides the request to disarm the uav engines.
+**/uav1/disarm** provides the request to disarm the uav engines [ONLY SIMULATION].

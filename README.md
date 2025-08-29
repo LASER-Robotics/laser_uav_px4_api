@@ -20,9 +20,3 @@ This package provides its functionality through a set of ROS 2 topics and servic
 ### Services
 - **/uav1/arm:** Service to arm the UAV's motors. **[SIMULATION ONLY]**
 - **/uav1/disarm:** Service to disarm the UAV's motors. **[SIMULATION ONLY]**
-
----
-### `/uav1/disarm`
--   **Type:** `std_srvs::srv::Trigger`
--   **Description:** Service to disarm the UAV's motors. **[SIMULATION ONLY]**
----

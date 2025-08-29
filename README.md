@@ -1,55 +1,66 @@
-# laser_uav_px4_api
+# LASER UAV PX4 API
 
-This API serves as the communication bridge between the autopilot hardware and the high and low level control system on the companion computer, managing time synchronization and reference frame conversions.
+This API serves as the communication bridge between the autopilot hardware and the high/low-level control system on the companion computer, managing time synchronization and reference frame conversions.
 
-## Communication interfaces
+## Communication Interfaces
+
+This package provides its functionality through a set of ROS 2 topics and services.
 
 ### Topics
 
-``` yaml
-topic: /uav1/control_manager/motor_speed_reference
-type: laser_msgs::msg::MotorSpeed
-I/O: input
+The API subscribes to topics for control commands and publishes topics with sensor and state information from the autopilot.
 
-topic: /uav1/control_manager/attitude_rates_thrust
-type:laser_msgs::msg::AttitudeRatesAndThrust
-I/O: input
+#### Input Topics (Subscribed by API)
 
-topic: /uav1/px4_api/imu
-type: sensor_msgs::msg::Imu
-I/O: output
+> **Note:** The topics below are namespaced with `/control_manager/` because this component is the intended source of control inputs for the autopilot pipeline.
 
-topic: /uav1/px4_api/motor_speed_estimated
-type: laser_msgs::msg::MotorSpeed
-I/O: output
+---
+### `/uav1/control_manager/motor_speed_reference`
+-   **Type:** `laser_msgs::msg::MotorSpeed`
+-   **Direction:** Input
+-   **Description:** Used to send normalized individual thrust commands when the controller is operating in this specific mode.
 
-topic: /uav1/px4_api/odometry
-type: nav_msgs::msg::Odometry
-I/O: output
-```
+---
+### `/uav1/control_manager/attitude_rates_thrust`
+-   **Type:** `laser_msgs::msg::AttitudeRatesAndThrust`
+-   **Direction:** Input
+-   **Description:** Used to send angular velocity setpoints and a total normalized thrust value when the controller is in the corresponding mode.
 
-**/uav1/control_manager/motor_speed_reference**: This topic is used to send normalized individual thrust commands when the controller is in the corresponding mode.
+---
 
-**/uav1/control_manager/attitude_rates_thrust**: This topic is used to send angular velocity references and a total normalized thrust value when in the corresponding mode.
+#### Output Topics (Published by API)
 
-Note: The topics above are namespaced with /control_manager/ because this component is the intended source of control inputs for the autopilot pipeline.
+---
+### `/uav1/px4_api/imu`
+-   **Type:** `sensor_msgs::msg::Imu`
+-   **Direction:** Output
+-   **Description:** Publishes filtered data from the autopilot's internal IMU (Inertial Measurement Unit).
 
-**/uav1/px4_api/imu** is a topic that provides information from the autopilot's internal IMU.
+---
+### `/uav1/px4_api/motor_speed_estimated`
+-   **Type:** `laser_msgs::msg::MotorSpeed`
+-   **Direction:** Output
+-   **Description:** Publishes the current estimated speed of each motor.
 
-**/uav1/px4_api/motor_speed_estimated** is a topic that provides the estimated current motor speed.
+---
+### `/uav1/px4_api/odometry`
+-   **Type:** `nav_msgs::msg::Odometry`
+-   **Direction:** Output
+-   **Description:** Publishes the estimated state of the UAV, including its position, orientation, and velocities.
 
-**/uav1/px4_api/odometry** is a topic that provides the estimated state of the UAV, including its position, orientation, and velocity.
+---
 
 ### Services
 
-``` yaml
-service: /uav1/arm
-type: std_srvs::srv::Trigger
+The API provides services for basic vehicle commands.
 
-service: /uav1/disarm
-type: std_srvs::srv::Trigger
-```
+---
+### `/uav1/arm`
+-   **Type:** `std_srvs::srv::Trigger`
+-   **Description:** Service to arm the UAV's motors. **[SIMULATION ONLY]**
 
-**/uav1/arm** provides the request to arm the uav engines [ONLY SIMULATION].
-
-**/uav1/disarm** provides the request to disarm the uav engines [ONLY SIMULATION].
+---
+### `/uav1/disarm`
+-   **Type:** `std_srvs::srv::Trigger`
+-   **Description:** Service to disarm the UAV's motors. **[SIMULATION ONLY]**
+---

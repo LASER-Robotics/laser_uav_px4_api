@@ -1,6 +1,6 @@
 # laser_uav_px4_api
 
-This API serves as the communication bridge between the autopilot hardware and the high-level control system on the companion computer, managing time synchronization and reference frame conversions.
+This API serves as the communication bridge between the autopilot hardware and the high and low level control system on the companion computer, managing time synchronization and reference frame conversions.
 
 ## Communication interfaces
 

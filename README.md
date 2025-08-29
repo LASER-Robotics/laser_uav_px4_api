@@ -1,6 +1,6 @@
 # laser_uav_px4_api
 
-This API provides a level of abstraction so that mission strategies using UAV are easier to implement without having to worry about synchronization bureaucracy or event arrival.
+This API serves as the communication bridge between the autopilot hardware and the high-level control system on the companion computer, managing time synchronization and reference frame conversions.
 
 ## Communication interfaces
 

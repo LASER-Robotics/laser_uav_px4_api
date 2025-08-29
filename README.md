@@ -18,5 +18,5 @@ This package provides its functionality through a set of ROS 2 topics and servic
 - **/uav1/px4_api/odometry:** Publishes the estimated state of the UAV, including its position, orientation, and velocities.
 
 ### Services
-- **/uav1/arm:** Service to arm the UAV's motors. **[SIMULATION ONLY]**
-- **/uav1/disarm:** Service to disarm the UAV's motors. **[SIMULATION ONLY]**
+- **/uav1/px4_api/arm:** Service to arm the UAV's motors. **[SIMULATION ONLY]**
+- **/uav1/px4_api/disarm:** Service to disarm the UAV's motors. **[SIMULATION ONLY]**

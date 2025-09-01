@@ -253,7 +253,7 @@ void ApiNode::subSensorCombinedPx4(const px4_msgs::msg::SensorCombined &msg) {
   }
 
   sensor_msgs::msg::Imu imu_msg{};
-  imu_msg.header.stamp    = rclcpp::Clock().now();
+  imu_msg.header.stamp    = get_clock()->now();
   imu_msg.header.frame_id = "fcu";
 
   Eigen::Vector3d frd_to_flu;
@@ -283,7 +283,7 @@ void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
 
   nav_msgs::msg::Odometry current_nav_odometry{};
   current_nav_odometry.header.frame_id = "odom";
-  current_nav_odometry.header.stamp    = rclcpp::Clock().now();
+  current_nav_odometry.header.stamp    = get_clock()->now();
   current_nav_odometry.child_frame_id  = "fcu";
 
   Eigen::Vector3d ned_to_enu_tf(msg.position[0], msg.position[1], msg.position[2]);
@@ -436,7 +436,7 @@ void ApiNode::subMotorSpeedReference(const laser_msgs::msg::MotorSpeed &msg) {
     actuator_motors_reference_.control[i] = msg.data[i];
   }
 
-  actuator_motors_reference_.timestamp        = 0;
+  actuator_motors_reference_.timestamp         = get_clock()->now().nanoseconds() / 1000;
   actuator_motors_reference_.timestamp_sample = 0;
 }
 //}

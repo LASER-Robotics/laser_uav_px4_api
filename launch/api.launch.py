@@ -46,7 +46,7 @@ def generate_launch_description():
         name='px4_api',
         namespace=uav_name,
         output='screen',
-        parameters=[api_file],
+        parameters=[api_file, {'use_sim_time': True}],
         remappings=[
             ('/' + uav_name + '/vehicle_command_px4_out', '/' + uav_name + '/fmu/in/vehicle_command'),
             ('/' + uav_name + '/attitude_rates_reference_px4_out', '/' + uav_name + '/fmu/in/vehicle_rates_setpoint'),

@@ -238,7 +238,7 @@ void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
   laser_msgs::msg::MotorSpeed motor_speed_estimation;
 
   for (auto i = 0; i < (int)msg.esc.size(); i++) {
-    motor_speed_estimation.data[i] = msg.esc[i].esc_rpm * 0.1047;
+    motor_speed_estimation.data.push_back(msg.esc[i].esc_rpm * 0.1047);
   }
   motor_speed_estimation.unit_of_measurement = "rad/s";
 
@@ -432,11 +432,11 @@ void ApiNode::subMotorSpeedReference(const laser_msgs::msg::MotorSpeed &msg) {
     return;
   }
 
-  for (auto i = 0; i < 4; i++) {
+  for (auto i = 0; i < (int)msg.data.size(); i++) {
     actuator_motors_reference_.control[i] = msg.data[i];
   }
 
-  actuator_motors_reference_.timestamp         = get_clock()->now().nanoseconds() / 1000;
+  actuator_motors_reference_.timestamp        = get_clock()->now().nanoseconds() / 1000;
   actuator_motors_reference_.timestamp_sample = 0;
 }
 //}

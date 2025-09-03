@@ -203,7 +203,7 @@ void ApiNode::configTimers() {
       create_wall_timer(std::chrono::duration<double>(1.0 / _rate_pub_api_diagnostics_), std::bind(&ApiNode::tmrPubApiDiagnostics, this), nullptr);
   if (_control_input_mode_ == "individual_thrust") {
     tmr_pub_motor_speed_reference_px4_ =
-        create_wall_timer(std::chrono::duration<double>(1.0 / 1000), std::bind(&ApiNode::tmrPubMotorSpeedReferencePx4, this), nullptr);
+        create_wall_timer(std::chrono::duration<double>(1.0 / 500), std::bind(&ApiNode::tmrPubMotorSpeedReferencePx4, this), nullptr);
   }
 }
 //}
@@ -447,7 +447,11 @@ void ApiNode::tmrPubMotorSpeedReferencePx4() {
     return;
   }
 
-  if (!offboard_is_enabled_ && _control_input_mode_ != "individual_thrust") {
+  if (!offboard_is_enabled_) {
+    return;
+  }
+
+  if (_control_input_mode_ != "individual_thrust") {
     return;
   }
 

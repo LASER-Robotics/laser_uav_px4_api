@@ -237,7 +237,7 @@ void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
 
   laser_msgs::msg::MotorSpeed motor_speed_estimation;
 
-  for (auto i = 0; i < (int)msg.esc.size(); i++) {
+  for (auto i = 0; i < (int)msg.esc_count; i++) {
     motor_speed_estimation.data.push_back(msg.esc[i].esc_rpm * 0.1047);
   }
   motor_speed_estimation.unit_of_measurement = "rad/s";

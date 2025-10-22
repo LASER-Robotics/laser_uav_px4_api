@@ -113,6 +113,7 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
 
   sub_odometry_px4_.reset();
   sub_sensor_combined_px4_.reset();
+  sub_vehicle_status_px4_.reset();
   sub_control_mode_px4_.reset();
   sub_esc_status_px4_.reset();
 
@@ -164,6 +165,9 @@ void ApiNode::configPubSub() {
 
   sub_sensor_combined_px4_ = create_subscription<px4_msgs::msg::SensorCombined>("sensor_combined_px4_in", rclcpp::SensorDataQoS(),
                                                                                 std::bind(&ApiNode::subSensorCombinedPx4, this, std::placeholders::_1));
+
+  sub_vehicle_status_px4_ = create_subscription<px4_msgs::msg::VehicleStatus>("vehicle_status_px4_in", rclcpp::SensorDataQoS(),
+                                                                                std::bind(&ApiNode::subVehicleStatusPx4, this, std::placeholders::_1));
   sub_control_mode_px4_    = create_subscription<px4_msgs::msg::VehicleControlMode>("vehicle_control_mode_px4_in", rclcpp::SensorDataQoS(),
                                                                                  std::bind(&ApiNode::subControlModePx4, this, std::placeholders::_1));
   sub_esc_status_px4_      = create_subscription<px4_msgs::msg::EscStatus>("esc_status_px4_in", rclcpp::SensorDataQoS(),
@@ -275,9 +279,25 @@ void ApiNode::subSensorCombinedPx4(const px4_msgs::msg::SensorCombined &msg) {
 }
 //}
 
+/* subVehicleStatusPx4() //{ */
+void ApiNode::subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg) {
+  if (!is_active_) {
+    return;
+  }
+
+  if (!fw_preflight_checks_pass_) {
+    fw_preflight_checks_pass_ = msg.pre_flight_checks_pass;
+  }
+}
+//}
+
 /* subOdometryPx4() //{ */
 void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
   if (!is_active_) {
+    return;
+  }
+
+  if (!fw_preflight_checks_pass_) {
     return;
   }
 
@@ -406,6 +426,11 @@ void ApiNode::subAttitudeRatesAndThrustReference(const laser_msgs::msg::Attitude
     return;
   }
 
+  if (!fw_preflight_checks_pass_) {
+    RCLCPP_ERROR(this->get_logger(), "Preflight Checks dont's Pass in Firmware!");
+    return;
+  }
+
   px4_msgs::msg::VehicleRatesSetpoint attitude_rates_reference{};
 
   Eigen::Vector3d flu_to_frd;
@@ -432,6 +457,15 @@ void ApiNode::subMotorSpeedReference(const laser_msgs::msg::MotorSpeed &msg) {
     return;
   }
 
+  if (!offboard_is_enabled_) {
+    return;
+  }
+
+  if (!fw_preflight_checks_pass_) {
+    RCLCPP_ERROR(this->get_logger(), "Preflight Checks dont's Pass in Firmware!");
+    return;
+  }
+
   for (auto i = 0; i < (int)msg.data.size(); i++) {
     actuator_motors_reference_.control[i] = msg.data[i];
   }
@@ -448,6 +482,10 @@ void ApiNode::tmrPubMotorSpeedReferencePx4() {
   }
 
   if (!offboard_is_enabled_) {
+    return;
+  }
+
+  if (!fw_preflight_checks_pass_) {
     return;
   }
 
@@ -469,6 +507,12 @@ void ApiNode::srvArm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trigg
   if (real_uav_) {
     response->success = false;
     response->message = "arm requested failed, in real drone use the RC to arm";
+    return;
+  }
+
+  if (!fw_preflight_checks_pass_) {
+    response->success = false;
+    response->message = "arm requested failed, preflight checks don't pass in firmware, try again in a few seconds";
     return;
   }
 

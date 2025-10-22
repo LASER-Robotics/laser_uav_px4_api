@@ -54,6 +54,7 @@ def generate_launch_description():
             ('/' + uav_name + '/offboard_control_mode_px4_out', '/' + uav_name + '/fmu/in/offboard_control_mode'),
             ('/' + uav_name + '/vehicle_odometry_px4_in', '/' + uav_name + '/fmu/out/vehicle_odometry'),
             ('/' + uav_name + '/sensor_combined_px4_in', '/' + uav_name + '/fmu/out/sensor_combined'),
+            ('/' + uav_name + '/vehicle_status_px4_in', '/' + uav_name + '/fmu/out/vehicle_status'),
             ('/' + uav_name + '/vehicle_control_mode_px4_in', '/' + uav_name + '/fmu/out/vehicle_control_mode'),
             ('/' + uav_name + '/individual_thrust_in', '/' + uav_name + '/px4_api/individual_thrust'),
             ('/' + uav_name + '/odometry', '/' + uav_name + '/px4_api/odometry'),

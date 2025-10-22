@@ -22,6 +22,7 @@
 #include <px4_msgs/msg/offboard_control_mode.hpp>
 #include <px4_msgs/msg/vehicle_odometry.hpp>
 #include <px4_msgs/msg/vehicle_rates_setpoint.hpp>
+#include <px4_msgs/msg/vehicle_status.hpp>
 #include <px4_msgs/msg/esc_status.hpp>
 #include <px4_msgs/msg/sensor_combined.hpp>
 #include <px4_msgs/msg/actuator_motors.hpp>
@@ -68,6 +69,9 @@ private:
   rclcpp::Subscription<px4_msgs::msg::SensorCombined>::ConstSharedPtr    sub_sensor_combined_px4_;
   void                                                                   subSensorCombinedPx4(const px4_msgs::msg::SensorCombined &msg);
   rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::Imu>::SharedPtr pub_imu_;
+
+  rclcpp::Subscription<px4_msgs::msg::VehicleStatus>::ConstSharedPtr sub_vehicle_status_px4_;
+  void                                                               subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg);
 
   rclcpp::Subscription<px4_msgs::msg::EscStatus>::ConstSharedPtr               sub_esc_status_px4_;
   void                                                                         subEscStatusPx4(const px4_msgs::msg::EscStatus &msg);
@@ -118,6 +122,7 @@ private:
 
   bool real_uav_{false};
   bool offboard_is_enabled_{false};
+  bool fw_preflight_checks_pass_{false};
   bool is_active_{false};
 };
 }  // namespace laser_uav_px4_api

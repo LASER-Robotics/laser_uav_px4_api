@@ -1,4 +1,4 @@
-/**:
+/**/**:
   ros__parameters:
     rate: # [Hz]
       pub_offboard_control_mode: 100.0

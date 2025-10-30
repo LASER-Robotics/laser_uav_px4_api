@@ -287,6 +287,10 @@ void ApiNode::subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg) {
 
   if (!fw_preflight_checks_pass_) {
     fw_preflight_checks_pass_ = msg.pre_flight_checks_pass;
+
+    RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 2000, "Current situation of the preflight checks on Autopilot: %s", fw_preflight_checks_pass_ ? "True" : "False");
+  } else {
+    RCLCPP_INFO_ONCE(this->get_logger(),  "Current situation of the preflight checks on Autopilot: %s", fw_preflight_checks_pass_ ? "True" : "False");
   }
 }
 //}

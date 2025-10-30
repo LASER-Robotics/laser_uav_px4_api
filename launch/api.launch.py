@@ -2,7 +2,7 @@ from launch import LaunchDescription
 
 from launch.actions import DeclareLaunchArgument
 
-from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
+from launch.substitutions import PathJoinSubstitution, LaunchConfiguration, PythonExpression
 
 from launch.actions import RegisterEventHandler, EmitEvent
 
@@ -37,6 +37,12 @@ def generate_launch_description():
         )
     )
 
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'use_sim_time',
+            default_value=PythonExpression(['"', os.getenv('REAL_UAV', "true"), '" == "false"']),
+            description='Whether use the simulation time.'))
+
 #Initialize arguments
     api_file = LaunchConfiguration('api_file')
 
@@ -46,7 +52,7 @@ def generate_launch_description():
         name='px4_api',
         namespace=uav_name,
         output='screen',
-        parameters=[api_file, {'use_sim_time': True}],
+        parameters=[api_file, {'use_sim_time': LaunchConfiguration('use_sim_time')}],
         remappings=[
             ('/' + uav_name + '/vehicle_command_px4_out', '/' + uav_name + '/fmu/in/vehicle_command'),
             ('/' + uav_name + '/attitude_rates_reference_px4_out', '/' + uav_name + '/fmu/in/vehicle_rates_setpoint'),

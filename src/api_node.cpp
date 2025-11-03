@@ -112,7 +112,8 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
   RCLCPP_INFO(get_logger(), "Cleaning up");
 
   sub_odometry_px4_.reset();
-  sub_sensor_combined_px4_.reset();
+  sub_sensor_gyro_px4_.reset();
+  sub_sensor_accel_px4_.reset();
   sub_vehicle_status_px4_.reset();
   sub_control_mode_px4_.reset();
   sub_esc_status_px4_.reset();
@@ -163,14 +164,16 @@ void ApiNode::configPubSub() {
   sub_odometry_px4_ = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
                                                                           std::bind(&ApiNode::subOdometryPx4, this, std::placeholders::_1));
 
-  sub_sensor_combined_px4_ = create_subscription<px4_msgs::msg::SensorCombined>("sensor_combined_px4_in", rclcpp::SensorDataQoS(),
-                                                                                std::bind(&ApiNode::subSensorCombinedPx4, this, std::placeholders::_1));
+  sub_sensor_gyro_px4_ = create_subscription<px4_msgs::msg::SensorGyro>("sensor_gyro_px4_in", rclcpp::SensorDataQoS(),
+                                                                                std::bind(&ApiNode::subSensorGyroPx4, this, std::placeholders::_1));
+  sub_sensor_accel_px4_ = create_subscription<px4_msgs::msg::SensorAccel>("sensor_accel_px4_in", rclcpp::SensorDataQoS(),
+                                                                                std::bind(&ApiNode::subSensorAccelPx4, this, std::placeholders::_1));
 
   sub_vehicle_status_px4_ = create_subscription<px4_msgs::msg::VehicleStatus>("vehicle_status_px4_in", rclcpp::SensorDataQoS(),
-                                                                                std::bind(&ApiNode::subVehicleStatusPx4, this, std::placeholders::_1));
-  sub_control_mode_px4_    = create_subscription<px4_msgs::msg::VehicleControlMode>("vehicle_control_mode_px4_in", rclcpp::SensorDataQoS(),
+                                                                              std::bind(&ApiNode::subVehicleStatusPx4, this, std::placeholders::_1));
+  sub_control_mode_px4_   = create_subscription<px4_msgs::msg::VehicleControlMode>("vehicle_control_mode_px4_in", rclcpp::SensorDataQoS(),
                                                                                  std::bind(&ApiNode::subControlModePx4, this, std::placeholders::_1));
-  sub_esc_status_px4_      = create_subscription<px4_msgs::msg::EscStatus>("esc_status_px4_in", rclcpp::SensorDataQoS(),
+  sub_esc_status_px4_     = create_subscription<px4_msgs::msg::EscStatus>("esc_status_px4_in", rclcpp::SensorDataQoS(),
                                                                       std::bind(&ApiNode::subEscStatusPx4, this, std::placeholders::_1));
 
   pub_vehicle_command_px4_       = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
@@ -250,32 +253,39 @@ void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
 }
 //}
 
-/* subSensorCombinedPx4() //{ */
-void ApiNode::subSensorCombinedPx4(const px4_msgs::msg::SensorCombined &msg) {
+/* subSensorGyroPx4() //{ */
+void ApiNode::subSensorGyroPx4(const px4_msgs::msg::SensorGyro &msg) {
   if (!is_active_) {
     return;
   }
 
-  sensor_msgs::msg::Imu imu_msg{};
-  imu_msg.header.stamp    = get_clock()->now();
-  imu_msg.header.frame_id = "fcu";
+  Eigen::Vector3d frd_to_flu;
+  frd_to_flu << msg.x, msg.y, msg.z;
+  frd_to_flu = frdToFlu(frd_to_flu);
+
+  imu_.angular_velocity.x = frd_to_flu(0);
+  imu_.angular_velocity.y = frd_to_flu(1);
+  imu_.angular_velocity.z = frd_to_flu(2);
+
+  imu_.header.stamp    = get_clock()->now();
+  imu_.header.frame_id = "fcu";
+  pub_imu_->publish(imu_);
+}
+//}
+
+/* subSensorAccelPx4() //{ */
+void ApiNode::subSensorAccelPx4(const px4_msgs::msg::SensorAccel &msg) {
+  if (!is_active_) {
+    return;
+  }
 
   Eigen::Vector3d frd_to_flu;
-  frd_to_flu << msg.gyro_rad[0], msg.gyro_rad[1], msg.gyro_rad[2];
+  frd_to_flu << msg.x, msg.y, msg.z;
   frd_to_flu = frdToFlu(frd_to_flu);
 
-  imu_msg.angular_velocity.x = frd_to_flu(0);
-  imu_msg.angular_velocity.y = frd_to_flu(1);
-  imu_msg.angular_velocity.z = frd_to_flu(2);
-
-  frd_to_flu << msg.accelerometer_m_s2[0], msg.accelerometer_m_s2[1], msg.accelerometer_m_s2[2];
-  frd_to_flu = frdToFlu(frd_to_flu);
-
-  imu_msg.linear_acceleration.x = frd_to_flu(0);
-  imu_msg.linear_acceleration.y = frd_to_flu(1);
-  imu_msg.linear_acceleration.z = frd_to_flu(2);
-
-  pub_imu_->publish(imu_msg);
+  imu_.linear_acceleration.x = frd_to_flu(0);
+  imu_.linear_acceleration.y = frd_to_flu(1);
+  imu_.linear_acceleration.z = frd_to_flu(2);
 }
 //}
 
@@ -288,9 +298,10 @@ void ApiNode::subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg) {
   if (!fw_preflight_checks_pass_) {
     fw_preflight_checks_pass_ = msg.pre_flight_checks_pass;
 
-    RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 2000, "Current situation of the preflight checks on Autopilot: %s", fw_preflight_checks_pass_ ? "True" : "False");
+    RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 2000, "Current situation of the preflight checks on Autopilot: %s",
+                         fw_preflight_checks_pass_ ? "True" : "False");
   } else {
-    RCLCPP_INFO_ONCE(this->get_logger(),  "Current situation of the preflight checks on Autopilot: %s", fw_preflight_checks_pass_ ? "True" : "False");
+    RCLCPP_INFO_ONCE(this->get_logger(), "Current situation of the preflight checks on Autopilot: %s", fw_preflight_checks_pass_ ? "True" : "False");
   }
 }
 //}

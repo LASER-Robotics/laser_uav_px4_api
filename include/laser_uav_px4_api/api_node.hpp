@@ -24,7 +24,8 @@
 #include <px4_msgs/msg/vehicle_rates_setpoint.hpp>
 #include <px4_msgs/msg/vehicle_status.hpp>
 #include <px4_msgs/msg/esc_status.hpp>
-#include <px4_msgs/msg/sensor_combined.hpp>
+#include <px4_msgs/msg/sensor_gyro.hpp>
+#include <px4_msgs/msg/sensor_accel.hpp>
 #include <px4_msgs/msg/actuator_motors.hpp>
 
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
@@ -66,8 +67,10 @@ private:
   void                                                                     subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg);
   rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>::SharedPtr pub_nav_odometry_;
 
-  rclcpp::Subscription<px4_msgs::msg::SensorCombined>::ConstSharedPtr    sub_sensor_combined_px4_;
-  void                                                                   subSensorCombinedPx4(const px4_msgs::msg::SensorCombined &msg);
+  rclcpp::Subscription<px4_msgs::msg::SensorGyro>::ConstSharedPtr        sub_sensor_gyro_px4_;
+  void                                                                   subSensorGyroPx4(const px4_msgs::msg::SensorGyro &msg);
+  rclcpp::Subscription<px4_msgs::msg::SensorAccel>::ConstSharedPtr       sub_sensor_accel_px4_;
+  void                                                                   subSensorAccelPx4(const px4_msgs::msg::SensorAccel &msg);
   rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::Imu>::SharedPtr pub_imu_;
 
   rclcpp::Subscription<px4_msgs::msg::VehicleStatus>::ConstSharedPtr sub_vehicle_status_px4_;
@@ -113,6 +116,7 @@ private:
   Eigen::PermutationMatrix<3>      ned_enu_reflection_xy_;
   Eigen::DiagonalMatrix<double, 3> ned_enu_reflection_z_;
 
+  sensor_msgs::msg::Imu              imu_;
   laser_msgs::msg::ApiPx4Diagnostics api_diagnostics_;
   px4_msgs::msg::ActuatorMotors      actuator_motors_reference_;
 

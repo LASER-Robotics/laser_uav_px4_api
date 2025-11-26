@@ -1,22 +1,28 @@
 # LASER UAV PX4 API
 
-This API serves as the communication bridge between the autopilot hardware and the high/low-level control system on the companion computer, managing time synchronization and reference frame conversions.
+This API serves as the communication bridge between the autopilot hardware and the high/low-level control systems on the companion computer, managing time synchronization and reference frame conversions.
 
-## Communication Interfaces
+-   **Subscribed Topics:**
+    - `/$UAV_NAME/control_manager/motor_speed_reference`: Used to send normalized individual thrust commands when the controller is in the corresponding mode.
+    - `/$UAV_NAME/control_manager/attitude_rates_thrust`: Used to send angular velocity setpoints and a total normalized thrust value when the controller is in the corresponding mode.
 
-This package provides its functionality through a set of ROS 2 topics and services.
+-   **Published Topics:**
+    -   `/$UAV_NAME/px4_api/imu`: Publishes filtered data from the autopilot's internal IMU (Inertial Measurement Unit).
+    -   `/$UAV_NAME/px4_api/motor_speed_estimated`: Publishes the current estimated speed of each motor.
+    -   `/$UAV_NAME/px4_api/odometry`: Publishes the estimated state of the UAV, including its position, orientation, and velocities.
 
-### Topics
+-   **Services:**
+    - `/$UAV_NAME/px4_api/arm`: Service to arm the UAV's motors. **[SIMULATION ONLY]**
+    - `/$UAV_NAME/px4_api/disarm`: Service to disarm the UAV's motors. **[SIMULATION ONLY]**
 
-#### Subscribed Topics
-- **/uav1/control_manager/motor_speed_reference:** Used to send normalized individual thrust commands when the controller is in the corresponding mode.
-- **/uav1/control_manager/attitude_rates_thrust:** Used to send angular velocity setpoints and a total normalized thrust value when the controller is in the corresponding mode.
+-   **Configurable Parameters:**
+  ```yaml
+    # Do not change these parameters
+    rate: # [Hz]
+      pub_offboard_control_mode: 100.0
+      pub_api_diagnostic: 10.0
 
-#### Published Topics
-- **/uav1/px4_api/imu:** Publishes filtered data from the autopilot's internal IMU (Inertial Measurement Unit).
-- **/uav1/px4_api/motor_speed_estimated:** Publishes the current estimated speed of each motor.
-- **/uav1/px4_api/odometry:** Publishes the estimated state of the UAV, including its position, orientation, and velocities.
-
-### Services
-- **/uav1/px4_api/arm:** Service to arm the UAV's motors. **[SIMULATION ONLY]**
-- **/uav1/px4_api/disarm:** Service to disarm the UAV's motors. **[SIMULATION ONLY]**
+    # This parameter configures the control interface level with the firmware. 
+    # If set to "individual_thrust", the firmware's internal control pipeline is completely bypassed. 
+    # If set to "angular_rates_and_thrust", only the firmware's angular rate controller is utilized.
+    control_input_mode: "individual_thrust" # Options: "individual_thrust" or "angular_rates_and_thrust"

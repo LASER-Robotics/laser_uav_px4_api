@@ -39,6 +39,10 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR}
 )
 
+add_executable(px4_listener src/px4_listener.cpp)
+ament_target_dependencies(px4_listener rclcpp px4_msgs)
+
+
 set(executable_name api)
 
 add_executable(${executable_name}
@@ -74,6 +78,7 @@ install(TARGETS ${library_name}
 )
 
 install(TARGETS ${executable_name}
+  px4_listener
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 

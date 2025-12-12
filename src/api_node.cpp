@@ -117,12 +117,13 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
   sub_vehicle_status_px4_.reset();
   sub_control_mode_px4_.reset();
   sub_esc_status_px4_.reset();
-
+  
   pub_offboard_control_mode_px4_.reset();
   pub_nav_odometry_.reset();
   pub_imu_.reset();
   pub_api_diagnostics_.reset();
   pub_motor_speed_estimation_.reset();
+  pub_px4_rc_.reset();
 
   tmr_pub_offboard_control_mode_px4_.reset();
   tmr_pub_motor_speed_reference_px4_.reset();
@@ -179,6 +180,11 @@ void ApiNode::configPubSub() {
   pub_vehicle_command_px4_       = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
   pub_offboard_control_mode_px4_ = create_publisher<px4_msgs::msg::OffboardControlMode>("offboard_control_mode_px4_out", 10);
 
+  sub_px4_rc_ = create_subscription<px4_msgs::msg::ManualControlSetpoint>("/fmu/out/manual_control_setpoint", 10,
+                                                                        std::bind(&ApiNode::subRcPx4, this, std::placeholders::_1));
+
+  pub_px4_rc_ = create_publisher<laser_msgs::msg::PoseWithHeading>("/$UAV_NAME/px4_api/rc", 10);
+
   // Pubs and Subs for System topics
   pub_api_diagnostics_ = create_publisher<laser_msgs::msg::ApiPx4Diagnostics>("api_diagnostics", 10);
 
@@ -187,6 +193,7 @@ void ApiNode::configPubSub() {
   pub_imu_ = create_publisher<sensor_msgs::msg::Imu>("imu", 10);
 
   pub_motor_speed_estimation_ = create_publisher<laser_msgs::msg::MotorSpeed>("motor_speed_estimation_out", 10);
+  
 
   if (_control_input_mode_ == "individual_thrust") {
     pub_motor_speed_reference_px4_ = create_publisher<px4_msgs::msg::ActuatorMotors>("motor_speed_reference_px4_out", 10);
@@ -197,12 +204,16 @@ void ApiNode::configPubSub() {
     sub_attitude_rates_and_thrust_reference_ = create_subscription<laser_msgs::msg::AttitudeRatesAndThrust>(
         "attitude_rates_thrust_in", 1, std::bind(&ApiNode::subAttitudeRatesAndThrustReference, this, std::placeholders::_1));
   }
+  
 }
 //}
 
 /* configTimers() //{ */
 void ApiNode::configTimers() {
   RCLCPP_INFO(get_logger(), "initTimers");
+
+  tmr_pub_rc_px4_ = create_wall_timer(
+      500ms, std::bind(&Px4Listener::tmrPubRcPx4, this));
 
   tmr_pub_offboard_control_mode_px4_ = create_wall_timer(std::chrono::duration<double>(1.0 / _rate_pub_offboard_control_mode_px4_),
                                                          std::bind(&ApiNode::tmrPubOffboardControlModePx4, this), nullptr);
@@ -250,6 +261,19 @@ void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
   motor_speed_estimation.unit_of_measurement = "rad/s";
 
   pub_motor_speed_estimation_->publish(motor_speed_estimation);
+}
+//}
+
+/* subRcPx4() //{ */
+void subRcPx4(const px4_msgs::msg::ManualControlSetpoint::SharedPtr msg)
+{
+    x = msg->pitch;
+    y = msg->roll;
+    heading = msg->yaw;
+    z = msg->throttle;
+
+    mode_switch = msg->mode_switch;
+
 }
 //}
 
@@ -393,6 +417,29 @@ void ApiNode::tmrPubOffboardControlModePx4() {
 
 
   pub_offboard_control_mode_px4_->publish(msg);
+}
+//}
+
+/* tmrPubRcPx4() //{ */
+void tmrPubRcPx4()  
+{
+    
+    if (mode_switch == 1)  
+    {
+        auto msg = laser_msgs::msg::PoseWithHeading();
+        msg.pose.position.x = x;
+        msg.pose.position.y = y;
+        msg.pose.position.z = z;
+        msg.heading = heading;
+
+        RCLCPP_INFO_ONCE(this->get_logger(), "Switch on - publishing");
+        
+        pub_px4_rc_->publish(msg);
+    }
+    else
+    {
+        RCLCPP_WARN_ONCE(this->get_logger(), "Switch off - not publishing");
+    }
 }
 //}
 

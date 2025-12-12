@@ -60,6 +60,13 @@ private:
   void configTimers();
   void configServices();
 
+  rclcpp::Subscription<px4_msgs::msg::ManualControlSetpoint>::SharedPtr sub_px4_rc_;
+  void                                                                  subRcPx4(const px4_msgs::msg::ManualControlSetpoint &msg);                                                            
+  
+  rclcpp::Publisher<laser_msgs::msg::PoseWithHeading>::SharedPtr pub_px4_rc_;
+  void                                                           tmrPubRcPx4();
+  rclcpp::TimerBase::SharedPtr                                   tmr_pub_rc_px4_;
+
   rclcpp::Subscription<px4_msgs::msg::VehicleControlMode>::ConstSharedPtr sub_control_mode_px4_;
   void                                                                    subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg);
 
@@ -128,6 +135,12 @@ private:
   bool offboard_is_enabled_{false};
   bool fw_preflight_checks_pass_{false};
   bool is_active_{false};
+
+  float x = 0.0f;
+  float y = 0.0f;
+  float heading = 0.0f;
+  float z = 0.0f;
+  uint8_t mode_switch = 0;
 };
 }  // namespace laser_uav_px4_api
 

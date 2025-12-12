@@ -31,8 +31,8 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             'api_file',
-            default_value=PathJoinSubstitution([FindPackageShare('laser_uav_px4_api'),
-                                                'params', 'api.yaml']),
+            default_value=PathJoinSubstitution([FindPackageShare('laser_uav_hw_api'),
+                                                'params', 'px4_api.yaml']),
             description='Full path to the file with the all parameters.'
         )
     )
@@ -47,8 +47,8 @@ def generate_launch_description():
     api_file = LaunchConfiguration('api_file')
 
     api_lifecycle_node = LifecycleNode(
-        package='laser_uav_px4_api',
-        executable='api',
+        package='laser_uav_hw_api',
+        executable='px4_api',
         name='px4_api',
         namespace=uav_name,
         output='screen',

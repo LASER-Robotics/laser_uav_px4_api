@@ -39,7 +39,7 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR}
 )
 
-set(executable_name api)
+set(executable_name px4_api)
 
 add_executable(${executable_name}
   src/px4_api_main.cpp

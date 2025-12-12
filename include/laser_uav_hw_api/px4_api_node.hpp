@@ -1,5 +1,5 @@
-#ifndef LASER_UAV_API_PX4__API_NODE_HPP
-#define LASER_UAV_API_PX4__API_NODE_HPP
+#ifndef LASER_UAV_HW_API__API_NODE_HPP
+#define LASER_UAV_HW_API__API_NODE_HPP
 
 #include <Eigen/Dense>
 #include <cstdlib>
@@ -30,13 +30,13 @@
 
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
-namespace laser_uav_px4_api
+namespace laser_uav_hw_api
 {
-class ApiNode : public rclcpp_lifecycle::LifecycleNode {
+class Px4ApiNode : public rclcpp_lifecycle::LifecycleNode {
 public:
-  explicit ApiNode(const rclcpp::NodeOptions &options = rclcpp::NodeOptions());
+  explicit Px4ApiNode(const rclcpp::NodeOptions &options = rclcpp::NodeOptions());
 
-  ~ApiNode() override;
+  ~Px4ApiNode() override;
 
 private:
   Eigen::Vector3d    enuToNed(Eigen::Vector3d p);
@@ -129,6 +129,6 @@ private:
   bool fw_preflight_checks_pass_{false};
   bool is_active_{false};
 };
-}  // namespace laser_uav_px4_api
+}  // namespace laser_uav_hw_api
 
 #endif

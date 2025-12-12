@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(laser_uav_px4_api)
+project(laser_uav_hw_api)
 
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
@@ -42,13 +42,13 @@ include_directories(
 set(executable_name api)
 
 add_executable(${executable_name}
-  src/api_main.cpp
+  src/px4_api_main.cpp
 )
 
-set(library_name api_core)
+set(library_name px4_api_core)
 
 add_library(${library_name} SHARED
-  src/api_node.cpp
+  src/px4_api_node.cpp
 )
 
 ament_target_dependencies(${executable_name}
@@ -56,7 +56,7 @@ ament_target_dependencies(${executable_name}
 )
 
 target_link_libraries(${executable_name}
-  api_core
+  px4_api_core
 )
 
 ament_target_dependencies(${library_name}
@@ -65,7 +65,7 @@ ament_target_dependencies(${library_name}
 
 target_include_directories(${library_name} PRIVATE src/include)
 
-rclcpp_components_register_nodes(${library_name} "laser_uav_px4_api::ApiNode")
+rclcpp_components_register_nodes(${library_name} "laser_uav_hw_api::Px4ApiNode")
 
 install(TARGETS ${library_name}
   ARCHIVE DESTINATION lib

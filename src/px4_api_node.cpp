@@ -1,9 +1,9 @@
-#include "laser_uav_px4_api/api_node.hpp"
+#include "laser_uav_hw_api/px4_api_node.hpp"
 
-namespace laser_uav_px4_api
+namespace laser_uav_hw_api
 {
-/* ApiNode() //{ */
-ApiNode::ApiNode(const rclcpp::NodeOptions &options) : rclcpp_lifecycle::LifecycleNode("api_node", "", options) {
+/* Px4ApiNode() //{ */
+Px4ApiNode::Px4ApiNode(const rclcpp::NodeOptions &options) : rclcpp_lifecycle::LifecycleNode("px4_api_node", "", options) {
   RCLCPP_INFO(get_logger(), "Creating");
 
   declare_parameter("control_input_mode", rclcpp::ParameterValue(""));
@@ -43,13 +43,13 @@ ApiNode::ApiNode(const rclcpp::NodeOptions &options) : rclcpp_lifecycle::Lifecyc
 }
 //}
 
-/* ~ApiNode() //{ */
-ApiNode::~ApiNode() {
+/* ~Px4ApiNode() //{ */
+Px4ApiNode::~Px4ApiNode() {
 }
 //}
 
 /* on_configure() //{ */
-CallbackReturn ApiNode::on_configure(const rclcpp_lifecycle::State &) {
+CallbackReturn Px4ApiNode::on_configure(const rclcpp_lifecycle::State &) {
   RCLCPP_INFO(get_logger(), "Configuring");
 
   getParameters();
@@ -62,7 +62,7 @@ CallbackReturn ApiNode::on_configure(const rclcpp_lifecycle::State &) {
 //}
 
 /* on_activate() //{ */
-CallbackReturn ApiNode::on_activate([[maybe_unused]] const rclcpp_lifecycle::State &state) {
+CallbackReturn Px4ApiNode::on_activate([[maybe_unused]] const rclcpp_lifecycle::State &state) {
   RCLCPP_INFO(get_logger(), "Activating");
 
   pub_vehicle_command_px4_->on_activate();
@@ -85,7 +85,7 @@ CallbackReturn ApiNode::on_activate([[maybe_unused]] const rclcpp_lifecycle::Sta
 //}
 
 /* on_deactivate() //{ */
-CallbackReturn ApiNode::on_deactivate([[maybe_unused]] const rclcpp_lifecycle::State &state) {
+CallbackReturn Px4ApiNode::on_deactivate([[maybe_unused]] const rclcpp_lifecycle::State &state) {
   RCLCPP_INFO(get_logger(), "Deactivating");
 
   pub_vehicle_command_px4_->on_deactivate();
@@ -108,7 +108,7 @@ CallbackReturn ApiNode::on_deactivate([[maybe_unused]] const rclcpp_lifecycle::S
 //}
 
 /* on_clenaup() //{ */
-CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::State &state) {
+CallbackReturn Px4ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::State &state) {
   RCLCPP_INFO(get_logger(), "Cleaning up");
 
   sub_odometry_px4_.reset();
@@ -141,7 +141,7 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
 //}
 
 /* on_shutdown() //{ */
-CallbackReturn ApiNode::on_shutdown([[maybe_unused]] const rclcpp_lifecycle::State &state) {
+CallbackReturn Px4ApiNode::on_shutdown([[maybe_unused]] const rclcpp_lifecycle::State &state) {
   RCLCPP_INFO(get_logger(), "Shutting down");
 
   return CallbackReturn::SUCCESS;
@@ -149,7 +149,7 @@ CallbackReturn ApiNode::on_shutdown([[maybe_unused]] const rclcpp_lifecycle::Sta
 //}
 
 /* getParameters() //{ */
-void ApiNode::getParameters() {
+void Px4ApiNode::getParameters() {
   get_parameter("control_input_mode", _control_input_mode_);
   get_parameter("rate.pub_offboard_control_mode", _rate_pub_offboard_control_mode_px4_);
   get_parameter("rate.pub_api_diagnostics", _rate_pub_api_diagnostics_);
@@ -157,24 +157,24 @@ void ApiNode::getParameters() {
 //}
 
 /* configPubSub() //{ */
-void ApiNode::configPubSub() {
+void Px4ApiNode::configPubSub() {
   RCLCPP_INFO(get_logger(), "initPubSub");
 
   // Pubs and Subs for Px4 topics
   sub_odometry_px4_ = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
-                                                                          std::bind(&ApiNode::subOdometryPx4, this, std::placeholders::_1));
+                                                                          std::bind(&Px4ApiNode::subOdometryPx4, this, std::placeholders::_1));
 
   sub_sensor_gyro_px4_ = create_subscription<px4_msgs::msg::SensorGyro>("sensor_gyro_px4_in", rclcpp::SensorDataQoS(),
-                                                                                std::bind(&ApiNode::subSensorGyroPx4, this, std::placeholders::_1));
+                                                                                std::bind(&Px4ApiNode::subSensorGyroPx4, this, std::placeholders::_1));
   sub_sensor_accel_px4_ = create_subscription<px4_msgs::msg::SensorAccel>("sensor_accel_px4_in", rclcpp::SensorDataQoS(),
-                                                                                std::bind(&ApiNode::subSensorAccelPx4, this, std::placeholders::_1));
+                                                                                std::bind(&Px4ApiNode::subSensorAccelPx4, this, std::placeholders::_1));
 
   sub_vehicle_status_px4_ = create_subscription<px4_msgs::msg::VehicleStatus>("vehicle_status_px4_in", rclcpp::SensorDataQoS(),
-                                                                              std::bind(&ApiNode::subVehicleStatusPx4, this, std::placeholders::_1));
+                                                                              std::bind(&Px4ApiNode::subVehicleStatusPx4, this, std::placeholders::_1));
   sub_control_mode_px4_   = create_subscription<px4_msgs::msg::VehicleControlMode>("vehicle_control_mode_px4_in", rclcpp::SensorDataQoS(),
-                                                                                 std::bind(&ApiNode::subControlModePx4, this, std::placeholders::_1));
+                                                                                 std::bind(&Px4ApiNode::subControlModePx4, this, std::placeholders::_1));
   sub_esc_status_px4_     = create_subscription<px4_msgs::msg::EscStatus>("esc_status_px4_in", rclcpp::SensorDataQoS(),
-                                                                      std::bind(&ApiNode::subEscStatusPx4, this, std::placeholders::_1));
+                                                                      std::bind(&Px4ApiNode::subEscStatusPx4, this, std::placeholders::_1));
 
   pub_vehicle_command_px4_       = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
   pub_offboard_control_mode_px4_ = create_publisher<px4_msgs::msg::OffboardControlMode>("offboard_control_mode_px4_out", 10);
@@ -191,41 +191,41 @@ void ApiNode::configPubSub() {
   if (_control_input_mode_ == "individual_thrust") {
     pub_motor_speed_reference_px4_ = create_publisher<px4_msgs::msg::ActuatorMotors>("motor_speed_reference_px4_out", 10);
     sub_motor_speed_reference_     = create_subscription<laser_msgs::msg::MotorSpeed>("motor_speed_reference_in", 1,
-                                                                                  std::bind(&ApiNode::subMotorSpeedReference, this, std::placeholders::_1));
+                                                                                  std::bind(&Px4ApiNode::subMotorSpeedReference, this, std::placeholders::_1));
   } else if (_control_input_mode_ == "angular_rates_and_thrust") {
     pub_attitude_rates_reference_px4_        = create_publisher<px4_msgs::msg::VehicleRatesSetpoint>("attitude_rates_reference_px4_out", 10);
     sub_attitude_rates_and_thrust_reference_ = create_subscription<laser_msgs::msg::AttitudeRatesAndThrust>(
-        "attitude_rates_thrust_in", 1, std::bind(&ApiNode::subAttitudeRatesAndThrustReference, this, std::placeholders::_1));
+        "attitude_rates_thrust_in", 1, std::bind(&Px4ApiNode::subAttitudeRatesAndThrustReference, this, std::placeholders::_1));
   }
 }
 //}
 
 /* configTimers() //{ */
-void ApiNode::configTimers() {
+void Px4ApiNode::configTimers() {
   RCLCPP_INFO(get_logger(), "initTimers");
 
   tmr_pub_offboard_control_mode_px4_ = create_wall_timer(std::chrono::duration<double>(1.0 / _rate_pub_offboard_control_mode_px4_),
-                                                         std::bind(&ApiNode::tmrPubOffboardControlModePx4, this), nullptr);
+                                                         std::bind(&Px4ApiNode::tmrPubOffboardControlModePx4, this), nullptr);
   tmr_pub_api_diagnostics_ =
-      create_wall_timer(std::chrono::duration<double>(1.0 / _rate_pub_api_diagnostics_), std::bind(&ApiNode::tmrPubApiDiagnostics, this), nullptr);
+      create_wall_timer(std::chrono::duration<double>(1.0 / _rate_pub_api_diagnostics_), std::bind(&Px4ApiNode::tmrPubApiDiagnostics, this), nullptr);
   if (_control_input_mode_ == "individual_thrust") {
     tmr_pub_motor_speed_reference_px4_ =
-        create_wall_timer(std::chrono::duration<double>(1.0 / 500), std::bind(&ApiNode::tmrPubMotorSpeedReferencePx4, this), nullptr);
+        create_wall_timer(std::chrono::duration<double>(1.0 / 500), std::bind(&Px4ApiNode::tmrPubMotorSpeedReferencePx4, this), nullptr);
   }
 }
 //}
 
 /* configServices() //{ */
-void ApiNode::configServices() {
+void Px4ApiNode::configServices() {
   RCLCPP_INFO(get_logger(), "initServices");
 
-  srv_arm_    = create_service<std_srvs::srv::Trigger>("arm", std::bind(&ApiNode::srvArm, this, std::placeholders::_1, std::placeholders::_2));
-  srv_disarm_ = create_service<std_srvs::srv::Trigger>("disarm", std::bind(&ApiNode::srvDisarm, this, std::placeholders::_1, std::placeholders::_2));
+  srv_arm_    = create_service<std_srvs::srv::Trigger>("arm", std::bind(&Px4ApiNode::srvArm, this, std::placeholders::_1, std::placeholders::_2));
+  srv_disarm_ = create_service<std_srvs::srv::Trigger>("disarm", std::bind(&Px4ApiNode::srvDisarm, this, std::placeholders::_1, std::placeholders::_2));
 }
 //}
 
 /* subControlModePx4() //{ */
-void ApiNode::subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg) {
+void Px4ApiNode::subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg) {
   if (!is_active_) {
     return;
   }
@@ -237,7 +237,7 @@ void ApiNode::subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg) {
 //}
 
 /* subEscStatusPx4() //{ */
-void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
+void Px4ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
   if (!is_active_) {
     return;
   }
@@ -254,7 +254,7 @@ void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
 //}
 
 /* subSensorGyroPx4() //{ */
-void ApiNode::subSensorGyroPx4(const px4_msgs::msg::SensorGyro &msg) {
+void Px4ApiNode::subSensorGyroPx4(const px4_msgs::msg::SensorGyro &msg) {
   if (!is_active_) {
     return;
   }
@@ -274,7 +274,7 @@ void ApiNode::subSensorGyroPx4(const px4_msgs::msg::SensorGyro &msg) {
 //}
 
 /* subSensorAccelPx4() //{ */
-void ApiNode::subSensorAccelPx4(const px4_msgs::msg::SensorAccel &msg) {
+void Px4ApiNode::subSensorAccelPx4(const px4_msgs::msg::SensorAccel &msg) {
   if (!is_active_) {
     return;
   }
@@ -290,7 +290,7 @@ void ApiNode::subSensorAccelPx4(const px4_msgs::msg::SensorAccel &msg) {
 //}
 
 /* subVehicleStatusPx4() //{ */
-void ApiNode::subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg) {
+void Px4ApiNode::subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg) {
   if (!is_active_) {
     return;
   }
@@ -307,7 +307,7 @@ void ApiNode::subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg) {
 //}
 
 /* subOdometryPx4() //{ */
-void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
+void Px4ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
   if (!is_active_) {
     return;
   }
@@ -370,7 +370,7 @@ void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
 //}
 
 /* tmrPubOffboardControlModePx4() //{ */
-void ApiNode::tmrPubOffboardControlModePx4() {
+void Px4ApiNode::tmrPubOffboardControlModePx4() {
   if (!is_active_) {
     return;
   }
@@ -397,7 +397,7 @@ void ApiNode::tmrPubOffboardControlModePx4() {
 //}
 
 /* pubVehicleCommandPx4() //{ */
-void ApiNode::pubVehicleCommandPx4(int command, float param1, float param2, float param3, float param4, float param5, float param6, float param7) {
+void Px4ApiNode::pubVehicleCommandPx4(int command, float param1, float param2, float param3, float param4, float param5, float param6, float param7) {
   if (!is_active_) {
     return;
   }
@@ -422,7 +422,7 @@ void ApiNode::pubVehicleCommandPx4(int command, float param1, float param2, floa
 //}
 
 /* tmrPubApiDiagnostic() //{ */
-void ApiNode::tmrPubApiDiagnostics() {
+void Px4ApiNode::tmrPubApiDiagnostics() {
   if (!is_active_) {
     return;
   }
@@ -432,7 +432,7 @@ void ApiNode::tmrPubApiDiagnostics() {
 //}
 
 /* subAttitudeRatesAndThrustReference() //{ */
-void ApiNode::subAttitudeRatesAndThrustReference(const laser_msgs::msg::AttitudeRatesAndThrust &msg) {
+void Px4ApiNode::subAttitudeRatesAndThrustReference(const laser_msgs::msg::AttitudeRatesAndThrust &msg) {
   if (!is_active_) {
     return;
   }
@@ -467,7 +467,7 @@ void ApiNode::subAttitudeRatesAndThrustReference(const laser_msgs::msg::Attitude
 //}
 
 /* subMotorSpeedReference() //{ */
-void ApiNode::subMotorSpeedReference(const laser_msgs::msg::MotorSpeed &msg) {
+void Px4ApiNode::subMotorSpeedReference(const laser_msgs::msg::MotorSpeed &msg) {
   if (!is_active_) {
     return;
   }
@@ -491,7 +491,7 @@ void ApiNode::subMotorSpeedReference(const laser_msgs::msg::MotorSpeed &msg) {
 //}
 
 /* tmrPubMotorSpeedReferencePx4() //{ */
-void ApiNode::tmrPubMotorSpeedReferencePx4() {
+void Px4ApiNode::tmrPubMotorSpeedReferencePx4() {
   if (!is_active_) {
     return;
   }
@@ -513,7 +513,7 @@ void ApiNode::tmrPubMotorSpeedReferencePx4() {
 //}
 
 /* srvArm() //{ */
-void ApiNode::srvArm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trigger::Request> request,
+void Px4ApiNode::srvArm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trigger::Request> request,
                      [[maybe_unused]] std::shared_ptr<std_srvs::srv::Trigger::Response>      response) {
   if (!is_active_) {
     return;
@@ -540,7 +540,7 @@ void ApiNode::srvArm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trigg
 //}
 
 /* srvDisarm() //{ */
-void ApiNode::srvDisarm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trigger::Request> request,
+void Px4ApiNode::srvDisarm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trigger::Request> request,
                         [[maybe_unused]] std::shared_ptr<std_srvs::srv::Trigger::Response>      response) {
   if (!is_active_) {
     return;
@@ -560,23 +560,23 @@ void ApiNode::srvDisarm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Tr
 //}
 
 /* enuToNed() //{ */
-Eigen::Vector3d ApiNode::enuToNed(Eigen::Vector3d p) {
+Eigen::Vector3d Px4ApiNode::enuToNed(Eigen::Vector3d p) {
   return ned_enu_reflection_xy_ * (ned_enu_reflection_z_ * p);
 }
 //}
 
 /* frdToFlu() //{ */
-Eigen::Vector3d ApiNode::frdToFlu(Eigen::Vector3d p) {
+Eigen::Vector3d Px4ApiNode::frdToFlu(Eigen::Vector3d p) {
   return frd_flu_affine_ * p;
 }
 //}
 
 /* enuToNedOrientation() //{ */
-Eigen::Quaterniond ApiNode::enuToNedOrientation(Eigen::Quaterniond q) {
+Eigen::Quaterniond Px4ApiNode::enuToNedOrientation(Eigen::Quaterniond q) {
   return (ned_enu_quaternion_rotation_ * q) * frd_flu_rotation_;
 }
 //}
-}  // namespace laser_uav_px4_api
+}  // namespace laser_uav_hw_api
 
 #include <rclcpp_components/register_node_macro.hpp>
-RCLCPP_COMPONENTS_REGISTER_NODE(laser_uav_px4_api::ApiNode)
+RCLCPP_COMPONENTS_REGISTER_NODE(laser_uav_hw_api::Px4ApiNode)

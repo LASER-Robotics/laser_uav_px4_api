@@ -135,9 +135,6 @@ private:
   bool offboard_is_enabled_{false};
   bool fw_preflight_checks_pass_{false};
   bool is_active_{false};
-
-  uint8_t mode_switch = 0;
-  bool previous_switch_state_ = false;
 };
 }  // namespace laser_uav_px4_api
 

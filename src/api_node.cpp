@@ -180,7 +180,7 @@ void ApiNode::configPubSub() {
   pub_vehicle_command_px4_       = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
   pub_offboard_control_mode_px4_ = create_publisher<px4_msgs::msg::OffboardControlMode>("offboard_control_mode_px4_out", 10);
 
-  sub_px4_rc_ = create_subscription<px4_msgs::msg::ManualControlSetpoint>("/fmu/out/manual_control_setpoint", 10,
+  sub_px4_rc_ = create_subscription<px4_msgs::msg::ManualControlSetpoint>("px4_rc_in", 10,
                                                                         std::bind(&ApiNode::subRcPx4, this, std::placeholders::_1));
 
   pub_rc_to_goto_ = create_publisher<laser_msgs::msg::PoseWithHeading>("rc_to_goto_out", 10);
@@ -264,13 +264,7 @@ void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
 /* subRcPx4() //{ */
 void ApiNode::subRcPx4(const px4_msgs::msg::ManualControlSetpoint  &msg)
 {
-    bool switch_pressed = (msg.aux1 > 0.5f);
-    if (switch_pressed && !previous_switch_state_)
-    {
-        mode_switch = !mode_switch; 
-    }
-    previous_switch_state_ = switch_pressed;
-    if (mode_switch == 1)
+    if (msg.aux1 > 0.5f)
     {
         auto rc_msg = laser_msgs::msg::PoseWithHeading();
         rc_msg.position.x = msg.pitch;

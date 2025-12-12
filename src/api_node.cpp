@@ -213,7 +213,7 @@ void ApiNode::configTimers() {
   RCLCPP_INFO(get_logger(), "initTimers");
 
   tmr_pub_rc_px4_ = create_wall_timer(
-      500ms, std::bind(&Px4Listener::tmrPubRcPx4, this));
+      std::chrono::milliseconds(500), std::bind(&ApiNode::tmrPubRcPx4, this));
 
   tmr_pub_offboard_control_mode_px4_ = create_wall_timer(std::chrono::duration<double>(1.0 / _rate_pub_offboard_control_mode_px4_),
                                                          std::bind(&ApiNode::tmrPubOffboardControlModePx4, this), nullptr);
@@ -265,14 +265,21 @@ void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
 //}
 
 /* subRcPx4() //{ */
-void subRcPx4(const px4_msgs::msg::ManualControlSetpoint::SharedPtr msg)
+void ApiNode::subRcPx4(const px4_msgs::msg::ManualControlSetpoint  &msg)
 {
-    x = msg->pitch;
-    y = msg->roll;
-    heading = msg->yaw;
-    z = msg->throttle;
+    x = msg.pitch;
+    y = msg.roll;
+    heading = msg.yaw;
+    z = msg.throttle;
 
-    mode_switch = msg->mode_switch;
+    bool switch_pressed = (msg.aux1 > 0.5f);
+    
+    if (switch_pressed && !previous_switch_state_)
+    {
+        mode_switch = !mode_switch; 
+    }
+    
+    previous_switch_state_ = switch_pressed;
 
 }
 //}
@@ -421,19 +428,19 @@ void ApiNode::tmrPubOffboardControlModePx4() {
 //}
 
 /* tmrPubRcPx4() //{ */
-void tmrPubRcPx4()  
+void ApiNode::tmrPubRcPx4()
 {
     
     if (mode_switch == 1)  
     {
         auto msg = laser_msgs::msg::PoseWithHeading();
-        msg.pose.position.x = x;
-        msg.pose.position.y = y;
-        msg.pose.position.z = z;
+        msg.position.x = x;
+        msg.position.y = y;
+        msg.position.z = z;
         msg.heading = heading;
 
         RCLCPP_INFO_ONCE(this->get_logger(), "Switch on - publishing");
-        
+
         pub_px4_rc_->publish(msg);
     }
     else

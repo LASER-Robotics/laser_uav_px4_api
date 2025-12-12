@@ -1,0 +1,88 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-d9074c8a15be62be5d52.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "laser_uav_px4_api",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "api::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-api-5e2de8b7668804a11434.json",
+					"name" : "api",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "api_core::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-api_core-63964ff020ff7cc6b25d.json",
+					"name" : "api_core",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "laser_uav_px4_api_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-laser_uav_px4_api_uninstall-2337fd884ce274c5cb99.json",
+					"name" : "laser_uav_px4_api_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-13ad4cb121683803f14b.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api",
+		"source" : "/home/alves/LASER/teste/src/laser_uav_px4_api"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

@@ -1,0 +1,326 @@
+[0.000000] (-) TimerEvent: {}
+[0.000560] (laser_uav_px4_api) JobQueued: {'identifier': 'laser_uav_px4_api', 'dependencies': OrderedDict()}
+[0.000618] (laser_uav_px4_api) JobStarted: {'identifier': 'laser_uav_px4_api'}
+[0.007583] (laser_uav_px4_api) JobProgress: {'identifier': 'laser_uav_px4_api', 'progress': 'cmake'}
+[0.007894] (laser_uav_px4_api) JobProgress: {'identifier': 'laser_uav_px4_api', 'progress': 'build'}
+[0.008408] (laser_uav_px4_api) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api'], 'cwd': '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api', 'env': OrderedDict([('RCUTILS_LOGGING_BUFFERED_STREAM', '1'), ('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('PYTHON_BASIC_REPL', '1'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('PYTHONWARNINGS', 'ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install,ignore:::pkg_resources'), ('TMUX', '/tmp/tmux-1000/default,8728,0'), ('TMUX_BIN', '/usr/bin/tmux'), ('_fzf_orig_completion_cd', 'complete -o nospace -F %s cd #_cd'), ('_fzf_orig_completion_sed', 'complete -F %s sed #_longopt'), ('LANGUAGE', 'pt_BR:en_US:en'), ('USER', 'alves'), ('LC_TIME', 'en_US.UTF-8'), ('_fzf_orig_completion_tee', 'complete -F %s tee #_longopt'), ('XDG_SESSION_TYPE', 'x11'), ('GIT_ASKPASS', '/usr/share/code/resources/app/extensions/git/dist/askpass.sh'), ('FZF_DEFAULT_OPTS', '--height 25%'), ('GIT_PATH', '/home/alves/git'), ('SHLVL', '4'), ('RCUTILS_CONSOLE_OUTPUT_FORMAT', '[{severity}] [{time}] [{name}]: {message} ({function_name}() at {file_name}:{line_number})'), ('LD_LIBRARY_PATH', '/home/alves/laser_uav_system_ws/install/laser_uav_px4_api/lib:/home/alves/laser_uav_system_ws/install/laser_uav_managers/lib:/home/alves/laser_uav_system_ws/install/px4_msgs/lib:/home/alves/laser_uav_system_ws/install/ov_msckf/lib:/home/alves/laser_uav_system_ws/install/ov_init/lib:/home/alves/laser_uav_system_ws/install/ov_eval/lib:/home/alves/laser_uav_system_ws/install/ov_core/lib:/home/alves/laser_uav_system_ws/install/laser_vins_republisher/lib:/home/alves/laser_uav_system_ws/install/laser_vins_imu_filter/lib:/home/alves/laser_uav_system_ws/install/laser_uav_planners/lib:/home/alves/laser_uav_system_ws/install/laser_uav_estimators/lib:/home/alves/laser_uav_system_ws/install/laser_uav_lib/lib:/home/alves/laser_uav_system_ws/install/laser_uav_controllers/lib:/home/alves/laser_uav_system_ws/install/laser_msgs/lib:/home/alves/laser_uav_system_ws/install/laser_gazebo_resources/lib:/home/alves/laser_uav_system_ws/install/fast_lio/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/alves/laser_uav_system_ws/src/laser_uav_controllers/acados/lib:/home/alves/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic:/home/alves/laser_uav_system_ws/src/laser_uav_controllers/acados/lib:/home/alves/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic:/home/alves/laser_uav_system_ws/src/laser_uav_controllers/acados/lib:/home/alves/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic'), ('ACADOS_SOURCE_DIR', '/home/alves/laser_uav_system_ws/src/laser_uav_controllers/acados'), ('HOME', '/home/alves'), ('CHROME_DESKTOP', 'code.desktop'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('RANGER_LEVEL', '1'), ('_fzf_orig_completion_less', 'complete -F %s less #_longopt'), ('NVM_BIN', '/home/alves/.nvm/versions/node/v22.20.0/bin'), ('NVM_INC', '/home/alves/.nvm/versions/node/v22.20.0/include/node'), ('_fzf_orig_completion_awk', 'complete -F %s awk #_longopt'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/code.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('XDG_SEAT_PATH', '/org/freedesktop/DisplayManager/Seat0'), ('VSCODE_GIT_ASKPASS_MAIN', '/usr/share/code/resources/app/extensions/git/dist/askpass-main.js'), ('COLCON_LOG_LEVEL', '30'), ('_fzf_orig_completion_head', 'complete -F %s head #_longopt'), ('LC_MONETARY', 'en_US.UTF-8'), ('VSCODE_GIT_ASKPASS_NODE', '/usr/share/code/code'), ('MANAGERPID', '1996'), ('_fzf_orig_completion_ld', 'complete -F %s ld #_longopt'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('SYSTEMD_EXEC_PID', '2260'), ('BUNDLED_DEBUGPY_PATH', '/home/alves/.vscode/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/libs/debugpy'), ('MAKEFLAGS', '-j4'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '6724'), ('_fzf_orig_completion_uniq', 'complete -F %s uniq #_longopt'), ('ESCDELAY', '25'), ('NVM_DIR', '/home/alves/.nvm'), ('_fzf_orig_completion_cp', 'complete -F %s cp #_longopt'), ('COLCON_PREFIX_PATH', '/home/alves/laser_uav_system_ws/install'), ('ATHAME_SHOW_MODE', '0'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('_fzf_orig_completion_ftp', 'complete -F %s ftp #_known_hosts'), ('LOGNAME', 'alves'), ('_fzf_orig_completion_diff', 'complete -F %s diff #_longopt'), ('JOURNAL_STREAM', '8:20808'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'rxvt-unicode-256color'), ('GAZEBO_MODEL_PATH', '/home/alves/laser_uav_system_ws/install/laser_gazebo_resources/share/laser_gazebo_resources/models'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('_fzf_orig_completion_du', 'complete -F %s du #_longopt'), ('ROS_LOCALHOST_ONLY', '0'), ('GTK2_MODULES', 'overlay-scrollbar'), ('_fzf_orig_completion_ln', 'complete -F %s ln #_longopt'), ('PROFILES', 'COLORSCHEME_DARK'), ('_fzf_orig_completion_wc', 'complete -F %s wc #_longopt'), ('PATH', '/home/alves/.local/bin:/home/alves/.local/bin:/home/alves/.nvm/versions/node/v22.20.0/bin:/opt/ros/humble/bin:/home/alves/.cargo/bin:/home/alves/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/alves/git/linux-setup/submodules/fzf/bin:/home/alves/.vscode/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts:/home/alves/.config/Code/User/globalStorage/github.copilot-chat/debugCommand:/home/alves/git/linux-setup/submodules/fzf/bin:/home/alves/git/linux-setup/submodules/fzf/bin:/home/alves/git/linux-setup/submodules/fzf/bin'), ('SESSION_MANAGER', 'local/alves-Nitro-ANV15-51:@/tmp/.ICE-unix/2227,unix/alves-Nitro-ANV15-51:/tmp/.ICE-unix/2227'), ('GDM_LANG', 'pt_BR'), ('INVOCATION_ID', '907053a6ce3b4375b39a0d96e93a48bb'), ('PAPERSIZE', 'letter'), ('GTK3_MODULES', 'xapp-gtk3-module'), ('XDG_SESSION_PATH', '/org/freedesktop/DisplayManager/Session0'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'en_US.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('DISPLAY', ':0'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/home/alves/.vscode/extensions/ms-python.debugpy-2025.16.0-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-0c67cd3ef834df2f.txt'), ('REAL_UAV', 'false'), ('VSCODE_INJECTION', '1'), ('LANG', 'pt_BR.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('PYTHONSTARTUP', '/home/alves/.config/Code/User/workspaceStorage/ba7b5ec03344680263a402b50c3909e4/ms-python.python/pythonrc.py'), ('_fzf_orig_completion_sort', 'complete -F %s sort #_longopt'), ('LC_TELEPHONE', 'en_US.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('_fzf_orig_completion_rm', 'complete -F %s rm #_longopt'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/home/alves/.Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('_fzf_orig_completion_telnet', 'complete -F %s telnet #_known_hosts'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/1000/vscode-git-32dd30a74a.sock'), ('_fzf_orig_completion_ls', 'complete -F %s ls #_longopt'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('is_vim', "ps -o state= -o comm= -t '#{pane_tty}'     | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"), ('ROS_DOMAIN_ID', '69'), ('XDG_GREETER_DATA_DIR', '/var/lib/lightdm-data/alves'), ('AMENT_PREFIX_PATH', '/home/alves/laser_uav_system_ws/install/px4_listener:/home/alves/laser_uav_system_ws/install/laser_uav_px4_api:/home/alves/laser_uav_system_ws/install/laser_uav_managers:/home/alves/laser_uav_system_ws/install/px4_msgs:/home/alves/laser_uav_system_ws/install/laser_open_vins_core:/home/alves/laser_uav_system_ws/install/ov_msckf:/home/alves/laser_uav_system_ws/install/ov_init:/home/alves/laser_uav_system_ws/install/ov_eval:/home/alves/laser_uav_system_ws/install/ov_data:/home/alves/laser_uav_system_ws/install/ov_core:/home/alves/laser_uav_system_ws/install/laser_vins_republisher:/home/alves/laser_uav_system_ws/install/laser_vins_imu_filter:/home/alves/laser_uav_system_ws/install/laser_uav_simulation:/home/alves/laser_uav_system_ws/install/laser_uav_planners:/home/alves/laser_uav_system_ws/install/laser_uav_estimators:/home/alves/laser_uav_system_ws/install/laser_uav_lib:/home/alves/laser_uav_system_ws/install/laser_uav_controllers:/home/alves/laser_uav_system_ws/install/laser_msgs:/home/alves/laser_uav_system_ws/install/laser_gazebo_resources:/home/alves/laser_uav_system_ws/install/laser_fast_lio_core:/home/alves/laser_uav_system_ws/install/fast_lio:/opt/ros/humble'), ('VSCODE_STABLE', '1'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('LC_NAME', 'en_US.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('_fzf_orig_completion_mv', 'complete -F %s mv #_longopt'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CTAGS_FILE_ONCE', '~/tags-once'), ('ATHAME_ENABLED', '0'), ('LC_MEASUREMENT', 'en_US.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GAZEBO_RESOURCE_PATH', '/home/alves/laser_uav_system_ws/install/laser_gazebo_resources/share/laser_gazebo_resources::/usr/share/gazebo-11:/usr/share/gazebo-11:/usr/share/gazebo-11:/usr/share/gazebo-11'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'en_US.UTF-8'), ('_fzf_orig_completion_rmdir', 'complete -F %s rmdir #_longopt'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('VSCODE_NONCE', 'd12aa5a0-14b6-4cca-8630-f0d9e60785ef'), ('QT_IM_MODULE', 'ibus'), ('_fzf_orig_completion_tail', 'complete -F %s tail #_longopt'), ('PWD', '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api'), ('FZF_DEFAULT_COMMAND', 'ag -l -f --nocolor -g ""'), ('TURTLEBOT3_MODEL', 'waffle'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GAZEBO_PLUGIN_PATH', '~/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic~/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic~/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic'), ('RCUTILS_COLORIZED_OUTPUT', '1'), ('NVM_CD_FLAGS', ''), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/alves/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('ATHAME_VIM_PERSIST', '0'), ('PYTHONPATH', '/home/alves/laser_uav_system_ws/install/px4_msgs/local/lib/python3.10/dist-packages:/home/alves/laser_uav_system_ws/install/laser_msgs/local/lib/python3.10/dist-packages:/home/alves/laser_uav_system_ws/install/laser_gazebo_resources/local/lib/python3.10/dist-packages:/home/alves/laser_uav_system_ws/install/fast_lio/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'en_US.UTF-8'), ('LC_PAPER', 'en_US.UTF-8'), ('_fzf_orig_completion_cat', 'complete -F %s cat #_longopt'), ('RUN_TMUX', 'true'), ('COLCON', '1'), ('ATHAME_SHOW_ERROR', '0'), ('_fzf_orig_completion_grep', 'complete -F %s grep #_longopt'), ('TMUX_PANE', '%0'), ('EDITOR', "/usr/bin/vim --servername dog --cmd 'let g:user_mode=1'"), ('CMAKE_PREFIX_PATH', '/home/alves/laser_uav_system_ws/install/px4_listener:/home/alves/laser_uav_system_ws/install/laser_uav_px4_api:/home/alves/laser_uav_system_ws/install/laser_uav_managers:/home/alves/laser_uav_system_ws/install/px4_msgs:/home/alves/laser_uav_system_ws/install/laser_open_vins_core:/home/alves/laser_uav_system_ws/install/ov_msckf:/home/alves/laser_uav_system_ws/install/ov_init:/home/alves/laser_uav_system_ws/install/ov_eval:/home/alves/laser_uav_system_ws/install/ov_data:/home/alves/laser_uav_system_ws/install/ov_core:/home/alves/laser_uav_system_ws/install/laser_vins_republisher:/home/alves/laser_uav_system_ws/install/laser_vins_imu_filter:/home/alves/laser_uav_system_ws/install/laser_uav_simulation:/home/alves/laser_uav_system_ws/install/laser_uav_planners:/home/alves/laser_uav_system_ws/install/laser_uav_estimators:/home/alves/laser_uav_system_ws/install/laser_uav_lib:/home/alves/laser_uav_system_ws/install/laser_uav_controllers:/home/alves/laser_uav_system_ws/install/laser_msgs:/home/alves/laser_uav_system_ws/install/laser_gazebo_resources:/home/alves/laser_uav_system_ws/install/laser_fast_lio_core:/home/alves/laser_uav_system_ws/install/fast_lio:/opt/ros/humble'), ('_fzf_orig_completion_pushd', 'complete -o nospace -F %s pushd #_cd')]), 'shell': False}
+[0.058181] (laser_uav_px4_api) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target api_core\x1b[0m\n'}
+[0.082819] (laser_uav_px4_api) StdoutLine: {'line': b'[ 25%] \x1b[32mBuilding CXX object CMakeFiles/api_core.dir/src/api_node.cpp.o\x1b[0m\n'}
+[0.099861] (-) TimerEvent: {}
+[0.200337] (-) TimerEvent: {}
+[0.300680] (-) TimerEvent: {}
+[0.400992] (-) TimerEvent: {}
+[0.501345] (-) TimerEvent: {}
+[0.601728] (-) TimerEvent: {}
+[0.702145] (-) TimerEvent: {}
+[0.802495] (-) TimerEvent: {}
+[0.902796] (-) TimerEvent: {}
+[1.003128] (-) TimerEvent: {}
+[1.103444] (-) TimerEvent: {}
+[1.203754] (-) TimerEvent: {}
+[1.304065] (-) TimerEvent: {}
+[1.404412] (-) TimerEvent: {}
+[1.504750] (-) TimerEvent: {}
+[1.605037] (-) TimerEvent: {}
+[1.705372] (-) TimerEvent: {}
+[1.805661] (-) TimerEvent: {}
+[1.906121] (-) TimerEvent: {}
+[2.006420] (-) TimerEvent: {}
+[2.106739] (-) TimerEvent: {}
+[2.207070] (-) TimerEvent: {}
+[2.307405] (-) TimerEvent: {}
+[2.407727] (-) TimerEvent: {}
+[2.508085] (-) TimerEvent: {}
+[2.608375] (-) TimerEvent: {}
+[2.708692] (-) TimerEvent: {}
+[2.809024] (-) TimerEvent: {}
+[2.909352] (-) TimerEvent: {}
+[3.009690] (-) TimerEvent: {}
+[3.110011] (-) TimerEvent: {}
+[3.210332] (-) TimerEvent: {}
+[3.310748] (-) TimerEvent: {}
+[3.411092] (-) TimerEvent: {}
+[3.511485] (-) TimerEvent: {}
+[3.611849] (-) TimerEvent: {}
+[3.712278] (-) TimerEvent: {}
+[3.812710] (-) TimerEvent: {}
+[3.913130] (-) TimerEvent: {}
+[4.013460] (-) TimerEvent: {}
+[4.113717] (-) TimerEvent: {}
+[4.214039] (-) TimerEvent: {}
+[4.314373] (-) TimerEvent: {}
+[4.414733] (-) TimerEvent: {}
+[4.515062] (-) TimerEvent: {}
+[4.615407] (-) TimerEvent: {}
+[4.715772] (-) TimerEvent: {}
+[4.816029] (-) TimerEvent: {}
+[4.916281] (-) TimerEvent: {}
+[5.016543] (-) TimerEvent: {}
+[5.116771] (-) TimerEvent: {}
+[5.217001] (-) TimerEvent: {}
+[5.317260] (-) TimerEvent: {}
+[5.417600] (-) TimerEvent: {}
+[5.517844] (-) TimerEvent: {}
+[5.618115] (-) TimerEvent: {}
+[5.718341] (-) TimerEvent: {}
+[5.818598] (-) TimerEvent: {}
+[5.918820] (-) TimerEvent: {}
+[6.019144] (-) TimerEvent: {}
+[6.119487] (-) TimerEvent: {}
+[6.219752] (-) TimerEvent: {}
+[6.320011] (-) TimerEvent: {}
+[6.420343] (-) TimerEvent: {}
+[6.520720] (-) TimerEvent: {}
+[6.620952] (-) TimerEvent: {}
+[6.721220] (-) TimerEvent: {}
+[6.821538] (-) TimerEvent: {}
+[6.921874] (-) TimerEvent: {}
+[7.022149] (-) TimerEvent: {}
+[7.122372] (-) TimerEvent: {}
+[7.222628] (-) TimerEvent: {}
+[7.323071] (-) TimerEvent: {}
+[7.423409] (-) TimerEvent: {}
+[7.523734] (-) TimerEvent: {}
+[7.624079] (-) TimerEvent: {}
+[7.724403] (-) TimerEvent: {}
+[7.824755] (-) TimerEvent: {}
+[7.924980] (-) TimerEvent: {}
+[8.025322] (-) TimerEvent: {}
+[8.125674] (-) TimerEvent: {}
+[8.225899] (-) TimerEvent: {}
+[8.326165] (-) TimerEvent: {}
+[8.426488] (-) TimerEvent: {}
+[8.526718] (-) TimerEvent: {}
+[8.627047] (-) TimerEvent: {}
+[8.727379] (-) TimerEvent: {}
+[8.827720] (-) TimerEvent: {}
+[8.927939] (-) TimerEvent: {}
+[9.028189] (-) TimerEvent: {}
+[9.128412] (-) TimerEvent: {}
+[9.228727] (-) TimerEvent: {}
+[9.328959] (-) TimerEvent: {}
+[9.429302] (-) TimerEvent: {}
+[9.529638] (-) TimerEvent: {}
+[9.630013] (-) TimerEvent: {}
+[9.730507] (-) TimerEvent: {}
+[9.830885] (-) TimerEvent: {}
+[9.931175] (-) TimerEvent: {}
+[10.031506] (-) TimerEvent: {}
+[10.131741] (-) TimerEvent: {}
+[10.231981] (-) TimerEvent: {}
+[10.332359] (-) TimerEvent: {}
+[10.432674] (-) TimerEvent: {}
+[10.532919] (-) TimerEvent: {}
+[10.633196] (-) TimerEvent: {}
+[10.733576] (-) TimerEvent: {}
+[10.833966] (-) TimerEvent: {}
+[10.934224] (-) TimerEvent: {}
+[11.034541] (-) TimerEvent: {}
+[11.134854] (-) TimerEvent: {}
+[11.235178] (-) TimerEvent: {}
+[11.335502] (-) TimerEvent: {}
+[11.435853] (-) TimerEvent: {}
+[11.536103] (-) TimerEvent: {}
+[11.636434] (-) TimerEvent: {}
+[11.736733] (-) TimerEvent: {}
+[11.837065] (-) TimerEvent: {}
+[11.937418] (-) TimerEvent: {}
+[12.037723] (-) TimerEvent: {}
+[12.137945] (-) TimerEvent: {}
+[12.238160] (-) TimerEvent: {}
+[12.338616] (-) TimerEvent: {}
+[12.438836] (-) TimerEvent: {}
+[12.539180] (-) TimerEvent: {}
+[12.639534] (-) TimerEvent: {}
+[12.739926] (-) TimerEvent: {}
+[12.840219] (-) TimerEvent: {}
+[12.940567] (-) TimerEvent: {}
+[13.040792] (-) TimerEvent: {}
+[13.141155] (-) TimerEvent: {}
+[13.241502] (-) TimerEvent: {}
+[13.341726] (-) TimerEvent: {}
+[13.442047] (-) TimerEvent: {}
+[13.542269] (-) TimerEvent: {}
+[13.642593] (-) TimerEvent: {}
+[13.742809] (-) TimerEvent: {}
+[13.843128] (-) TimerEvent: {}
+[13.943443] (-) TimerEvent: {}
+[14.043716] (-) TimerEvent: {}
+[14.143948] (-) TimerEvent: {}
+[14.244221] (-) TimerEvent: {}
+[14.344473] (-) TimerEvent: {}
+[14.444683] (-) TimerEvent: {}
+[14.544917] (-) TimerEvent: {}
+[14.645159] (-) TimerEvent: {}
+[14.745397] (-) TimerEvent: {}
+[14.845613] (-) TimerEvent: {}
+[14.945965] (-) TimerEvent: {}
+[15.046319] (-) TimerEvent: {}
+[15.146634] (-) TimerEvent: {}
+[15.246864] (-) TimerEvent: {}
+[15.347078] (-) TimerEvent: {}
+[15.447389] (-) TimerEvent: {}
+[15.547724] (-) TimerEvent: {}
+[15.648042] (-) TimerEvent: {}
+[15.748366] (-) TimerEvent: {}
+[15.848689] (-) TimerEvent: {}
+[15.949024] (-) TimerEvent: {}
+[16.049356] (-) TimerEvent: {}
+[16.149676] (-) TimerEvent: {}
+[16.249890] (-) TimerEvent: {}
+[16.350137] (-) TimerEvent: {}
+[16.450464] (-) TimerEvent: {}
+[16.550735] (-) TimerEvent: {}
+[16.651093] (-) TimerEvent: {}
+[16.751406] (-) TimerEvent: {}
+[16.851720] (-) TimerEvent: {}
+[16.951937] (-) TimerEvent: {}
+[17.052255] (-) TimerEvent: {}
+[17.152589] (-) TimerEvent: {}
+[17.252909] (-) TimerEvent: {}
+[17.353178] (-) TimerEvent: {}
+[17.453489] (-) TimerEvent: {}
+[17.553730] (-) TimerEvent: {}
+[17.654039] (-) TimerEvent: {}
+[17.754377] (-) TimerEvent: {}
+[17.854708] (-) TimerEvent: {}
+[17.955034] (-) TimerEvent: {}
+[18.055361] (-) TimerEvent: {}
+[18.155695] (-) TimerEvent: {}
+[18.255912] (-) TimerEvent: {}
+[18.356160] (-) TimerEvent: {}
+[18.456402] (-) TimerEvent: {}
+[18.556724] (-) TimerEvent: {}
+[18.657174] (-) TimerEvent: {}
+[18.757489] (-) TimerEvent: {}
+[18.857725] (-) TimerEvent: {}
+[18.957940] (-) TimerEvent: {}
+[19.058259] (-) TimerEvent: {}
+[19.158592] (-) TimerEvent: {}
+[19.258806] (-) TimerEvent: {}
+[19.359122] (-) TimerEvent: {}
+[19.459435] (-) TimerEvent: {}
+[19.559765] (-) TimerEvent: {}
+[19.659978] (-) TimerEvent: {}
+[19.760302] (-) TimerEvent: {}
+[19.860619] (-) TimerEvent: {}
+[19.960827] (-) TimerEvent: {}
+[20.061075] (-) TimerEvent: {}
+[20.161283] (-) TimerEvent: {}
+[20.261531] (-) TimerEvent: {}
+[20.361746] (-) TimerEvent: {}
+[20.461966] (-) TimerEvent: {}
+[20.562281] (-) TimerEvent: {}
+[20.662621] (-) TimerEvent: {}
+[20.762964] (-) TimerEvent: {}
+[20.863227] (-) TimerEvent: {}
+[20.963450] (-) TimerEvent: {}
+[21.063781] (-) TimerEvent: {}
+[21.164178] (-) TimerEvent: {}
+[21.264591] (-) TimerEvent: {}
+[21.364876] (-) TimerEvent: {}
+[21.465275] (-) TimerEvent: {}
+[21.565715] (-) TimerEvent: {}
+[21.666106] (-) TimerEvent: {}
+[21.766509] (-) TimerEvent: {}
+[21.866949] (-) TimerEvent: {}
+[21.967377] (-) TimerEvent: {}
+[22.067669] (-) TimerEvent: {}
+[22.168071] (-) TimerEvent: {}
+[22.268493] (-) TimerEvent: {}
+[22.368804] (-) TimerEvent: {}
+[22.469254] (-) TimerEvent: {}
+[22.569714] (-) TimerEvent: {}
+[22.670158] (-) TimerEvent: {}
+[22.749355] (laser_uav_px4_api) StdoutLine: {'line': b'[ 50%] \x1b[32m\x1b[1mLinking CXX shared library libapi_core.so\x1b[0m\n'}
+[22.770427] (-) TimerEvent: {}
+[22.870792] (-) TimerEvent: {}
+[22.971153] (-) TimerEvent: {}
+[23.071450] (-) TimerEvent: {}
+[23.171795] (-) TimerEvent: {}
+[23.272184] (-) TimerEvent: {}
+[23.372489] (-) TimerEvent: {}
+[23.472945] (-) TimerEvent: {}
+[23.573259] (-) TimerEvent: {}
+[23.673665] (-) TimerEvent: {}
+[23.774111] (-) TimerEvent: {}
+[23.874443] (-) TimerEvent: {}
+[23.974787] (-) TimerEvent: {}
+[24.075144] (-) TimerEvent: {}
+[24.175471] (-) TimerEvent: {}
+[24.275704] (-) TimerEvent: {}
+[24.375973] (-) TimerEvent: {}
+[24.476243] (-) TimerEvent: {}
+[24.576529] (-) TimerEvent: {}
+[24.676963] (-) TimerEvent: {}
+[24.679252] (laser_uav_px4_api) StdoutLine: {'line': b'[ 50%] Built target api_core\n'}
+[24.703470] (laser_uav_px4_api) StdoutLine: {'line': b'[ 75%] \x1b[32mBuilding CXX object CMakeFiles/api.dir/src/api_main.cpp.o\x1b[0m\n'}
+[24.777193] (-) TimerEvent: {}
+[24.877676] (-) TimerEvent: {}
+[24.978042] (-) TimerEvent: {}
+[25.078355] (-) TimerEvent: {}
+[25.178682] (-) TimerEvent: {}
+[25.278931] (-) TimerEvent: {}
+[25.379195] (-) TimerEvent: {}
+[25.479535] (-) TimerEvent: {}
+[25.579799] (-) TimerEvent: {}
+[25.680133] (-) TimerEvent: {}
+[25.780478] (-) TimerEvent: {}
+[25.880727] (-) TimerEvent: {}
+[25.980949] (-) TimerEvent: {}
+[26.081289] (-) TimerEvent: {}
+[26.181557] (-) TimerEvent: {}
+[26.282073] (-) TimerEvent: {}
+[26.382357] (-) TimerEvent: {}
+[26.482707] (-) TimerEvent: {}
+[26.582934] (-) TimerEvent: {}
+[26.683161] (-) TimerEvent: {}
+[26.783497] (-) TimerEvent: {}
+[26.883735] (-) TimerEvent: {}
+[26.984089] (-) TimerEvent: {}
+[27.084363] (-) TimerEvent: {}
+[27.184817] (-) TimerEvent: {}
+[27.283551] (laser_uav_px4_api) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable api\x1b[0m\n'}
+[27.284877] (-) TimerEvent: {}
+[27.385177] (-) TimerEvent: {}
+[27.485429] (-) TimerEvent: {}
+[27.585711] (-) TimerEvent: {}
+[27.686023] (-) TimerEvent: {}
+[27.786409] (-) TimerEvent: {}
+[27.886740] (-) TimerEvent: {}
+[27.888975] (laser_uav_px4_api) StdoutLine: {'line': b'[100%] Built target api\n'}
+[27.904225] (laser_uav_px4_api) CommandEnded: {'returncode': 0}
+[27.905110] (laser_uav_px4_api) JobProgress: {'identifier': 'laser_uav_px4_api', 'progress': 'install'}
+[27.920968] (laser_uav_px4_api) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api'], 'cwd': '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api', 'env': OrderedDict([('RCUTILS_LOGGING_BUFFERED_STREAM', '1'), ('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('PYTHON_BASIC_REPL', '1'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('PYTHONWARNINGS', 'ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install,ignore:::pkg_resources'), ('TMUX', '/tmp/tmux-1000/default,8728,0'), ('TMUX_BIN', '/usr/bin/tmux'), ('_fzf_orig_completion_cd', 'complete -o nospace -F %s cd #_cd'), ('_fzf_orig_completion_sed', 'complete -F %s sed #_longopt'), ('LANGUAGE', 'pt_BR:en_US:en'), ('USER', 'alves'), ('LC_TIME', 'en_US.UTF-8'), ('_fzf_orig_completion_tee', 'complete -F %s tee #_longopt'), ('XDG_SESSION_TYPE', 'x11'), ('GIT_ASKPASS', '/usr/share/code/resources/app/extensions/git/dist/askpass.sh'), ('FZF_DEFAULT_OPTS', '--height 25%'), ('GIT_PATH', '/home/alves/git'), ('SHLVL', '4'), ('RCUTILS_CONSOLE_OUTPUT_FORMAT', '[{severity}] [{time}] [{name}]: {message} ({function_name}() at {file_name}:{line_number})'), ('LD_LIBRARY_PATH', '/home/alves/laser_uav_system_ws/install/laser_uav_px4_api/lib:/home/alves/laser_uav_system_ws/install/laser_uav_managers/lib:/home/alves/laser_uav_system_ws/install/px4_msgs/lib:/home/alves/laser_uav_system_ws/install/ov_msckf/lib:/home/alves/laser_uav_system_ws/install/ov_init/lib:/home/alves/laser_uav_system_ws/install/ov_eval/lib:/home/alves/laser_uav_system_ws/install/ov_core/lib:/home/alves/laser_uav_system_ws/install/laser_vins_republisher/lib:/home/alves/laser_uav_system_ws/install/laser_vins_imu_filter/lib:/home/alves/laser_uav_system_ws/install/laser_uav_planners/lib:/home/alves/laser_uav_system_ws/install/laser_uav_estimators/lib:/home/alves/laser_uav_system_ws/install/laser_uav_lib/lib:/home/alves/laser_uav_system_ws/install/laser_uav_controllers/lib:/home/alves/laser_uav_system_ws/install/laser_msgs/lib:/home/alves/laser_uav_system_ws/install/laser_gazebo_resources/lib:/home/alves/laser_uav_system_ws/install/fast_lio/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/alves/laser_uav_system_ws/src/laser_uav_controllers/acados/lib:/home/alves/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic:/home/alves/laser_uav_system_ws/src/laser_uav_controllers/acados/lib:/home/alves/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic:/home/alves/laser_uav_system_ws/src/laser_uav_controllers/acados/lib:/home/alves/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic'), ('ACADOS_SOURCE_DIR', '/home/alves/laser_uav_system_ws/src/laser_uav_controllers/acados'), ('HOME', '/home/alves'), ('CHROME_DESKTOP', 'code.desktop'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('RANGER_LEVEL', '1'), ('_fzf_orig_completion_less', 'complete -F %s less #_longopt'), ('NVM_BIN', '/home/alves/.nvm/versions/node/v22.20.0/bin'), ('NVM_INC', '/home/alves/.nvm/versions/node/v22.20.0/include/node'), ('_fzf_orig_completion_awk', 'complete -F %s awk #_longopt'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/code.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('XDG_SEAT_PATH', '/org/freedesktop/DisplayManager/Seat0'), ('VSCODE_GIT_ASKPASS_MAIN', '/usr/share/code/resources/app/extensions/git/dist/askpass-main.js'), ('COLCON_LOG_LEVEL', '30'), ('_fzf_orig_completion_head', 'complete -F %s head #_longopt'), ('LC_MONETARY', 'en_US.UTF-8'), ('VSCODE_GIT_ASKPASS_NODE', '/usr/share/code/code'), ('MANAGERPID', '1996'), ('_fzf_orig_completion_ld', 'complete -F %s ld #_longopt'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('SYSTEMD_EXEC_PID', '2260'), ('BUNDLED_DEBUGPY_PATH', '/home/alves/.vscode/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/libs/debugpy'), ('MAKEFLAGS', '-j4'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '6724'), ('_fzf_orig_completion_uniq', 'complete -F %s uniq #_longopt'), ('ESCDELAY', '25'), ('NVM_DIR', '/home/alves/.nvm'), ('_fzf_orig_completion_cp', 'complete -F %s cp #_longopt'), ('COLCON_PREFIX_PATH', '/home/alves/laser_uav_system_ws/install'), ('ATHAME_SHOW_MODE', '0'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('_fzf_orig_completion_ftp', 'complete -F %s ftp #_known_hosts'), ('LOGNAME', 'alves'), ('_fzf_orig_completion_diff', 'complete -F %s diff #_longopt'), ('JOURNAL_STREAM', '8:20808'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'rxvt-unicode-256color'), ('GAZEBO_MODEL_PATH', '/home/alves/laser_uav_system_ws/install/laser_gazebo_resources/share/laser_gazebo_resources/models'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('_fzf_orig_completion_du', 'complete -F %s du #_longopt'), ('ROS_LOCALHOST_ONLY', '0'), ('GTK2_MODULES', 'overlay-scrollbar'), ('_fzf_orig_completion_ln', 'complete -F %s ln #_longopt'), ('PROFILES', 'COLORSCHEME_DARK'), ('_fzf_orig_completion_wc', 'complete -F %s wc #_longopt'), ('PATH', '/home/alves/.local/bin:/home/alves/.local/bin:/home/alves/.nvm/versions/node/v22.20.0/bin:/opt/ros/humble/bin:/home/alves/.cargo/bin:/home/alves/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/alves/git/linux-setup/submodules/fzf/bin:/home/alves/.vscode/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts:/home/alves/.config/Code/User/globalStorage/github.copilot-chat/debugCommand:/home/alves/git/linux-setup/submodules/fzf/bin:/home/alves/git/linux-setup/submodules/fzf/bin:/home/alves/git/linux-setup/submodules/fzf/bin'), ('SESSION_MANAGER', 'local/alves-Nitro-ANV15-51:@/tmp/.ICE-unix/2227,unix/alves-Nitro-ANV15-51:/tmp/.ICE-unix/2227'), ('GDM_LANG', 'pt_BR'), ('INVOCATION_ID', '907053a6ce3b4375b39a0d96e93a48bb'), ('PAPERSIZE', 'letter'), ('GTK3_MODULES', 'xapp-gtk3-module'), ('XDG_SESSION_PATH', '/org/freedesktop/DisplayManager/Session0'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'en_US.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('DISPLAY', ':0'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/home/alves/.vscode/extensions/ms-python.debugpy-2025.16.0-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-0c67cd3ef834df2f.txt'), ('REAL_UAV', 'false'), ('VSCODE_INJECTION', '1'), ('LANG', 'pt_BR.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('PYTHONSTARTUP', '/home/alves/.config/Code/User/workspaceStorage/ba7b5ec03344680263a402b50c3909e4/ms-python.python/pythonrc.py'), ('_fzf_orig_completion_sort', 'complete -F %s sort #_longopt'), ('LC_TELEPHONE', 'en_US.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('_fzf_orig_completion_rm', 'complete -F %s rm #_longopt'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/home/alves/.Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('_fzf_orig_completion_telnet', 'complete -F %s telnet #_known_hosts'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/1000/vscode-git-32dd30a74a.sock'), ('_fzf_orig_completion_ls', 'complete -F %s ls #_longopt'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('is_vim', "ps -o state= -o comm= -t '#{pane_tty}'     | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"), ('ROS_DOMAIN_ID', '69'), ('XDG_GREETER_DATA_DIR', '/var/lib/lightdm-data/alves'), ('AMENT_PREFIX_PATH', '/home/alves/laser_uav_system_ws/install/px4_listener:/home/alves/laser_uav_system_ws/install/laser_uav_px4_api:/home/alves/laser_uav_system_ws/install/laser_uav_managers:/home/alves/laser_uav_system_ws/install/px4_msgs:/home/alves/laser_uav_system_ws/install/laser_open_vins_core:/home/alves/laser_uav_system_ws/install/ov_msckf:/home/alves/laser_uav_system_ws/install/ov_init:/home/alves/laser_uav_system_ws/install/ov_eval:/home/alves/laser_uav_system_ws/install/ov_data:/home/alves/laser_uav_system_ws/install/ov_core:/home/alves/laser_uav_system_ws/install/laser_vins_republisher:/home/alves/laser_uav_system_ws/install/laser_vins_imu_filter:/home/alves/laser_uav_system_ws/install/laser_uav_simulation:/home/alves/laser_uav_system_ws/install/laser_uav_planners:/home/alves/laser_uav_system_ws/install/laser_uav_estimators:/home/alves/laser_uav_system_ws/install/laser_uav_lib:/home/alves/laser_uav_system_ws/install/laser_uav_controllers:/home/alves/laser_uav_system_ws/install/laser_msgs:/home/alves/laser_uav_system_ws/install/laser_gazebo_resources:/home/alves/laser_uav_system_ws/install/laser_fast_lio_core:/home/alves/laser_uav_system_ws/install/fast_lio:/opt/ros/humble'), ('VSCODE_STABLE', '1'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('LC_NAME', 'en_US.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('_fzf_orig_completion_mv', 'complete -F %s mv #_longopt'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CTAGS_FILE_ONCE', '~/tags-once'), ('ATHAME_ENABLED', '0'), ('LC_MEASUREMENT', 'en_US.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GAZEBO_RESOURCE_PATH', '/home/alves/laser_uav_system_ws/install/laser_gazebo_resources/share/laser_gazebo_resources::/usr/share/gazebo-11:/usr/share/gazebo-11:/usr/share/gazebo-11:/usr/share/gazebo-11'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'en_US.UTF-8'), ('_fzf_orig_completion_rmdir', 'complete -F %s rmdir #_longopt'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('VSCODE_NONCE', 'd12aa5a0-14b6-4cca-8630-f0d9e60785ef'), ('QT_IM_MODULE', 'ibus'), ('_fzf_orig_completion_tail', 'complete -F %s tail #_longopt'), ('PWD', '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api'), ('FZF_DEFAULT_COMMAND', 'ag -l -f --nocolor -g ""'), ('TURTLEBOT3_MODEL', 'waffle'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GAZEBO_PLUGIN_PATH', '~/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic~/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic~/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic'), ('RCUTILS_COLORIZED_OUTPUT', '1'), ('NVM_CD_FLAGS', ''), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/alves/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('ATHAME_VIM_PERSIST', '0'), ('PYTHONPATH', '/home/alves/laser_uav_system_ws/install/px4_msgs/local/lib/python3.10/dist-packages:/home/alves/laser_uav_system_ws/install/laser_msgs/local/lib/python3.10/dist-packages:/home/alves/laser_uav_system_ws/install/laser_gazebo_resources/local/lib/python3.10/dist-packages:/home/alves/laser_uav_system_ws/install/fast_lio/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'en_US.UTF-8'), ('LC_PAPER', 'en_US.UTF-8'), ('_fzf_orig_completion_cat', 'complete -F %s cat #_longopt'), ('RUN_TMUX', 'true'), ('COLCON', '1'), ('ATHAME_SHOW_ERROR', '0'), ('_fzf_orig_completion_grep', 'complete -F %s grep #_longopt'), ('TMUX_PANE', '%0'), ('EDITOR', "/usr/bin/vim --servername dog --cmd 'let g:user_mode=1'"), ('CMAKE_PREFIX_PATH', '/home/alves/laser_uav_system_ws/install/px4_listener:/home/alves/laser_uav_system_ws/install/laser_uav_px4_api:/home/alves/laser_uav_system_ws/install/laser_uav_managers:/home/alves/laser_uav_system_ws/install/px4_msgs:/home/alves/laser_uav_system_ws/install/laser_open_vins_core:/home/alves/laser_uav_system_ws/install/ov_msckf:/home/alves/laser_uav_system_ws/install/ov_init:/home/alves/laser_uav_system_ws/install/ov_eval:/home/alves/laser_uav_system_ws/install/ov_data:/home/alves/laser_uav_system_ws/install/ov_core:/home/alves/laser_uav_system_ws/install/laser_vins_republisher:/home/alves/laser_uav_system_ws/install/laser_vins_imu_filter:/home/alves/laser_uav_system_ws/install/laser_uav_simulation:/home/alves/laser_uav_system_ws/install/laser_uav_planners:/home/alves/laser_uav_system_ws/install/laser_uav_estimators:/home/alves/laser_uav_system_ws/install/laser_uav_lib:/home/alves/laser_uav_system_ws/install/laser_uav_controllers:/home/alves/laser_uav_system_ws/install/laser_msgs:/home/alves/laser_uav_system_ws/install/laser_gazebo_resources:/home/alves/laser_uav_system_ws/install/laser_fast_lio_core:/home/alves/laser_uav_system_ws/install/fast_lio:/opt/ros/humble'), ('_fzf_orig_completion_pushd', 'complete -o nospace -F %s pushd #_cd')]), 'shell': False}
+[27.934902] (laser_uav_px4_api) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[27.936056] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/lib/libapi_core.so\n'}
+[27.972984] (laser_uav_px4_api) StdoutLine: {'line': b'-- Set runtime path of "/home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/lib/libapi_core.so" to ""\n'}
+[27.973206] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/include/\n'}
+[27.973325] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/include//laser_uav_px4_api\n'}
+[27.973445] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/include//laser_uav_px4_api/api_node.hpp\n'}
+[27.973558] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/launch\n'}
+[27.973667] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/launch/api.launch.py\n'}
+[27.973787] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/params\n'}
+[27.973884] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/params/api.yaml\n'}
+[27.973990] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/ament_index/resource_index/package_run_dependencies/laser_uav_px4_api\n'}
+[27.974086] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/ament_index/resource_index/parent_prefix_path/laser_uav_px4_api\n'}
+[27.974202] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/environment/ament_prefix_path.sh\n'}
+[27.974300] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/environment/ament_prefix_path.dsv\n'}
+[27.974391] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/environment/path.sh\n'}
+[27.974471] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/environment/path.dsv\n'}
+[27.974551] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/local_setup.bash\n'}
+[27.974639] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/local_setup.sh\n'}
+[27.974719] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/local_setup.zsh\n'}
+[27.974799] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/local_setup.dsv\n'}
+[27.974878] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/package.dsv\n'}
+[27.974958] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/ament_index/resource_index/packages/laser_uav_px4_api\n'}
+[27.975044] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/ament_index/resource_index/rclcpp_components/laser_uav_px4_api\n'}
+[27.975127] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[27.975312] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[27.975509] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/cmake/laser_uav_px4_apiConfig.cmake\n'}
+[27.975715] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/cmake/laser_uav_px4_apiConfig-version.cmake\n'}
+[27.975921] (laser_uav_px4_api) StdoutLine: {'line': b'-- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/package.xml\n'}
+[27.976169] (laser_uav_px4_api) CommandEnded: {'returncode': 0}
+[27.986998] (-) TimerEvent: {}
+[27.989690] (laser_uav_px4_api) JobEnded: {'identifier': 'laser_uav_px4_api', 'rc': 0}
+[27.990210] (-) EventReactorShutdown: {}

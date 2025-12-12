@@ -1,0 +1,21 @@
+[0.010s] Invoking command in '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api
+[0.066s] [35m[1mConsolidate compiler generated dependencies of target api_core[0m
+[0.094s] [ 25%] [32mBuilding CXX object CMakeFiles/api_core.dir/src/api_node.cpp.o[0m
+[2.492s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:[m[K In member function ‘[01m[Kvoid laser_uav_px4_api::ApiNode::subRcPx4(const ManualControlSetpoint&)[m[K’:
+[2.492s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:275:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kconst ManualControlSetpoint[m[K’ {aka ‘[01m[Kconst struct px4_msgs::msg::ManualControlSetpoint_<std::allocator<void> >[m[K’} has no member named ‘[01m[Kmode_switch[m[K’
+[2.492s]   275 |     mode_switch = msg.[01;31m[Kmode_switch[m[K;
+[2.492s]       |                       [01;31m[K^~~~~~~~~~~[m[K
+[2.521s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:[m[K In member function ‘[01m[Kvoid laser_uav_px4_api::ApiNode::tmrPubRcPx4()[m[K’:
+[2.521s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:430:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kstruct laser_msgs::msg::PoseWithHeading_<std::allocator<void> >[m[K’ has no member named ‘[01m[Kpose[m[K’
+[2.521s]   430 |         msg.[01;31m[Kpose[m[K.position.x = x;
+[2.521s]       |             [01;31m[K^~~~[m[K
+[2.521s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:431:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kstruct laser_msgs::msg::PoseWithHeading_<std::allocator<void> >[m[K’ has no member named ‘[01m[Kpose[m[K’
+[2.521s]   431 |         msg.[01;31m[Kpose[m[K.position.y = y;
+[2.521s]       |             [01;31m[K^~~~[m[K
+[2.521s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:432:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kstruct laser_msgs::msg::PoseWithHeading_<std::allocator<void> >[m[K’ has no member named ‘[01m[Kpose[m[K’
+[2.521s]   432 |         msg.[01;31m[Kpose[m[K.position.z = z;
+[2.521s]       |             [01;31m[K^~~~[m[K
+[9.575s] gmake[2]: *** [CMakeFiles/api_core.dir/build.make:76: CMakeFiles/api_core.dir/src/api_node.cpp.o] Erro 1
+[9.575s] gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/api_core.dir/all] Erro 2
+[9.575s] gmake: *** [Makefile:146: all] Erro 2
+[9.577s] Invoked command in '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api

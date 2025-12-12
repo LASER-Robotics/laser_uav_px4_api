@@ -1,0 +1,54 @@
+[0.009s] Invoking command in '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/alves/LASER/teste/src/laser_uav_px4_api -DCMAKE_INSTALL_PREFIX=/home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api
+[0.141s] -- The C compiler identification is GNU 9.5.0
+[0.206s] -- The CXX compiler identification is GNU 9.5.0
+[0.214s] -- Detecting C compiler ABI info
+[0.327s] -- Detecting C compiler ABI info - done
+[0.333s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.334s] -- Detecting C compile features
+[0.335s] -- Detecting C compile features - done
+[0.338s] -- Detecting CXX compiler ABI info
+[0.442s] -- Detecting CXX compiler ABI info - done
+[0.448s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.448s] -- Detecting CXX compile features
+[0.449s] -- Detecting CXX compile features - done
+[0.455s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.766s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.891s] -- Found rclcpp: 16.0.14 (/opt/ros/humble/share/rclcpp/cmake)
+[0.943s] -- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.949s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.959s] -- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.972s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.989s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.040s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[1.044s] -- Found rmw_cyclonedds_cpp: 1.3.4 (/opt/ros/humble/share/rmw_cyclonedds_cpp/cmake)
+[1.071s] -- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+[1.083s] -- Looking for pthread.h
+[1.181s] -- Looking for pthread.h - found
+[1.181s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[1.320s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[1.323s] -- Found Threads: TRUE  
+[1.396s] -- Found rclcpp_lifecycle: 16.0.14 (/opt/ros/humble/share/rclcpp_lifecycle/cmake)
+[1.418s] -- Found rclcpp_components: 16.0.14 (/opt/ros/humble/share/rclcpp_components/cmake)
+[1.447s] -- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)
+[1.458s] -- Found laser_msgs: 0.0.0 (/home/alves/laser_uav_system_ws/install/laser_msgs/share/laser_msgs/cmake)
+[1.472s] -- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)
+[1.487s] -- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[1.502s] -- Found std_srvs: 4.9.0 (/opt/ros/humble/share/std_srvs/cmake)
+[1.510s] -- Found px4_msgs: 2.0.1 (/home/alves/laser_uav_system_ws/install/px4_msgs/share/px4_msgs/cmake)
+[1.527s] [31mCMake Error at CMakeLists.txt:77 (install):
+[1.527s]   install TARGETS given target "px4_listener" which does not exist.
+[1.527s] 
+[1.527s] [0m
+[1.530s] -- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[1.602s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[1.602s] -- Configured cppcheck include dirs: /home/alves/LASER/teste/src/laser_uav_px4_api/include;/home/alves/LASER/teste/src/laser_uav_px4_api/src/include
+[1.602s] -- Configured cppcheck exclude dirs and/or files: 
+[1.603s] -- Added test 'flake8' to check Python code syntax and style conventions
+[1.605s] -- Added test 'lint_cmake' to check CMake code style
+[1.606s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[1.615s] -- Added test 'uncrustify' to check C / C++ code style
+[1.615s] -- Configured uncrustify additional arguments: 
+[1.616s] -- Added test 'xmllint' to check XML markup files
+[1.621s] -- Configuring incomplete, errors occurred!
+[1.621s] See also "/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api/CMakeFiles/CMakeOutput.log".
+[1.631s] Invoked command in '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api' returned '1': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/alves/LASER/teste/src/laser_uav_px4_api -DCMAKE_INSTALL_PREFIX=/home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api

@@ -1,0 +1,253 @@
+[0.000000] (-) TimerEvent: {}
+[0.000713] (laser_uav_px4_api) JobQueued: {'identifier': 'laser_uav_px4_api', 'dependencies': OrderedDict()}
+[0.000767] (laser_uav_px4_api) JobStarted: {'identifier': 'laser_uav_px4_api'}
+[0.007532] (laser_uav_px4_api) JobProgress: {'identifier': 'laser_uav_px4_api', 'progress': 'cmake'}
+[0.007887] (laser_uav_px4_api) JobProgress: {'identifier': 'laser_uav_px4_api', 'progress': 'build'}
+[0.008416] (laser_uav_px4_api) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api'], 'cwd': '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api', 'env': OrderedDict([('RCUTILS_LOGGING_BUFFERED_STREAM', '1'), ('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('PYTHON_BASIC_REPL', '1'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('PYTHONWARNINGS', 'ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install,ignore:::pkg_resources'), ('TMUX', '/tmp/tmux-1000/default,8728,0'), ('TMUX_BIN', '/usr/bin/tmux'), ('_fzf_orig_completion_cd', 'complete -o nospace -F %s cd #_cd'), ('_fzf_orig_completion_sed', 'complete -F %s sed #_longopt'), ('LANGUAGE', 'pt_BR:en_US:en'), ('USER', 'alves'), ('LC_TIME', 'en_US.UTF-8'), ('_fzf_orig_completion_tee', 'complete -F %s tee #_longopt'), ('XDG_SESSION_TYPE', 'x11'), ('GIT_ASKPASS', '/usr/share/code/resources/app/extensions/git/dist/askpass.sh'), ('FZF_DEFAULT_OPTS', '--height 25%'), ('GIT_PATH', '/home/alves/git'), ('SHLVL', '4'), ('RCUTILS_CONSOLE_OUTPUT_FORMAT', '[{severity}] [{time}] [{name}]: {message} ({function_name}() at {file_name}:{line_number})'), ('LD_LIBRARY_PATH', '/home/alves/laser_uav_system_ws/install/laser_uav_px4_api/lib:/home/alves/laser_uav_system_ws/install/laser_uav_managers/lib:/home/alves/laser_uav_system_ws/install/px4_msgs/lib:/home/alves/laser_uav_system_ws/install/ov_msckf/lib:/home/alves/laser_uav_system_ws/install/ov_init/lib:/home/alves/laser_uav_system_ws/install/ov_eval/lib:/home/alves/laser_uav_system_ws/install/ov_core/lib:/home/alves/laser_uav_system_ws/install/laser_vins_republisher/lib:/home/alves/laser_uav_system_ws/install/laser_vins_imu_filter/lib:/home/alves/laser_uav_system_ws/install/laser_uav_planners/lib:/home/alves/laser_uav_system_ws/install/laser_uav_estimators/lib:/home/alves/laser_uav_system_ws/install/laser_uav_lib/lib:/home/alves/laser_uav_system_ws/install/laser_uav_controllers/lib:/home/alves/laser_uav_system_ws/install/laser_msgs/lib:/home/alves/laser_uav_system_ws/install/laser_gazebo_resources/lib:/home/alves/laser_uav_system_ws/install/fast_lio/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/alves/laser_uav_system_ws/src/laser_uav_controllers/acados/lib:/home/alves/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic:/home/alves/laser_uav_system_ws/src/laser_uav_controllers/acados/lib:/home/alves/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic:/home/alves/laser_uav_system_ws/src/laser_uav_controllers/acados/lib:/home/alves/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic'), ('ACADOS_SOURCE_DIR', '/home/alves/laser_uav_system_ws/src/laser_uav_controllers/acados'), ('HOME', '/home/alves'), ('CHROME_DESKTOP', 'code.desktop'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('RANGER_LEVEL', '1'), ('_fzf_orig_completion_less', 'complete -F %s less #_longopt'), ('NVM_BIN', '/home/alves/.nvm/versions/node/v22.20.0/bin'), ('NVM_INC', '/home/alves/.nvm/versions/node/v22.20.0/include/node'), ('_fzf_orig_completion_awk', 'complete -F %s awk #_longopt'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/code.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('XDG_SEAT_PATH', '/org/freedesktop/DisplayManager/Seat0'), ('VSCODE_GIT_ASKPASS_MAIN', '/usr/share/code/resources/app/extensions/git/dist/askpass-main.js'), ('COLCON_LOG_LEVEL', '30'), ('_fzf_orig_completion_head', 'complete -F %s head #_longopt'), ('LC_MONETARY', 'en_US.UTF-8'), ('VSCODE_GIT_ASKPASS_NODE', '/usr/share/code/code'), ('MANAGERPID', '1996'), ('_fzf_orig_completion_ld', 'complete -F %s ld #_longopt'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('SYSTEMD_EXEC_PID', '2260'), ('BUNDLED_DEBUGPY_PATH', '/home/alves/.vscode/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/libs/debugpy'), ('MAKEFLAGS', '-j4'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '6724'), ('_fzf_orig_completion_uniq', 'complete -F %s uniq #_longopt'), ('ESCDELAY', '25'), ('NVM_DIR', '/home/alves/.nvm'), ('_fzf_orig_completion_cp', 'complete -F %s cp #_longopt'), ('COLCON_PREFIX_PATH', '/home/alves/laser_uav_system_ws/install'), ('ATHAME_SHOW_MODE', '0'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('_fzf_orig_completion_ftp', 'complete -F %s ftp #_known_hosts'), ('LOGNAME', 'alves'), ('_fzf_orig_completion_diff', 'complete -F %s diff #_longopt'), ('JOURNAL_STREAM', '8:20808'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'rxvt-unicode-256color'), ('GAZEBO_MODEL_PATH', '/home/alves/laser_uav_system_ws/install/laser_gazebo_resources/share/laser_gazebo_resources/models'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('_fzf_orig_completion_du', 'complete -F %s du #_longopt'), ('ROS_LOCALHOST_ONLY', '0'), ('GTK2_MODULES', 'overlay-scrollbar'), ('_fzf_orig_completion_ln', 'complete -F %s ln #_longopt'), ('PROFILES', 'COLORSCHEME_DARK'), ('_fzf_orig_completion_wc', 'complete -F %s wc #_longopt'), ('PATH', '/home/alves/.local/bin:/home/alves/.local/bin:/home/alves/.nvm/versions/node/v22.20.0/bin:/opt/ros/humble/bin:/home/alves/.cargo/bin:/home/alves/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/alves/git/linux-setup/submodules/fzf/bin:/home/alves/.vscode/extensions/ms-python.debugpy-2025.16.0-linux-x64/bundled/scripts/noConfigScripts:/home/alves/.config/Code/User/globalStorage/github.copilot-chat/debugCommand:/home/alves/git/linux-setup/submodules/fzf/bin:/home/alves/git/linux-setup/submodules/fzf/bin:/home/alves/git/linux-setup/submodules/fzf/bin'), ('SESSION_MANAGER', 'local/alves-Nitro-ANV15-51:@/tmp/.ICE-unix/2227,unix/alves-Nitro-ANV15-51:/tmp/.ICE-unix/2227'), ('GDM_LANG', 'pt_BR'), ('INVOCATION_ID', '907053a6ce3b4375b39a0d96e93a48bb'), ('PAPERSIZE', 'letter'), ('GTK3_MODULES', 'xapp-gtk3-module'), ('XDG_SESSION_PATH', '/org/freedesktop/DisplayManager/Session0'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'en_US.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('DISPLAY', ':0'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/home/alves/.vscode/extensions/ms-python.debugpy-2025.16.0-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-0c67cd3ef834df2f.txt'), ('REAL_UAV', 'false'), ('VSCODE_INJECTION', '1'), ('LANG', 'pt_BR.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('PYTHONSTARTUP', '/home/alves/.config/Code/User/workspaceStorage/ba7b5ec03344680263a402b50c3909e4/ms-python.python/pythonrc.py'), ('_fzf_orig_completion_sort', 'complete -F %s sort #_longopt'), ('LC_TELEPHONE', 'en_US.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('_fzf_orig_completion_rm', 'complete -F %s rm #_longopt'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/home/alves/.Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('_fzf_orig_completion_telnet', 'complete -F %s telnet #_known_hosts'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/1000/vscode-git-32dd30a74a.sock'), ('_fzf_orig_completion_ls', 'complete -F %s ls #_longopt'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('is_vim', "ps -o state= -o comm= -t '#{pane_tty}'     | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"), ('ROS_DOMAIN_ID', '69'), ('XDG_GREETER_DATA_DIR', '/var/lib/lightdm-data/alves'), ('AMENT_PREFIX_PATH', '/home/alves/laser_uav_system_ws/install/px4_listener:/home/alves/laser_uav_system_ws/install/laser_uav_px4_api:/home/alves/laser_uav_system_ws/install/laser_uav_managers:/home/alves/laser_uav_system_ws/install/px4_msgs:/home/alves/laser_uav_system_ws/install/laser_open_vins_core:/home/alves/laser_uav_system_ws/install/ov_msckf:/home/alves/laser_uav_system_ws/install/ov_init:/home/alves/laser_uav_system_ws/install/ov_eval:/home/alves/laser_uav_system_ws/install/ov_data:/home/alves/laser_uav_system_ws/install/ov_core:/home/alves/laser_uav_system_ws/install/laser_vins_republisher:/home/alves/laser_uav_system_ws/install/laser_vins_imu_filter:/home/alves/laser_uav_system_ws/install/laser_uav_simulation:/home/alves/laser_uav_system_ws/install/laser_uav_planners:/home/alves/laser_uav_system_ws/install/laser_uav_estimators:/home/alves/laser_uav_system_ws/install/laser_uav_lib:/home/alves/laser_uav_system_ws/install/laser_uav_controllers:/home/alves/laser_uav_system_ws/install/laser_msgs:/home/alves/laser_uav_system_ws/install/laser_gazebo_resources:/home/alves/laser_uav_system_ws/install/laser_fast_lio_core:/home/alves/laser_uav_system_ws/install/fast_lio:/opt/ros/humble'), ('VSCODE_STABLE', '1'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('LC_NAME', 'en_US.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('_fzf_orig_completion_mv', 'complete -F %s mv #_longopt'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CTAGS_FILE_ONCE', '~/tags-once'), ('ATHAME_ENABLED', '0'), ('LC_MEASUREMENT', 'en_US.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GAZEBO_RESOURCE_PATH', '/home/alves/laser_uav_system_ws/install/laser_gazebo_resources/share/laser_gazebo_resources::/usr/share/gazebo-11:/usr/share/gazebo-11:/usr/share/gazebo-11:/usr/share/gazebo-11'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'en_US.UTF-8'), ('_fzf_orig_completion_rmdir', 'complete -F %s rmdir #_longopt'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('VSCODE_NONCE', 'd12aa5a0-14b6-4cca-8630-f0d9e60785ef'), ('QT_IM_MODULE', 'ibus'), ('_fzf_orig_completion_tail', 'complete -F %s tail #_longopt'), ('PWD', '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api'), ('FZF_DEFAULT_COMMAND', 'ag -l -f --nocolor -g ""'), ('TURTLEBOT3_MODEL', 'waffle'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GAZEBO_PLUGIN_PATH', '~/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic~/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic~/git/laser_uav_system/ros_packages/px4_firmware/build/px4_sitl_default/build_gazebo-classic'), ('RCUTILS_COLORIZED_OUTPUT', '1'), ('NVM_CD_FLAGS', ''), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/alves/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('ATHAME_VIM_PERSIST', '0'), ('PYTHONPATH', '/home/alves/laser_uav_system_ws/install/px4_msgs/local/lib/python3.10/dist-packages:/home/alves/laser_uav_system_ws/install/laser_msgs/local/lib/python3.10/dist-packages:/home/alves/laser_uav_system_ws/install/laser_gazebo_resources/local/lib/python3.10/dist-packages:/home/alves/laser_uav_system_ws/install/fast_lio/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'en_US.UTF-8'), ('LC_PAPER', 'en_US.UTF-8'), ('_fzf_orig_completion_cat', 'complete -F %s cat #_longopt'), ('RUN_TMUX', 'true'), ('COLCON', '1'), ('ATHAME_SHOW_ERROR', '0'), ('_fzf_orig_completion_grep', 'complete -F %s grep #_longopt'), ('TMUX_PANE', '%0'), ('EDITOR', "/usr/bin/vim --servername dog --cmd 'let g:user_mode=1'"), ('CMAKE_PREFIX_PATH', '/home/alves/laser_uav_system_ws/install/px4_listener:/home/alves/laser_uav_system_ws/install/laser_uav_px4_api:/home/alves/laser_uav_system_ws/install/laser_uav_managers:/home/alves/laser_uav_system_ws/install/px4_msgs:/home/alves/laser_uav_system_ws/install/laser_open_vins_core:/home/alves/laser_uav_system_ws/install/ov_msckf:/home/alves/laser_uav_system_ws/install/ov_init:/home/alves/laser_uav_system_ws/install/ov_eval:/home/alves/laser_uav_system_ws/install/ov_data:/home/alves/laser_uav_system_ws/install/ov_core:/home/alves/laser_uav_system_ws/install/laser_vins_republisher:/home/alves/laser_uav_system_ws/install/laser_vins_imu_filter:/home/alves/laser_uav_system_ws/install/laser_uav_simulation:/home/alves/laser_uav_system_ws/install/laser_uav_planners:/home/alves/laser_uav_system_ws/install/laser_uav_estimators:/home/alves/laser_uav_system_ws/install/laser_uav_lib:/home/alves/laser_uav_system_ws/install/laser_uav_controllers:/home/alves/laser_uav_system_ws/install/laser_msgs:/home/alves/laser_uav_system_ws/install/laser_gazebo_resources:/home/alves/laser_uav_system_ws/install/laser_fast_lio_core:/home/alves/laser_uav_system_ws/install/fast_lio:/opt/ros/humble'), ('_fzf_orig_completion_pushd', 'complete -o nospace -F %s pushd #_cd')]), 'shell': False}
+[0.047259] (laser_uav_px4_api) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target api_core\x1b[0m\n'}
+[0.067249] (laser_uav_px4_api) StdoutLine: {'line': b'[ 25%] \x1b[32mBuilding CXX object CMakeFiles/api_core.dir/src/api_node.cpp.o\x1b[0m\n'}
+[0.099698] (-) TimerEvent: {}
+[0.200054] (-) TimerEvent: {}
+[0.300352] (-) TimerEvent: {}
+[0.400699] (-) TimerEvent: {}
+[0.500985] (-) TimerEvent: {}
+[0.601313] (-) TimerEvent: {}
+[0.701640] (-) TimerEvent: {}
+[0.802002] (-) TimerEvent: {}
+[0.902333] (-) TimerEvent: {}
+[1.002650] (-) TimerEvent: {}
+[1.102922] (-) TimerEvent: {}
+[1.203219] (-) TimerEvent: {}
+[1.303541] (-) TimerEvent: {}
+[1.403783] (-) TimerEvent: {}
+[1.504057] (-) TimerEvent: {}
+[1.604328] (-) TimerEvent: {}
+[1.704602] (-) TimerEvent: {}
+[1.804828] (-) TimerEvent: {}
+[1.905068] (-) TimerEvent: {}
+[2.005541] (-) TimerEvent: {}
+[2.105800] (-) TimerEvent: {}
+[2.206072] (-) TimerEvent: {}
+[2.306291] (-) TimerEvent: {}
+[2.406560] (-) TimerEvent: {}
+[2.462571] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid laser_uav_px4_api::ApiNode::configTimers()\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[2.462730] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:216:7:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kunable to find numeric literal operator \xe2\x80\x98\x1b[01m\x1b[Koperator""ms\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.462776] (laser_uav_px4_api) StderrLine: {'line': b'  216 |       \x1b[01;31m\x1b[K500ms\x1b[m\x1b[K, std::bind(&Px4Listener::tmrPubRcPx4, this));\n'}
+[2.462817] (laser_uav_px4_api) StderrLine: {'line': b'      |       \x1b[01;31m\x1b[K^~~~~\x1b[m\x1b[K\n'}
+[2.462856] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:216:25:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[KPx4Listener\x1b[m\x1b[K\xe2\x80\x99 has not been declared\n'}
+[2.462891] (laser_uav_px4_api) StderrLine: {'line': b'  216 |       500ms, std::bind(&\x1b[01;31m\x1b[KPx4Listener\x1b[m\x1b[K::tmrPubRcPx4, this));\n'}
+[2.462923] (laser_uav_px4_api) StderrLine: {'line': b'      |                         \x1b[01;31m\x1b[K^~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.479714] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:\x1b[m\x1b[K In function \xe2\x80\x98\x1b[01m\x1b[Kvoid laser_uav_px4_api::subRcPx4(px4_msgs::msg::ManualControlSetpoint_<std::allocator<void> >::SharedPtr)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[2.479858] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:270:5:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kx\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope\n'}
+[2.479899] (laser_uav_px4_api) StderrLine: {'line': b'  270 |     \x1b[01;31m\x1b[Kx\x1b[m\x1b[K = msg->pitch;\n'}
+[2.479936] (laser_uav_px4_api) StderrLine: {'line': b'      |     \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[2.480869] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:271:5:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Ky\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[Kyn\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[2.480971] (laser_uav_px4_api) StderrLine: {'line': b'  271 |     \x1b[01;31m\x1b[Ky\x1b[m\x1b[K = msg->roll;\n'}
+[2.481013] (laser_uav_px4_api) StderrLine: {'line': b'      |     \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[2.481050] (laser_uav_px4_api) StderrLine: {'line': b'      |     \x1b[32m\x1b[Kyn\x1b[m\x1b[K\n'}
+[2.482356] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:272:5:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kheading\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope\n'}
+[2.482407] (laser_uav_px4_api) StderrLine: {'line': b'  272 |     \x1b[01;31m\x1b[Kheading\x1b[m\x1b[K = msg->yaw;\n'}
+[2.482442] (laser_uav_px4_api) StderrLine: {'line': b'      |     \x1b[01;31m\x1b[K^~~~~~~\x1b[m\x1b[K\n'}
+[2.483229] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:273:5:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kz\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope\n'}
+[2.483271] (laser_uav_px4_api) StderrLine: {'line': b'  273 |     \x1b[01;31m\x1b[Kz\x1b[m\x1b[K = msg->throttle;\n'}
+[2.483303] (laser_uav_px4_api) StderrLine: {'line': b'      |     \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[2.484847] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:275:5:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmode_switch\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope\n'}
+[2.484902] (laser_uav_px4_api) StderrLine: {'line': b'  275 |     \x1b[01;31m\x1b[Kmode_switch\x1b[m\x1b[K = msg->mode_switch;\n'}
+[2.484932] (laser_uav_px4_api) StderrLine: {'line': b'      |     \x1b[01;31m\x1b[K^~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.484963] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:275:24:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kusing element_type = struct px4_msgs::msg::ManualControlSetpoint_<std::allocator<void> >\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Kstruct px4_msgs::msg::ManualControlSetpoint_<std::allocator<void> >\x1b[m\x1b[K\xe2\x80\x99} has no member named \xe2\x80\x98\x1b[01m\x1b[Kmode_switch\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.485004] (laser_uav_px4_api) StderrLine: {'line': b'  275 |     mode_switch = msg->\x1b[01;31m\x1b[Kmode_switch\x1b[m\x1b[K;\n'}
+[2.485035] (laser_uav_px4_api) StderrLine: {'line': b'      |                        \x1b[01;31m\x1b[K^~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.506658] (-) TimerEvent: {}
+[2.516962] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:\x1b[m\x1b[K In function \xe2\x80\x98\x1b[01m\x1b[Kvoid laser_uav_px4_api::tmrPubRcPx4()\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[2.517111] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:427:9:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmode_switch\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope\n'}
+[2.517150] (laser_uav_px4_api) StderrLine: {'line': b'  427 |     if (\x1b[01;31m\x1b[Kmode_switch\x1b[m\x1b[K == 1)\n'}
+[2.517181] (laser_uav_px4_api) StderrLine: {'line': b'      |         \x1b[01;31m\x1b[K^~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.517212] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:430:13:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kstruct laser_msgs::msg::PoseWithHeading_<std::allocator<void> >\x1b[m\x1b[K\xe2\x80\x99 has no member named \xe2\x80\x98\x1b[01m\x1b[Kpose\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.517253] (laser_uav_px4_api) StderrLine: {'line': b'  430 |         msg.\x1b[01;31m\x1b[Kpose\x1b[m\x1b[K.position.x = x;\n'}
+[2.517281] (laser_uav_px4_api) StderrLine: {'line': b'      |             \x1b[01;31m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.518262] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:430:31:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kx\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope\n'}
+[2.518349] (laser_uav_px4_api) StderrLine: {'line': b'  430 |         msg.pose.position.x = \x1b[01;31m\x1b[Kx\x1b[m\x1b[K;\n'}
+[2.518386] (laser_uav_px4_api) StderrLine: {'line': b'      |                               \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[2.518418] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:431:13:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kstruct laser_msgs::msg::PoseWithHeading_<std::allocator<void> >\x1b[m\x1b[K\xe2\x80\x99 has no member named \xe2\x80\x98\x1b[01m\x1b[Kpose\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.518458] (laser_uav_px4_api) StderrLine: {'line': b'  431 |         msg.\x1b[01;31m\x1b[Kpose\x1b[m\x1b[K.position.y = y;\n'}
+[2.518492] (laser_uav_px4_api) StderrLine: {'line': b'      |             \x1b[01;31m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.519325] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:431:31:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Ky\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope; did you mean \xe2\x80\x98\x1b[01m\x1b[Kyn\x1b[m\x1b[K\xe2\x80\x99?\n'}
+[2.519368] (laser_uav_px4_api) StderrLine: {'line': b'  431 |         msg.pose.position.y = \x1b[01;31m\x1b[Ky\x1b[m\x1b[K;\n'}
+[2.519398] (laser_uav_px4_api) StderrLine: {'line': b'      |                               \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[2.519427] (laser_uav_px4_api) StderrLine: {'line': b'      |                               \x1b[32m\x1b[Kyn\x1b[m\x1b[K\n'}
+[2.519455] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:432:13:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kstruct laser_msgs::msg::PoseWithHeading_<std::allocator<void> >\x1b[m\x1b[K\xe2\x80\x99 has no member named \xe2\x80\x98\x1b[01m\x1b[Kpose\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.519486] (laser_uav_px4_api) StderrLine: {'line': b'  432 |         msg.\x1b[01;31m\x1b[Kpose\x1b[m\x1b[K.position.z = z;\n'}
+[2.519516] (laser_uav_px4_api) StderrLine: {'line': b'      |             \x1b[01;31m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.520207] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:432:31:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kz\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope\n'}
+[2.520239] (laser_uav_px4_api) StderrLine: {'line': b'  432 |         msg.pose.position.z = \x1b[01;31m\x1b[Kz\x1b[m\x1b[K;\n'}
+[2.520268] (laser_uav_px4_api) StderrLine: {'line': b'      |                               \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[2.521373] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:433:23:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kheading\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope\n'}
+[2.521489] (laser_uav_px4_api) StderrLine: {'line': b'  433 |         msg.heading = \x1b[01;31m\x1b[Kheading\x1b[m\x1b[K;\n'}
+[2.521526] (laser_uav_px4_api) StderrLine: {'line': b'      |                       \x1b[01;31m\x1b[K^~~~~~~\x1b[m\x1b[K\n'}
+[2.521615] (laser_uav_px4_api) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40\x1b[m\x1b[K,\n'}
+[2.521644] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24\x1b[m\x1b[K,\n'}
+[2.521671] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[2.521698] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[2.521725] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[2.521751] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[2.521777] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[2.521804] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.521830] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.521856] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.521882] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:9\x1b[m\x1b[K,\n'}
+[2.521908] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1\x1b[m\x1b[K:\n'}
+[2.521934] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:26:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kinvalid use of \xe2\x80\x98\x1b[01m\x1b[Kthis\x1b[m\x1b[K\xe2\x80\x99 in non-member function\n'}
+[2.521961] (laser_uav_px4_api) StderrLine: {'line': b'  435 |         RCLCPP_INFO_ONCE(\x1b[01;31m\x1b[Kthis\x1b[m\x1b[K->get_logger(), "Switch on - publishing");\n'}
+[2.521988] (laser_uav_px4_api) StderrLine: {'line': b'      |                          \x1b[01;31m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.522014] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:26:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kinvalid use of \xe2\x80\x98\x1b[01m\x1b[Kthis\x1b[m\x1b[K\xe2\x80\x99 in non-member function\n'}
+[2.522043] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:9:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Ktemplate argument 1 is invalid\n'}
+[2.522072] (laser_uav_px4_api) StderrLine: {'line': b'  435 |         \x1b[01;31m\x1b[KRCLCPP_INFO_ONCE\x1b[m\x1b[K(this->get_logger(), "Switch on - publishing");\n'}
+[2.522097] (laser_uav_px4_api) StderrLine: {'line': b'      |         \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.522122] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:9:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Ktemplate argument 1 is invalid\n'}
+[2.522148] (laser_uav_px4_api) StderrLine: {'line': b'  435 |         \x1b[01;31m\x1b[KRCLCPP_INFO_ONCE\x1b[m\x1b[K(this->get_logger(), "Switch on - publishing");\n'}
+[2.522174] (laser_uav_px4_api) StderrLine: {'line': b'      |         \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.522199] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:9:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Ktemplate argument 1 is invalid\n'}
+[2.522225] (laser_uav_px4_api) StderrLine: {'line': b'  435 |         \x1b[01;31m\x1b[KRCLCPP_INFO_ONCE\x1b[m\x1b[K(this->get_logger(), "Switch on - publishing");\n'}
+[2.522251] (laser_uav_px4_api) StderrLine: {'line': b'      |         \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.522276] (laser_uav_px4_api) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/logging.hpp:24\x1b[m\x1b[K,\n'}
+[2.522302] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40\x1b[m\x1b[K,\n'}
+[2.522328] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24\x1b[m\x1b[K,\n'}
+[2.522358] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[2.522383] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[2.522408] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[2.522434] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[2.522460] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[2.522485] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.522510] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.522540] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.522567] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:9\x1b[m\x1b[K,\n'}
+[2.522594] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1\x1b[m\x1b[K:\n'}
+[2.522619] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:26:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kinvalid use of \xe2\x80\x98\x1b[01m\x1b[Kthis\x1b[m\x1b[K\xe2\x80\x99 in non-member function\n'}
+[2.522646] (laser_uav_px4_api) StderrLine: {'line': b'  435 |         RCLCPP_INFO_ONCE(\x1b[01;31m\x1b[Kthis\x1b[m\x1b[K->get_logger(), "Switch on - publishing");\n'}
+[2.522674] (laser_uav_px4_api) StderrLine: {'line': b'      |                          \x1b[01;31m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.522701] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:26:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kinvalid use of \xe2\x80\x98\x1b[01m\x1b[Kthis\x1b[m\x1b[K\xe2\x80\x99 in non-member function\n'}
+[2.522728] (laser_uav_px4_api) StderrLine: {'line': b'  435 |         RCLCPP_INFO_ONCE(\x1b[01;31m\x1b[Kthis\x1b[m\x1b[K->get_logger(), "Switch on - publishing");\n'}
+[2.522754] (laser_uav_px4_api) StderrLine: {'line': b'      |                          \x1b[01;31m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.523566] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:437:9:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kpub_px4_rc_\x1b[m\x1b[K\xe2\x80\x99 was not declared in this scope\n'}
+[2.523635] (laser_uav_px4_api) StderrLine: {'line': b'  437 |         \x1b[01;31m\x1b[Kpub_px4_rc_\x1b[m\x1b[K->publish(msg);\n'}
+[2.523665] (laser_uav_px4_api) StderrLine: {'line': b'      |         \x1b[01;31m\x1b[K^~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.523695] (laser_uav_px4_api) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40\x1b[m\x1b[K,\n'}
+[2.523724] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24\x1b[m\x1b[K,\n'}
+[2.523754] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[2.523783] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[2.523811] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[2.523841] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[2.523871] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[2.523912] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.523960] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.523987] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.524014] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:9\x1b[m\x1b[K,\n'}
+[2.524040] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1\x1b[m\x1b[K:\n'}
+[2.524067] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:26:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kinvalid use of \xe2\x80\x98\x1b[01m\x1b[Kthis\x1b[m\x1b[K\xe2\x80\x99 in non-member function\n'}
+[2.524093] (laser_uav_px4_api) StderrLine: {'line': b'  441 |         RCLCPP_WARN_ONCE(\x1b[01;31m\x1b[Kthis\x1b[m\x1b[K->get_logger(), "Switch off - not publishing");\n'}
+[2.524120] (laser_uav_px4_api) StderrLine: {'line': b'      |                          \x1b[01;31m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.524145] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:26:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kinvalid use of \xe2\x80\x98\x1b[01m\x1b[Kthis\x1b[m\x1b[K\xe2\x80\x99 in non-member function\n'}
+[2.524173] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:9:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Ktemplate argument 1 is invalid\n'}
+[2.524200] (laser_uav_px4_api) StderrLine: {'line': b'  441 |         \x1b[01;31m\x1b[KRCLCPP_WARN_ONCE\x1b[m\x1b[K(this->get_logger(), "Switch off - not publishing");\n'}
+[2.524225] (laser_uav_px4_api) StderrLine: {'line': b'      |         \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.524252] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:9:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Ktemplate argument 1 is invalid\n'}
+[2.524278] (laser_uav_px4_api) StderrLine: {'line': b'  441 |         \x1b[01;31m\x1b[KRCLCPP_WARN_ONCE\x1b[m\x1b[K(this->get_logger(), "Switch off - not publishing");\n'}
+[2.524304] (laser_uav_px4_api) StderrLine: {'line': b'      |         \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.524329] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:9:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Ktemplate argument 1 is invalid\n'}
+[2.524355] (laser_uav_px4_api) StderrLine: {'line': b'  441 |         \x1b[01;31m\x1b[KRCLCPP_WARN_ONCE\x1b[m\x1b[K(this->get_logger(), "Switch off - not publishing");\n'}
+[2.524381] (laser_uav_px4_api) StderrLine: {'line': b'      |         \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.524407] (laser_uav_px4_api) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/logging.hpp:24\x1b[m\x1b[K,\n'}
+[2.524435] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40\x1b[m\x1b[K,\n'}
+[2.524460] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24\x1b[m\x1b[K,\n'}
+[2.524486] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20\x1b[m\x1b[K,\n'}
+[2.524511] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25\x1b[m\x1b[K,\n'}
+[2.524543] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18\x1b[m\x1b[K,\n'}
+[2.524569] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20\x1b[m\x1b[K,\n'}
+[2.524595] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37\x1b[m\x1b[K,\n'}
+[2.524619] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25\x1b[m\x1b[K,\n'}
+[2.524645] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21\x1b[m\x1b[K,\n'}
+[2.524670] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155\x1b[m\x1b[K,\n'}
+[2.524696] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:9\x1b[m\x1b[K,\n'}
+[2.524721] (laser_uav_px4_api) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1\x1b[m\x1b[K:\n'}
+[2.524747] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:26:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kinvalid use of \xe2\x80\x98\x1b[01m\x1b[Kthis\x1b[m\x1b[K\xe2\x80\x99 in non-member function\n'}
+[2.524774] (laser_uav_px4_api) StderrLine: {'line': b'  441 |         RCLCPP_WARN_ONCE(\x1b[01;31m\x1b[Kthis\x1b[m\x1b[K->get_logger(), "Switch off - not publishing");\n'}
+[2.524800] (laser_uav_px4_api) StderrLine: {'line': b'      |                          \x1b[01;31m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.524824] (laser_uav_px4_api) StderrLine: {'line': b'\x1b[01m\x1b[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:26:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kinvalid use of \xe2\x80\x98\x1b[01m\x1b[Kthis\x1b[m\x1b[K\xe2\x80\x99 in non-member function\n'}
+[2.524851] (laser_uav_px4_api) StderrLine: {'line': b'  441 |         RCLCPP_WARN_ONCE(\x1b[01;31m\x1b[Kthis\x1b[m\x1b[K->get_logger(), "Switch off - not publishing");\n'}
+[2.524877] (laser_uav_px4_api) StderrLine: {'line': b'      |                          \x1b[01;31m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[2.606755] (-) TimerEvent: {}
+[2.707124] (-) TimerEvent: {}
+[2.807374] (-) TimerEvent: {}
+[2.907619] (-) TimerEvent: {}
+[3.007886] (-) TimerEvent: {}
+[3.108145] (-) TimerEvent: {}
+[3.208369] (-) TimerEvent: {}
+[3.308623] (-) TimerEvent: {}
+[3.408898] (-) TimerEvent: {}
+[3.509184] (-) TimerEvent: {}
+[3.609537] (-) TimerEvent: {}
+[3.709798] (-) TimerEvent: {}
+[3.810075] (-) TimerEvent: {}
+[3.910358] (-) TimerEvent: {}
+[4.010713] (-) TimerEvent: {}
+[4.111035] (-) TimerEvent: {}
+[4.211364] (-) TimerEvent: {}
+[4.311674] (-) TimerEvent: {}
+[4.411897] (-) TimerEvent: {}
+[4.512162] (-) TimerEvent: {}
+[4.612422] (-) TimerEvent: {}
+[4.712658] (-) TimerEvent: {}
+[4.812894] (-) TimerEvent: {}
+[4.913106] (-) TimerEvent: {}
+[5.013321] (-) TimerEvent: {}
+[5.113644] (-) TimerEvent: {}
+[5.213875] (-) TimerEvent: {}
+[5.314138] (-) TimerEvent: {}
+[5.414478] (-) TimerEvent: {}
+[5.514711] (-) TimerEvent: {}
+[5.614985] (-) TimerEvent: {}
+[5.715240] (-) TimerEvent: {}
+[5.815566] (-) TimerEvent: {}
+[5.915788] (-) TimerEvent: {}
+[6.016114] (-) TimerEvent: {}
+[6.116458] (-) TimerEvent: {}
+[6.216698] (-) TimerEvent: {}
+[6.317022] (-) TimerEvent: {}
+[6.417384] (-) TimerEvent: {}
+[6.517688] (-) TimerEvent: {}
+[6.618039] (-) TimerEvent: {}
+[6.718368] (-) TimerEvent: {}
+[6.818676] (-) TimerEvent: {}
+[6.918900] (-) TimerEvent: {}
+[7.019238] (-) TimerEvent: {}
+[7.119572] (-) TimerEvent: {}
+[7.219908] (-) TimerEvent: {}
+[7.320181] (-) TimerEvent: {}
+[7.420509] (-) TimerEvent: {}
+[7.520864] (-) TimerEvent: {}
+[7.621206] (-) TimerEvent: {}
+[7.721569] (-) TimerEvent: {}
+[7.821794] (-) TimerEvent: {}
+[7.922121] (-) TimerEvent: {}
+[8.022474] (-) TimerEvent: {}
+[8.122827] (-) TimerEvent: {}
+[8.223112] (-) TimerEvent: {}
+[8.323375] (-) TimerEvent: {}
+[8.423669] (-) TimerEvent: {}
+[8.523989] (-) TimerEvent: {}
+[8.624254] (-) TimerEvent: {}
+[8.724582] (-) TimerEvent: {}
+[8.824806] (-) TimerEvent: {}
+[8.925036] (-) TimerEvent: {}
+[9.025301] (-) TimerEvent: {}
+[9.125637] (-) TimerEvent: {}
+[9.225860] (-) TimerEvent: {}
+[9.326207] (-) TimerEvent: {}
+[9.426538] (-) TimerEvent: {}
+[9.526761] (-) TimerEvent: {}
+[9.567379] (laser_uav_px4_api) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/api_core.dir/build.make:76: CMakeFiles/api_core.dir/src/api_node.cpp.o] Erro 1\n'}
+[9.567647] (laser_uav_px4_api) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/api_core.dir/all] Erro 2\n'}
+[9.567992] (laser_uav_px4_api) StderrLine: {'line': b'gmake: *** [Makefile:146: all] Erro 2\n'}
+[9.569905] (laser_uav_px4_api) CommandEnded: {'returncode': 2}
+[9.575409] (laser_uav_px4_api) JobEnded: {'identifier': 'laser_uav_px4_api', 'rc': 2}
+[9.585854] (-) EventReactorShutdown: {}

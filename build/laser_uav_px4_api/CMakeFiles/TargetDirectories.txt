@@ -1,0 +1,11 @@
+/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api/CMakeFiles/uninstall.dir
+/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api/CMakeFiles/laser_uav_px4_api_uninstall.dir
+/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api/CMakeFiles/api.dir
+/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api/CMakeFiles/api_core.dir
+/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api/CMakeFiles/test.dir
+/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api/CMakeFiles/edit_cache.dir
+/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api/CMakeFiles/rebuild_cache.dir
+/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api/CMakeFiles/list_install_components.dir
+/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api/CMakeFiles/install.dir
+/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api/CMakeFiles/install/local.dir
+/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api/CMakeFiles/install/strip.dir

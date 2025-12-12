@@ -1,0 +1,257 @@
+[0.009s] Invoking command in '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/alves/LASER/teste/src/laser_uav_px4_api -DCMAKE_INSTALL_PREFIX=/home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api
+[0.018s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.123s] -- Found rclcpp: 16.0.14 (/opt/ros/humble/share/rclcpp/cmake)
+[0.144s] -- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.146s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.149s] -- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.156s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.164s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.185s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.186s] -- Found rmw_cyclonedds_cpp: 1.3.4 (/opt/ros/humble/share/rmw_cyclonedds_cpp/cmake)
+[0.198s] -- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+[0.229s] -- Found rclcpp_lifecycle: 16.0.14 (/opt/ros/humble/share/rclcpp_lifecycle/cmake)
+[0.239s] -- Found rclcpp_components: 16.0.14 (/opt/ros/humble/share/rclcpp_components/cmake)
+[0.251s] -- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)
+[0.259s] -- Found laser_msgs: 0.0.0 (/home/alves/laser_uav_system_ws/install/laser_msgs/share/laser_msgs/cmake)
+[0.268s] -- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)
+[0.278s] -- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.289s] -- Found std_srvs: 4.9.0 (/opt/ros/humble/share/std_srvs/cmake)
+[0.294s] -- Found px4_msgs: 2.0.1 (/home/alves/laser_uav_system_ws/install/px4_msgs/share/px4_msgs/cmake)
+[0.309s] -- Found ament_lint_auto: 0.12.14 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.361s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[0.361s] -- Configured cppcheck include dirs: /home/alves/LASER/teste/src/laser_uav_px4_api/include;/home/alves/LASER/teste/src/laser_uav_px4_api/src/include
+[0.361s] -- Configured cppcheck exclude dirs and/or files: 
+[0.362s] -- Added test 'flake8' to check Python code syntax and style conventions
+[0.363s] -- Added test 'lint_cmake' to check CMake code style
+[0.364s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[0.369s] -- Added test 'uncrustify' to check C / C++ code style
+[0.369s] -- Configured uncrustify additional arguments: 
+[0.370s] -- Added test 'xmllint' to check XML markup files
+[0.370s] -- Configuring done
+[0.381s] -- Generating done
+[0.386s] -- Build files have been written to: /home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api
+[0.391s] Invoked command in '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/alves/LASER/teste/src/laser_uav_px4_api -DCMAKE_INSTALL_PREFIX=/home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api
+[0.392s] Invoking command in '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api
+[0.450s] [ 25%] [32mBuilding CXX object CMakeFiles/api_core.dir/src/api_node.cpp.o[0m
+[2.412s] In file included from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1[m[K:
+[2.413s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:63:39:[m[K [01;31m[Kerror: [m[K‘[01m[KManualControlSetpoint[m[K’ is not a member of ‘[01m[Kpx4_msgs::msg[m[K’
+[2.413s]    63 |   rclcpp::Subscription<px4_msgs::msg::[01;31m[KManualControlSetpoint[m[K>::SharedPtr sub_px4_rc_;
+[2.413s]       |                                       [01;31m[K^~~~~~~~~~~~~~~~~~~~~[m[K
+[2.413s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:63:60:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[2.413s]    63 |   rclcpp::Subscription<px4_msgs::msg::ManualControlSetpoint[01;31m[K>[m[K::SharedPtr sub_px4_rc_;
+[2.413s]       |                                                            [01;31m[K^[m[K
+[2.413s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:63:60:[m[K [01;31m[Kerror: [m[Ktemplate argument 3 is invalid
+[2.413s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:63:60:[m[K [01;31m[Kerror: [m[Ktemplate argument 4 is invalid
+[2.413s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:63:60:[m[K [01;31m[Kerror: [m[Ktemplate argument 5 is invalid
+[2.413s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:63:63:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ at end of member declaration
+[2.413s]    63 |   rclcpp::Subscription<px4_msgs::msg::ManualControlSetpoint>::[01;31m[KSharedPtr[m[K sub_px4_rc_;
+[2.413s]       |                                                               [01;31m[K^~~~~~~~~[m[K
+[2.413s]       |                                                                        [32m[K;[m[K
+[2.415s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:63:73:[m[K [01;31m[Kerror: [m[K‘[01m[Ksub_px4_rc_[m[K’ does not name a type
+[2.415s]    63 |   rclcpp::Subscription<px4_msgs::msg::ManualControlSetpoint>::SharedPtr [01;31m[Ksub_px4_rc_[m[K;
+[2.415s]       |                                                                         [01;31m[K^~~~~~~~~~~[m[K
+[2.415s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:64:103:[m[K [01;31m[Kerror: [m[K‘[01m[KManualControlSetpoint[m[K’ in namespace ‘[01m[Kpx4_msgs::msg[m[K’ does not name a type
+[2.415s]    64 |                                                             subRcPx4(const px4_msgs::msg::[01;31m[KManualControlSetpoint[m[K &msg);
+[2.415s]       |                                                                                           [01;31m[K^~~~~~~~~~~~~~~~~~~~~[m[K
+[2.415s] 
+[2.415s] In file included from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1[m[K:
+[2.415s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:66:38:[m[K [01;31m[Kerror: [m[K‘[01m[KPoseWithHeading[m[K’ is not a member of ‘[01m[Klaser_msgs::msg[m[K’
+[2.415s]    66 |   rclcpp::Publisher<laser_msgs::msg::[01;31m[KPoseWithHeading[m[K>::SharedPtr pub_px4_rc_;
+[2.415s]       |                                      [01;31m[K^~~~~~~~~~~~~~~[m[K
+[2.415s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:66:53:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[2.415s]    66 |   rclcpp::Publisher<laser_msgs::msg::PoseWithHeading[01;31m[K>[m[K::SharedPtr pub_px4_rc_;
+[2.415s]       |                                                     [01;31m[K^[m[K
+[2.415s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:66:56:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ at end of member declaration
+[2.415s]    66 |   rclcpp::Publisher<laser_msgs::msg::PoseWithHeading>::[01;31m[KSharedPtr[m[K pub_px4_rc_;
+[2.415s]       |                                                        [01;31m[K^~~~~~~~~[m[K
+[2.415s]       |                                                                 [32m[K;[m[K
+[2.415s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:66:56:[m[K [01;31m[Kerror: [m[Kredeclaration of ‘[01m[Kint laser_uav_px4_api::ApiNode::SharedPtr[m[K’
+[2.415s] In file included from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1[m[K:
+[2.415s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:63:63:[m[K [01;36m[Knote: [m[Kprevious declaration ‘[01m[Kint laser_uav_px4_api::ApiNode::SharedPtr[m[K’
+[2.416s]    63 |   rclcpp::Subscription<px4_msgs::msg::ManualControlSetpoint>::[01;36m[KSharedPtr[m[K sub_px4_rc_;
+[2.416s]       |                                                               [01;36m[K^~~~~~~~~[m[K
+[2.417s] In file included from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1[m[K:
+[2.417s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:66:66:[m[K [01;31m[Kerror: [m[K‘[01m[Kpub_px4_rc_[m[K’ does not name a type
+[2.417s]    66 |   rclcpp::Publisher<laser_msgs::msg::PoseWithHeading>::SharedPtr [01;31m[Kpub_px4_rc_[m[K;
+[2.417s]       |                                                                  [01;31m[K^~~~~~~~~~~[m[K
+[2.695s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:[m[K In member function ‘[01m[Kvirtual CallbackReturn laser_uav_px4_api::ApiNode::on_cleanup(const rclcpp_lifecycle::State&)[m[K’:
+[2.695s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:126:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kpub_px4_rc_[m[K’ was not declared in this scope
+[2.695s]   126 |   [01;31m[Kpub_px4_rc_[m[K.reset();
+[2.695s]       |   [01;31m[K^~~~~~~~~~~[m[K
+[2.719s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:[m[K In member function ‘[01m[Kvoid laser_uav_px4_api::ApiNode::configPubSub()[m[K’:
+[2.719s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:183:3:[m[K [01;31m[Kerror: [m[K‘[01m[Ksub_px4_rc_[m[K’ was not declared in this scope
+[2.720s]   183 |   [01;31m[Ksub_px4_rc_[m[K = create_subscription<px4_msgs::msg::ManualControlSetpoint>("/fmu/out/manual_control_setpoint", 10,
+[2.720s]       |   [01;31m[K^~~~~~~~~~~[m[K
+[2.720s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:183:52:[m[K [01;31m[Kerror: [m[K‘[01m[KManualControlSetpoint[m[K’ is not a member of ‘[01m[Kpx4_msgs::msg[m[K’
+[2.720s]   183 |   sub_px4_rc_ = create_subscription<px4_msgs::msg::[01;31m[KManualControlSetpoint[m[K>("/fmu/out/manual_control_setpoint", 10,
+[2.720s]       |                                                    [01;31m[K^~~~~~~~~~~~~~~~~~~~~[m[K
+[2.721s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:184:131:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Klaser_uav_px4_api::ApiNode::create_subscription<<expression error> >(const char [33], int, std::_Bind_helper<false, void (laser_uav_px4_api::ApiNode::*)(const int&), laser_uav_px4_api::ApiNode*, const std::_Placeholder<1>&>::type)[m[K’
+[2.721s]   184 |                                 std::bind(&ApiNode::subRcPx4, this, std::placeholders::_1)[01;31m[K)[m[K;
+[2.721s]       |                                                                                           [01;31m[K^[m[K
+[2.721s] 
+[2.721s] In file included from [01m[K/opt/ros/humble/include/rclcpp_lifecycle/rclcpp_lifecycle/lifecycle_node.hpp:996[m[K,
+[2.721s]                  from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:10[m[K,
+[2.721s]                  from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1[m[K:
+[2.721s] [01m[K/opt/ros/humble/include/rclcpp_lifecycle/rclcpp_lifecycle/lifecycle_node_impl.hpp:69:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class MessageT, class CallbackT, class AllocatorT, class SubscriptionT, class MessageMemoryStrategyT> std::shared_ptr<ROSMessageT> rclcpp_lifecycle::LifecycleNode::create_subscription(const string&, const rclcpp::QoS&, CallbackT&&, const rclcpp::SubscriptionOptionsWithAllocator<AllocatorT>&, typename MessageMemoryStrategyT::SharedPtr)[m[K’
+[2.721s]    69 | [01;36m[KLifecycleNode[m[K::create_subscription(
+[2.721s]       | [01;36m[K^~~~~~~~~~~~~[m[K
+[2.721s] [01m[K/opt/ros/humble/include/rclcpp_lifecycle/rclcpp_lifecycle/lifecycle_node_impl.hpp:69:1:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[2.721s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:184:131:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[2.722s]   184 |                                 std::bind(&ApiNode::subRcPx4, this, std::placeholders::_1)[01;31m[K)[m[K;
+[2.722s]       |                                                                                           [01;31m[K^[m[K
+[2.722s] 
+[2.724s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:186:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kpub_px4_rc_[m[K’ was not declared in this scope
+[2.724s]   186 |   [01;31m[Kpub_px4_rc_[m[K = create_publisher<laser_msgs::msg::PoseWithHeading>("/$UAV_NAME/px4_api/rc", 10);
+[2.724s]       |   [01;31m[K^~~~~~~~~~~[m[K
+[2.724s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:186:51:[m[K [01;31m[Kerror: [m[K‘[01m[KPoseWithHeading[m[K’ is not a member of ‘[01m[Klaser_msgs::msg[m[K’
+[2.724s]   186 |   pub_px4_rc_ = create_publisher<laser_msgs::msg::[01;31m[KPoseWithHeading[m[K>("/$UAV_NAME/px4_api/rc", 10);
+[2.724s]       |                                                   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[2.724s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:186:95:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Klaser_uav_px4_api::ApiNode::create_publisher<<expression error> >(const char [22], int)[m[K’
+[2.724s]   186 |   pub_px4_rc_ = create_publisher<laser_msgs::msg::PoseWithHeading>("/$UAV_NAME/px4_api/rc", 10[01;31m[K)[m[K;
+[2.724s]       |                                                                                               [01;31m[K^[m[K
+[2.724s] In file included from [01m[K/opt/ros/humble/include/rclcpp_lifecycle/rclcpp_lifecycle/lifecycle_node.hpp:996[m[K,
+[2.724s]                  from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:10[m[K,
+[2.724s]                  from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1[m[K:
+[2.724s] [01m[K/opt/ros/humble/include/rclcpp_lifecycle/rclcpp_lifecycle/lifecycle_node_impl.hpp:46:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class MessageT, class AllocatorT> std::shared_ptr<rclcpp_lifecycle::LifecyclePublisher<MessageT, Alloc> > rclcpp_lifecycle::LifecycleNode::create_publisher(const string&, const rclcpp::QoS&, const rclcpp::PublisherOptionsWithAllocator<AllocatorT>&)[m[K’
+[2.724s]    46 | [01;36m[KLifecycleNode[m[K::create_publisher(
+[2.724s]       | [01;36m[K^~~~~~~~~~~~~[m[K
+[2.724s] [01m[K/opt/ros/humble/include/rclcpp_lifecycle/rclcpp_lifecycle/lifecycle_node_impl.hpp:46:1:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[2.724s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:186:95:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[2.724s]   186 |   pub_px4_rc_ = create_publisher<laser_msgs::msg::PoseWithHeading>("/$UAV_NAME/px4_api/rc", 10[01;31m[K)[m[K;
+[2.724s]       |                                                                                               [01;31m[K^[m[K
+[2.731s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:[m[K In member function ‘[01m[Kvoid laser_uav_px4_api::ApiNode::configTimers()[m[K’:
+[2.731s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:216:7:[m[K [01;31m[Kerror: [m[Kunable to find numeric literal operator ‘[01m[Koperator""ms[m[K’
+[2.731s]   216 |       [01;31m[K500ms[m[K, std::bind(&Px4Listener::tmrPubRcPx4, this));
+[2.731s]       |       [01;31m[K^~~~~[m[K
+[2.731s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:216:25:[m[K [01;31m[Kerror: [m[K‘[01m[KPx4Listener[m[K’ has not been declared
+[2.731s]   216 |       500ms, std::bind(&[01;31m[KPx4Listener[m[K::tmrPubRcPx4, this));
+[2.731s]       |                         [01;31m[K^~~~~~~~~~~[m[K
+[2.745s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:[m[K At global scope:
+[2.745s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:268:36:[m[K [01;31m[Kerror: [m[K‘[01m[KManualControlSetpoint[m[K’ in namespace ‘[01m[Kpx4_msgs::msg[m[K’ does not name a type
+[2.745s]   268 | void subRcPx4(const px4_msgs::msg::[01;31m[KManualControlSetpoint[m[K::SharedPtr msg)
+[2.745s]       |                                    [01;31m[K^~~~~~~~~~~~~~~~~~~~~[m[K
+[2.745s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:268:69:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[Kmsg[m[K’
+[2.745s]   268 | void subRcPx4(const px4_msgs::msg::ManualControlSetpoint::SharedPtr [01;31m[Kmsg[m[K)
+[2.745s]       |                                                                     [01;31m[K^~~[m[K
+[2.745s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:268:68:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[Kmsg[m[K’
+[2.745s]   268 | void subRcPx4[34m[K([m[Kconst px4_msgs::msg::ManualControlSetpoint::SharedPtr[01;31m[K [m[K[32m[Kmsg[m[K)
+[2.745s]       |              [34m[K~[m[K                                                     [01;31m[K^[m[K[32m[K~~~[m[K
+[2.745s]       |                                                                    [32m[K)[m[K
+[2.745s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:268:69:[m[K [01;31m[Kerror: [m[Kexpected initializer before ‘[01m[Kmsg[m[K’
+[2.745s]   268 | void subRcPx4(const px4_msgs::msg::ManualControlSetpoint::SharedPtr [01;31m[Kmsg[m[K)
+[2.745s]       |                                                                     [01;31m[K^~~[m[K
+[2.772s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:[m[K In function ‘[01m[Kvoid laser_uav_px4_api::tmrPubRcPx4()[m[K’:
+[2.772s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:427:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kmode_switch[m[K’ was not declared in this scope
+[2.773s]   427 |     if ([01;31m[Kmode_switch[m[K == 1)
+[2.773s]       |         [01;31m[K^~~~~~~~~~~[m[K
+[2.773s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:429:37:[m[K [01;31m[Kerror: [m[K‘[01m[KPoseWithHeading[m[K’ is not a member of ‘[01m[Klaser_msgs::msg[m[K’
+[2.773s]   429 |         auto msg = laser_msgs::msg::[01;31m[KPoseWithHeading[m[K();
+[2.773s]       |                                     [01;31m[K^~~~~~~~~~~~~~~[m[K
+[2.773s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:430:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kx[m[K’ was not declared in this scope
+[2.773s]   430 |         msg.pose.position.x = [01;31m[Kx[m[K;
+[2.773s]       |                               [01;31m[K^[m[K
+[2.774s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:431:31:[m[K [01;31m[Kerror: [m[K‘[01m[Ky[m[K’ was not declared in this scope; did you mean ‘[01m[Kyn[m[K’?
+[2.774s]   431 |         msg.pose.position.y = [01;31m[Ky[m[K;
+[2.774s]       |                               [01;31m[K^[m[K
+[2.774s]       |                               [32m[Kyn[m[K
+[2.775s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:432:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kz[m[K’ was not declared in this scope
+[2.775s]   432 |         msg.pose.position.z = [01;31m[Kz[m[K;
+[2.775s]       |                               [01;31m[K^[m[K
+[2.776s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:433:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kheading[m[K’ was not declared in this scope
+[2.776s]   433 |         msg.heading = [01;31m[Kheading[m[K;
+[2.776s]       |                       [01;31m[K^~~~~~~[m[K
+[2.776s] In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+[2.776s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+[2.776s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+[2.776s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+[2.776s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+[2.776s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+[2.777s]                  from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:9[m[K,
+[2.777s]                  from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1[m[K:
+[2.777s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:26:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[2.777s]   435 |         RCLCPP_INFO_ONCE([01;31m[Kthis[m[K->get_logger(), "Switch on - publishing");
+[2.777s]       |                          [01;31m[K^~~~[m[K
+[2.777s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:26:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[2.777s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:9:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[2.777s]   435 |         [01;31m[KRCLCPP_INFO_ONCE[m[K(this->get_logger(), "Switch on - publishing");
+[2.777s]       |         [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[2.777s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:9:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[2.777s]   435 |         [01;31m[KRCLCPP_INFO_ONCE[m[K(this->get_logger(), "Switch on - publishing");
+[2.777s]       |         [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[2.777s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:9:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[2.777s]   435 |         [01;31m[KRCLCPP_INFO_ONCE[m[K(this->get_logger(), "Switch on - publishing");
+[2.777s]       |         [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[2.777s] In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+[2.777s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+[2.777s]                  from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:9[m[K,
+[2.777s]                  from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1[m[K:
+[2.777s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:26:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[2.777s]   435 |         RCLCPP_INFO_ONCE([01;31m[Kthis[m[K->get_logger(), "Switch on - publishing");
+[2.777s]       |                          [01;31m[K^~~~[m[K
+[2.777s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:435:26:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[2.777s]   435 |         RCLCPP_INFO_ONCE([01;31m[Kthis[m[K->get_logger(), "Switch on - publishing");
+[2.777s]       |                          [01;31m[K^~~~[m[K
+[2.778s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:437:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kpub_px4_rc_[m[K’ was not declared in this scope
+[2.778s]   437 |         [01;31m[Kpub_px4_rc_[m[K->publish(msg);
+[2.779s]       |         [01;31m[K^~~~~~~~~~~[m[K
+[2.779s] In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+[2.779s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+[2.779s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+[2.779s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+[2.779s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+[2.779s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+[2.779s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+[2.779s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+[2.779s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+[2.779s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+[2.779s]                  from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:9[m[K,
+[2.779s]                  from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1[m[K:
+[2.780s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:26:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[2.780s]   441 |         RCLCPP_WARN_ONCE([01;31m[Kthis[m[K->get_logger(), "Switch off - not publishing");
+[2.780s]       |                          [01;31m[K^~~~[m[K
+[2.780s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:26:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[2.780s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:9:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[2.780s]   441 |         [01;31m[KRCLCPP_WARN_ONCE[m[K(this->get_logger(), "Switch off - not publishing");
+[2.780s]       |         [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[2.780s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:9:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[2.780s]   441 |         [01;31m[KRCLCPP_WARN_ONCE[m[K(this->get_logger(), "Switch off - not publishing");
+[2.780s]       |         [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[2.780s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:9:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[2.780s]   441 |         [01;31m[KRCLCPP_WARN_ONCE[m[K(this->get_logger(), "Switch off - not publishing");
+[2.780s]       |         [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[2.780s] In file included from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+[2.780s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/client.hpp:40[m[K,
+[2.780s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/callback_group.hpp:24[m[K,
+[2.780s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/any_executable.hpp:20[m[K,
+[2.780s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategy.hpp:25[m[K,
+[2.780s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:18[m[K,
+[2.780s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor_options.hpp:20[m[K,
+[2.780s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executor.hpp:37[m[K,
+[2.780s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:25[m[K,
+[2.780s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/executors.hpp:21[m[K,
+[2.780s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:155[m[K,
+[2.780s]                  from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/include/laser_uav_px4_api/api_node.hpp:9[m[K,
+[2.780s]                  from [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:1[m[K:
+[2.780s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:26:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[2.780s]   441 |         RCLCPP_WARN_ONCE([01;31m[Kthis[m[K->get_logger(), "Switch off - not publishing");
+[2.780s]       |                          [01;31m[K^~~~[m[K
+[2.780s] [01m[K/home/alves/LASER/teste/src/laser_uav_px4_api/src/api_node.cpp:441:26:[m[K [01;31m[Kerror: [m[Kinvalid use of ‘[01m[Kthis[m[K’ in non-member function
+[2.780s]   441 |         RCLCPP_WARN_ONCE([01;31m[Kthis[m[K->get_logger(), "Switch off - not publishing");
+[2.780s]       |                          [01;31m[K^~~~[m[K
+[9.256s] gmake[2]: *** [CMakeFiles/api_core.dir/build.make:76: CMakeFiles/api_core.dir/src/api_node.cpp.o] Erro 1
+[9.256s] gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/api_core.dir/all] Erro 2
+[9.256s] gmake: *** [Makefile:146: all] Erro 2
+[9.259s] Invoked command in '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api

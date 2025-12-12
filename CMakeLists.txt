@@ -74,10 +74,6 @@ install(TARGETS ${library_name}
   RUNTIME DESTINATION bin
 )
 
-install(TARGETS ${executable_name}
-  px4_listener
-  RUNTIME DESTINATION lib/${PROJECT_NAME}
-)
 
 install(DIRECTORY include/
   DESTINATION include/

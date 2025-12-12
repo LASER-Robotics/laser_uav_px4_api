@@ -12,6 +12,7 @@
 #include <laser_msgs/msg/attitude_rates_and_thrust.hpp>
 #include <laser_msgs/msg/api_px4_diagnostics.hpp>
 #include <laser_msgs/msg/motor_speed.hpp>
+#include <laser_msgs/msg/pose_with_heading.hpp>
 
 #include <std_srvs/srv/trigger.hpp>
 #include <sensor_msgs/msg/imu.hpp>
@@ -27,6 +28,7 @@
 #include <px4_msgs/msg/sensor_gyro.hpp>
 #include <px4_msgs/msg/sensor_accel.hpp>
 #include <px4_msgs/msg/actuator_motors.hpp>
+#include <px4_msgs/msg/manual_control_setpoint.hpp>
 
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
@@ -141,6 +143,7 @@ private:
   float heading = 0.0f;
   float z = 0.0f;
   uint8_t mode_switch = 0;
+  bool previous_switch_state_ = false;
 };
 }  // namespace laser_uav_px4_api
 

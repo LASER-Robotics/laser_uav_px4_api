@@ -1,0 +1,35 @@
+[0.010s] Invoking command in '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api
+[0.066s] [35m[1mConsolidate compiler generated dependencies of target api_core[0m
+[0.090s] [ 50%] Built target api_core
+[0.105s] [35m[1mConsolidate compiler generated dependencies of target api[0m
+[0.134s] [100%] Built target api
+[0.146s] Invoked command in '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api
+[0.157s] Invoking command in '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api
+[0.167s] -- Install configuration: ""
+[0.167s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/lib/libapi_core.so
+[0.167s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/include/
+[0.168s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/include//laser_uav_px4_api
+[0.168s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/include//laser_uav_px4_api/api_node.hpp
+[0.168s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/launch
+[0.168s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/launch/api.launch.py
+[0.168s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/params
+[0.168s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/params/api.yaml
+[0.168s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/ament_index/resource_index/package_run_dependencies/laser_uav_px4_api
+[0.168s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/ament_index/resource_index/parent_prefix_path/laser_uav_px4_api
+[0.168s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/environment/ament_prefix_path.sh
+[0.169s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/environment/ament_prefix_path.dsv
+[0.169s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/environment/path.sh
+[0.169s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/environment/path.dsv
+[0.169s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/local_setup.bash
+[0.169s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/local_setup.sh
+[0.169s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/local_setup.zsh
+[0.169s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/local_setup.dsv
+[0.169s] -- Installing: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/package.dsv
+[0.170s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/ament_index/resource_index/packages/laser_uav_px4_api
+[0.170s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/ament_index/resource_index/rclcpp_components/laser_uav_px4_api
+[0.170s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/cmake/ament_cmake_export_include_directories-extras.cmake
+[0.170s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/cmake/ament_cmake_export_dependencies-extras.cmake
+[0.170s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/cmake/laser_uav_px4_apiConfig.cmake
+[0.170s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/cmake/laser_uav_px4_apiConfig-version.cmake
+[0.170s] -- Up-to-date: /home/alves/LASER/teste/src/laser_uav_px4_api/install/laser_uav_px4_api/share/laser_uav_px4_api/package.xml
+[0.171s] Invoked command in '/home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/alves/LASER/teste/src/laser_uav_px4_api/build/laser_uav_px4_api

@@ -117,12 +117,13 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
   sub_vehicle_status_px4_.reset();
   sub_control_mode_px4_.reset();
   sub_esc_status_px4_.reset();
-
+  
   pub_offboard_control_mode_px4_.reset();
   pub_nav_odometry_.reset();
   pub_imu_.reset();
   pub_api_diagnostics_.reset();
   pub_motor_speed_estimation_.reset();
+  pub_rc_to_goto_.reset();
 
   tmr_pub_offboard_control_mode_px4_.reset();
   tmr_pub_motor_speed_reference_px4_.reset();
@@ -179,6 +180,11 @@ void ApiNode::configPubSub() {
   pub_vehicle_command_px4_       = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
   pub_offboard_control_mode_px4_ = create_publisher<px4_msgs::msg::OffboardControlMode>("offboard_control_mode_px4_out", 10);
 
+  sub_px4_rc_ = create_subscription<px4_msgs::msg::ManualControlSetpoint>("px4_rc_in", 10,
+                                                                        std::bind(&ApiNode::subRcPx4, this, std::placeholders::_1));
+
+  pub_rc_to_goto_ = create_publisher<laser_msgs::msg::PoseWithHeading>("rc_to_goto_out", 10);
+
   // Pubs and Subs for System topics
   pub_api_diagnostics_ = create_publisher<laser_msgs::msg::ApiPx4Diagnostics>("api_diagnostics", 10);
 
@@ -187,6 +193,7 @@ void ApiNode::configPubSub() {
   pub_imu_ = create_publisher<sensor_msgs::msg::Imu>("imu", 10);
 
   pub_motor_speed_estimation_ = create_publisher<laser_msgs::msg::MotorSpeed>("motor_speed_estimation_out", 10);
+  
 
   if (_control_input_mode_ == "individual_thrust") {
     pub_motor_speed_reference_px4_ = create_publisher<px4_msgs::msg::ActuatorMotors>("motor_speed_reference_px4_out", 10);
@@ -197,6 +204,7 @@ void ApiNode::configPubSub() {
     sub_attitude_rates_and_thrust_reference_ = create_subscription<laser_msgs::msg::AttitudeRatesAndThrust>(
         "attitude_rates_thrust_in", 1, std::bind(&ApiNode::subAttitudeRatesAndThrustReference, this, std::placeholders::_1));
   }
+  
 }
 //}
 
@@ -250,6 +258,23 @@ void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
   motor_speed_estimation.unit_of_measurement = "rad/s";
 
   pub_motor_speed_estimation_->publish(motor_speed_estimation);
+}
+//}
+
+/* subRcPx4() //{ */
+void ApiNode::subRcPx4(const px4_msgs::msg::ManualControlSetpoint  &msg)
+{
+    if (msg.aux1 > 0.5f)
+    {
+        auto rc_msg = laser_msgs::msg::PoseWithHeading();
+        rc_msg.position.x = msg.pitch;
+        rc_msg.position.y = msg.roll;
+        rc_msg.position.z = msg.throttle;
+        rc_msg.heading = msg.yaw;
+
+        pub_rc_to_goto_->publish(rc_msg);
+    }
+
 }
 //}
 

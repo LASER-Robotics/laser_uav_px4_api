@@ -1,0 +1,7 @@
+/**/**:
+  ros__parameters:
+    rate:
+      pub_offboard_control_mode: 100.0
+      pub_api_diagnostics: 10.0
+
+    control_input_mode: "individual_thrust" 

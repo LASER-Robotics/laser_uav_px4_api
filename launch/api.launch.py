@@ -45,7 +45,6 @@ def generate_launch_description():
 
 #Initialize arguments
     api_file = LaunchConfiguration('api_file')
-
     api_lifecycle_node = LifecycleNode(
         package='laser_uav_px4_api',
         executable='api',
@@ -61,11 +60,13 @@ def generate_launch_description():
             ('/' + uav_name + '/vehicle_odometry_px4_in', '/' + uav_name + '/fmu/out/vehicle_odometry'),
             ('/' + uav_name + '/sensor_gyro_px4_in', '/' + uav_name + '/fmu/out/sensor_gyro'),
             ('/' + uav_name + '/sensor_accel_px4_in', '/' + uav_name + '/fmu/out/sensor_accel'),
+            ('/' + uav_name + '/sensor_combined_px4_in', '/' + uav_name + '/fmu/out/sensor_combined'),
             ('/' + uav_name + '/vehicle_status_px4_in', '/' + uav_name + '/fmu/out/vehicle_status'),
             ('/' + uav_name + '/vehicle_control_mode_px4_in', '/' + uav_name + '/fmu/out/vehicle_control_mode'),
             ('/' + uav_name + '/individual_thrust_in', '/' + uav_name + '/px4_api/individual_thrust'),
-            ('/' + uav_name + '/odometry', '/' + uav_name + '/px4_api/odometry'),
-            ('/' + uav_name + '/imu', '/' + uav_name + '/px4_api/imu'),
+            ('/' + uav_name + '/odometry', '/' + uav_name + '/px4_api/odometry_BAG'),
+            ('/' + uav_name + '/imu_raw', '/' + uav_name + '/px4_api/imu_raw_BAG'),
+            ('/' + uav_name + '/imu_combined', '/' + uav_name + '/px4_api/imu_BAG'),
             ('/' + uav_name + '/arm', '/' + uav_name + '/px4_api/arm'),
             ('/' + uav_name + '/disarm', '/' + uav_name + '/px4_api/disarm'),
             ('/' + uav_name + '/api_diagnostics', '/' + uav_name + '/px4_api/diagnostics'),

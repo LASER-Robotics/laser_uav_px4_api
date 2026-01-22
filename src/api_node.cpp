@@ -69,7 +69,8 @@ CallbackReturn ApiNode::on_activate([[maybe_unused]] const rclcpp_lifecycle::Sta
   pub_offboard_control_mode_px4_->on_activate();
   pub_api_diagnostics_->on_activate();
   pub_nav_odometry_->on_activate();
-  pub_imu_->on_activate();
+  pub_imu_raw_->on_activate();
+  pub_imu_combined_->on_activate();
   pub_motor_speed_estimation_->on_activate();
 
   if (_control_input_mode_ == "individual_thrust") {
@@ -91,7 +92,8 @@ CallbackReturn ApiNode::on_deactivate([[maybe_unused]] const rclcpp_lifecycle::S
   pub_vehicle_command_px4_->on_deactivate();
   pub_offboard_control_mode_px4_->on_deactivate();
   pub_nav_odometry_->on_deactivate();
-  pub_imu_->on_deactivate();
+  pub_imu_raw_->on_deactivate();
+  pub_imu_combined_->on_deactivate();
   pub_api_diagnostics_->on_deactivate();
   pub_motor_speed_estimation_->on_deactivate();
 
@@ -120,7 +122,8 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
 
   pub_offboard_control_mode_px4_.reset();
   pub_nav_odometry_.reset();
-  pub_imu_.reset();
+  pub_imu_raw_.reset();
+  pub_imu_combined_.reset();
   pub_api_diagnostics_.reset();
   pub_motor_speed_estimation_.reset();
 
@@ -164,10 +167,12 @@ void ApiNode::configPubSub() {
   sub_odometry_px4_ = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
                                                                           std::bind(&ApiNode::subOdometryPx4, this, std::placeholders::_1));
 
-  sub_sensor_gyro_px4_ = create_subscription<px4_msgs::msg::SensorGyro>("sensor_gyro_px4_in", rclcpp::SensorDataQoS(),
-                                                                                std::bind(&ApiNode::subSensorGyroPx4, this, std::placeholders::_1));
-  sub_sensor_accel_px4_ = create_subscription<px4_msgs::msg::SensorAccel>("sensor_accel_px4_in", rclcpp::SensorDataQoS(),
-                                                                                std::bind(&ApiNode::subSensorAccelPx4, this, std::placeholders::_1));
+  sub_sensor_gyro_px4_     = create_subscription<px4_msgs::msg::SensorGyro>("sensor_gyro_px4_in", rclcpp::SensorDataQoS(),
+                                                                        std::bind(&ApiNode::subSensorGyroPx4, this, std::placeholders::_1));
+  sub_sensor_accel_px4_    = create_subscription<px4_msgs::msg::SensorAccel>("sensor_accel_px4_in", rclcpp::SensorDataQoS(),
+                                                                          std::bind(&ApiNode::subSensorAccelPx4, this, std::placeholders::_1));
+  sub_sensor_combined_px4_ = create_subscription<px4_msgs::msg::SensorCombined>("sensor_combined_px4_in", rclcpp::SensorDataQoS(),
+                                                                                std::bind(&ApiNode::subSensorCombinedPx4, this, std::placeholders::_1));
 
   sub_vehicle_status_px4_ = create_subscription<px4_msgs::msg::VehicleStatus>("vehicle_status_px4_in", rclcpp::SensorDataQoS(),
                                                                               std::bind(&ApiNode::subVehicleStatusPx4, this, std::placeholders::_1));
@@ -184,7 +189,8 @@ void ApiNode::configPubSub() {
 
   pub_nav_odometry_ = create_publisher<nav_msgs::msg::Odometry>("odometry", 10);
 
-  pub_imu_ = create_publisher<sensor_msgs::msg::Imu>("imu", 10);
+  pub_imu_raw_      = create_publisher<sensor_msgs::msg::Imu>("imu_raw", 10);
+  pub_imu_combined_ = create_publisher<sensor_msgs::msg::Imu>("imu_combined", 10);
 
   pub_motor_speed_estimation_ = create_publisher<laser_msgs::msg::MotorSpeed>("motor_speed_estimation_out", 10);
 
@@ -269,9 +275,10 @@ void ApiNode::subSensorGyroPx4(const px4_msgs::msg::SensorGyro &msg) {
 
   imu_.header.stamp    = get_clock()->now();
   imu_.header.frame_id = "fcu";
-  pub_imu_->publish(imu_);
+  pub_imu_raw_->publish(imu_);
 }
 //}
+
 
 /* subSensorAccelPx4() //{ */
 void ApiNode::subSensorAccelPx4(const px4_msgs::msg::SensorAccel &msg) {
@@ -286,6 +293,33 @@ void ApiNode::subSensorAccelPx4(const px4_msgs::msg::SensorAccel &msg) {
   imu_.linear_acceleration.x = frd_to_flu(0);
   imu_.linear_acceleration.y = frd_to_flu(1);
   imu_.linear_acceleration.z = frd_to_flu(2);
+}
+//}
+
+/* subSensorCombinedPx4() //{ */
+void ApiNode::subSensorCombinedPx4(const px4_msgs::msg::SensorCombined &msg) {
+  if (!is_active_) {
+    return;
+  }
+
+  Eigen::Vector3d frd_to_flu;
+  frd_to_flu << msg.accelerometer_m_s2[0], msg.accelerometer_m_s2[1], msg.accelerometer_m_s2[2];
+  frd_to_flu = frdToFlu(frd_to_flu);
+
+  imu_.linear_acceleration.x = frd_to_flu(0);
+  imu_.linear_acceleration.y = frd_to_flu(1);
+  imu_.linear_acceleration.z = frd_to_flu(2);
+
+  frd_to_flu << msg.gyro_rad[0], msg.gyro_rad[1], msg.gyro_rad[2];
+  frd_to_flu = frdToFlu(frd_to_flu);
+
+  imu_.angular_velocity.x = frd_to_flu(0);
+  imu_.angular_velocity.y = frd_to_flu(1);
+  imu_.angular_velocity.z = frd_to_flu(2);
+
+  imu_.header.stamp    = get_clock()->now();
+  imu_.header.frame_id = "fcu";
+  pub_imu_combined_->publish(imu_);
 }
 //}
 

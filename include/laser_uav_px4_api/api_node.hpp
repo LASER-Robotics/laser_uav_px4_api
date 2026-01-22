@@ -26,6 +26,7 @@
 #include <px4_msgs/msg/esc_status.hpp>
 #include <px4_msgs/msg/sensor_gyro.hpp>
 #include <px4_msgs/msg/sensor_accel.hpp>
+#include <px4_msgs/msg/sensor_combined.hpp>
 #include <px4_msgs/msg/actuator_motors.hpp>
 
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
@@ -71,7 +72,10 @@ private:
   void                                                                   subSensorGyroPx4(const px4_msgs::msg::SensorGyro &msg);
   rclcpp::Subscription<px4_msgs::msg::SensorAccel>::ConstSharedPtr       sub_sensor_accel_px4_;
   void                                                                   subSensorAccelPx4(const px4_msgs::msg::SensorAccel &msg);
-  rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::Imu>::SharedPtr pub_imu_;
+  rclcpp::Subscription<px4_msgs::msg::SensorCombined>::ConstSharedPtr    sub_sensor_combined_px4_;
+  void                                                                   subSensorCombinedPx4(const px4_msgs::msg::SensorCombined &msg);
+  rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::Imu>::SharedPtr pub_imu_raw_;
+  rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::Imu>::SharedPtr pub_imu_combined_;
 
   rclcpp::Subscription<px4_msgs::msg::VehicleStatus>::ConstSharedPtr sub_vehicle_status_px4_;
   void                                                               subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg);

@@ -1,5 +1,5 @@
-#ifndef LASER_UAV_HW_API__PX4_API_NODE_HPP
-#define LASER_UAV_HW_API__PX4_API_NODE_HPP
+#ifndef LASER_UAV_HW_API__ARDUPILOT_API_NODE_HPP
+#define LASER_UAV_HW_API__ARDUPILOT_API_NODE_HPP
 
 #include <Eigen/Dense>
 #include <cstdlib>
@@ -10,33 +10,25 @@
 #include "rclcpp_lifecycle/lifecycle_node.hpp"
 
 #include <laser_msgs/msg/attitude_rates_and_thrust.hpp>
-#include <laser_msgs/msg/api_px4_diagnostics.hpp>
-#include <laser_msgs/msg/motor_speed.hpp>
+#include <laser_msgs/msg/api_diagnostics.hpp>
 
 #include <std_srvs/srv/trigger.hpp>
 #include <sensor_msgs/msg/imu.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 
-#include <px4_msgs/msg/vehicle_command.hpp>
-#include <px4_msgs/msg/vehicle_control_mode.hpp>
-#include <px4_msgs/msg/offboard_control_mode.hpp>
-#include <px4_msgs/msg/vehicle_odometry.hpp>
-#include <px4_msgs/msg/vehicle_rates_setpoint.hpp>
-#include <px4_msgs/msg/vehicle_status.hpp>
-#include <px4_msgs/msg/esc_status.hpp>
-#include <px4_msgs/msg/sensor_gyro.hpp>
-#include <px4_msgs/msg/sensor_accel.hpp>
-#include <px4_msgs/msg/actuator_motors.hpp>
+#include <ardupilot_msgs/msg/attitude_target.hpp>
+#include <ardupilot_msgs/srv/arm_motors.hpp>
+#include <ardupilot_msgs/srv/mode_switch.hpp>
 
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
 namespace laser_uav_hw_api
 {
-class Px4ApiNode : public rclcpp_lifecycle::LifecycleNode {
+class ArdupilotApiNode : public rclcpp_lifecycle::LifecycleNode {
 public:
-  explicit Px4ApiNode(const rclcpp::NodeOptions &options = rclcpp::NodeOptions());
+  explicit ArdupilotApiNode(const rclcpp::NodeOptions &options = rclcpp::NodeOptions());
 
-  ~Px4ApiNode() override;
+  ~ArdupilotApiNode() override;
 
 private:
   Eigen::Vector3d    enuToNed(Eigen::Vector3d p);
@@ -60,11 +52,13 @@ private:
   void configTimers();
   void configServices();
 
-  rclcpp::Subscription<px4_msgs::msg::VehicleControlMode>::ConstSharedPtr sub_control_mode_px4_;
-  void                                                                    subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg);
+  rclcpp::Subscription<ardupilot_msgs::msg::Status>::ConstSharedPtr sub_status_ap_;
+  void                                                              subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg);
 
-  rclcpp::Subscription<px4_msgs::msg::VehicleOdometry>::ConstSharedPtr     sub_odometry_px4_;
-  void                                                                     subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg);
+  rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::ConstSharedPtr    sub_estimated_pose_ap_;
+  void                                                                     subEstimatedPoseAp(const geometry_msgs::msg::PoseStamped &msg);
+  rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::ConstSharedPtr   sub_estimated_twist_ap_;
+  void                                                                     subEstimatedTwistAp(const geometry_msgs::msg::TwistStamped &msg);
   rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>::SharedPtr pub_nav_odometry_;
 
   rclcpp::Subscription<px4_msgs::msg::SensorGyro>::ConstSharedPtr        sub_sensor_gyro_px4_;

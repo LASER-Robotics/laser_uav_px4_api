@@ -12,6 +12,7 @@
 #include <laser_msgs/msg/attitude_rates_and_thrust.hpp>
 #include <laser_msgs/msg/api_px4_diagnostics.hpp>
 #include <laser_msgs/msg/motor_speed.hpp>
+#include <laser_msgs/msg/motor_speed_stamped.hpp>
 
 #include <std_srvs/srv/trigger.hpp>
 #include <sensor_msgs/msg/imu.hpp>
@@ -80,9 +81,9 @@ private:
   rclcpp::Subscription<px4_msgs::msg::VehicleStatus>::ConstSharedPtr sub_vehicle_status_px4_;
   void                                                               subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg);
 
-  rclcpp::Subscription<px4_msgs::msg::EscStatus>::ConstSharedPtr               sub_esc_status_px4_;
-  void                                                                         subEscStatusPx4(const px4_msgs::msg::EscStatus &msg);
-  rclcpp_lifecycle::LifecyclePublisher<laser_msgs::msg::MotorSpeed>::SharedPtr pub_motor_speed_estimation_;
+  rclcpp::Subscription<px4_msgs::msg::EscStatus>::ConstSharedPtr                      sub_esc_status_px4_;
+  void                                                                                subEscStatusPx4(const px4_msgs::msg::EscStatus &msg);
+  rclcpp_lifecycle::LifecyclePublisher<laser_msgs::msg::MotorSpeedStamped>::SharedPtr pub_motor_speed_estimation_;
 
   rclcpp::Subscription<laser_msgs::msg::MotorSpeed>::ConstSharedPtr              sub_motor_speed_reference_;
   void                                                                           subMotorSpeedReference(const laser_msgs::msg::MotorSpeed &msg);

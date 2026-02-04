@@ -192,7 +192,7 @@ void ApiNode::configPubSub() {
   pub_imu_raw_      = create_publisher<sensor_msgs::msg::Imu>("imu_raw", 10);
   pub_imu_combined_ = create_publisher<sensor_msgs::msg::Imu>("imu_combined", 10);
 
-  pub_motor_speed_estimation_ = create_publisher<laser_msgs::msg::MotorSpeed>("motor_speed_estimation_out", 10);
+  pub_motor_speed_estimation_ = create_publisher<laser_msgs::msg::MotorSpeedStamped>("motor_speed_estimation_out", 10);
 
   if (_control_input_mode_ == "individual_thrust") {
     pub_motor_speed_reference_px4_ = create_publisher<px4_msgs::msg::ActuatorMotors>("motor_speed_reference_px4_out", 10);
@@ -248,12 +248,15 @@ void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
     return;
   }
 
-  laser_msgs::msg::MotorSpeed motor_speed_estimation;
+  laser_msgs::msg::MotorSpeedStamped motor_speed_estimation;
+
+  motor_speed_estimation.header.stamp    = get_clock()->now();
+  motor_speed_estimation.header.frame_id = "fcu";
 
   for (auto i = 0; i < (int)msg.esc_count; i++) {
-    motor_speed_estimation.data.push_back(msg.esc[i].esc_rpm * 0.1047);
+    motor_speed_estimation.data.data.push_back(msg.esc[i].esc_rpm * 0.1047);
   }
-  motor_speed_estimation.unit_of_measurement = "rad/s";
+  motor_speed_estimation.data.unit_of_measurement = "rad/s";
 
   pub_motor_speed_estimation_->publish(motor_speed_estimation);
 }

@@ -19,8 +19,10 @@ find_package(geometry_msgs REQUIRED)
 find_package(laser_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(px4_msgs REQUIRED)
+find_package(ardupilot_msgs REQUIRED)
 
 set(dependencies
 Eigen3
@@ -28,10 +30,12 @@ rclcpp
 rclcpp_lifecycle 
 rclcpp_components
 sensor_msgs
+geometry_msgs
 nav_msgs 
 std_srvs 
 px4_msgs
 laser_msgs
+ardupilot_msgs
 )
 
 include_directories(
@@ -39,41 +43,45 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR}
 )
 
-set(executable_name px4_api)
-
-add_executable(${executable_name}
+add_executable(px4_api
   src/px4_api_main.cpp
 )
-
-set(library_name px4_api_core)
-
-add_library(${library_name} SHARED
+add_library(px4_api_core SHARED
   src/px4_api_node.cpp
 )
-
-ament_target_dependencies(${executable_name}
-  ${dependencies}
-)
-
-target_link_libraries(${executable_name}
+target_link_libraries(px4_api
   px4_api_core
 )
-
-ament_target_dependencies(${library_name}
+ament_target_dependencies(px4_api_core
   ${dependencies}
 )
 
-target_include_directories(${library_name} PRIVATE src/include)
+add_executable(ap_api
+  src/ap_api_main.cpp
+)
+add_library(ap_api_core SHARED
+  src/ap_api_node.cpp
+)
+target_link_libraries(ap_api
+  ap_api_core
+)
+ament_target_dependencies(ap_api_core
+  ${dependencies}
+)
 
-rclcpp_components_register_nodes(${library_name} "laser_uav_hw_api::Px4ApiNode")
+target_include_directories(px4_api_core PRIVATE src/include)
+target_include_directories(ap_api_core PRIVATE src/include)
 
-install(TARGETS ${library_name}
+rclcpp_components_register_nodes(px4_api_core "laser_uav_hw_api::Px4ApiNode")
+rclcpp_components_register_nodes(ap_api_core "laser_uav_hw_api::ApApiNode")
+
+install(TARGETS px4_api_core ap_api_core
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
 )
 
-install(TARGETS ${executable_name}
+install(TARGETS px4_api ap_api
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -216,7 +216,7 @@ void ApApiNode::configServices() {
   srv_disarm_ = create_service<std_srvs::srv::Trigger>("disarm", std::bind(&ApApiNode::srvDisarm, this, std::placeholders::_1, std::placeholders::_2));
 
   clt_arm_motors_ap_  = create_client<ardupilot_msgs::srv::ArmMotors>("arm_motors_ap");
-  clt_mode_switch_ap_ = create_client<ardupilot_msgs::srv::ModeSwitch>("switch_mode_ap");
+  clt_mode_switch_ap_ = create_client<ardupilot_msgs::srv::ModeSwitch>("mode_switch_ap");
 }
 //}
 
@@ -243,27 +243,20 @@ void ApApiNode::subImuAp(const sensor_msgs::msg::Imu &msg) {
     return;
   }
 
-  /* Eigen::Vector3d frd_to_flu; */
-  /* frd_to_flu << msg.x, msg.y, msg.z; */
-  /* frd_to_flu = frdToFlu(frd_to_flu); */
+  Eigen::Vector3d frd_to_flu;
+  frd_to_flu << msg.angular_velocity.x, msg.angular_velocity.y, msg.angular_velocity.z;
+  frd_to_flu = frdToFlu(frd_to_flu);
 
-  /* imu_.angular_velocity.x = frd_to_flu(0); */
-  /* imu_.angular_velocity.y = frd_to_flu(1); */
-  /* imu_.angular_velocity.z = frd_to_flu(2); */
+  imu_.angular_velocity.x = frd_to_flu(0);
+  imu_.angular_velocity.y = frd_to_flu(1);
+  imu_.angular_velocity.z = frd_to_flu(2);
 
-  /* frd_to_flu << msg.x, msg.y, msg.z; */
-  /* frd_to_flu = frdToFlu(frd_to_flu); */
+  frd_to_flu << msg.linear_acceleration.x, msg.linear_acceleration.y, msg.linear_acceleration.z;
+  frd_to_flu = frdToFlu(frd_to_flu);
 
-  /* imu_.angular_velocity.x = frd_to_flu(0); */
-  /* imu_.angular_velocity.y = frd_to_flu(1); */
-  /* imu_.angular_velocity.z = frd_to_flu(2); */
-
-  /* frd_to_flu << msg.x, msg.y, msg.z; */
-  /* frd_to_flu = frdToFlu(frd_to_flu); */
-
-  /* imu_.angular_velocity.x = frd_to_flu(0); */
-  /* imu_.angular_velocity.y = frd_to_flu(1); */
-  /* imu_.angular_velocity.z = frd_to_flu(2); */
+  imu_.linear_acceleration.x = frd_to_flu(0);
+  imu_.linear_acceleration.y = frd_to_flu(1);
+  imu_.linear_acceleration.z = frd_to_flu(2);
 
   imu_.header.stamp    = get_clock()->now();
   imu_.header.frame_id = "fcu";
@@ -317,7 +310,7 @@ void ApApiNode::subEstimatedPoseAp(const geometry_msgs::msg::PoseStamped &msg) {
   Eigen::Quaterniond ned_to_enu_orientation_tf(msg.pose.orientation.w, msg.pose.orientation.x, msg.pose.orientation.y, msg.pose.orientation.z);
   ned_to_enu_orientation_tf = enuToNedOrientation(ned_to_enu_orientation_tf);
   ned_to_enu_orientation_tf = ned_to_enu_orientation_tf.normalized();
-  /* ned_to_enu_orientation_tf.coeffs() *= -1; */
+  ned_to_enu_orientation_tf.coeffs() *= -1;
 
   // --- Multiply by -1 for adjust rotation
   current_nav_odometry.pose.pose.orientation.x = ned_to_enu_orientation_tf.x();
@@ -453,11 +446,15 @@ void ApApiNode::subAttitudeRatesAndThrustReference(const laser_msgs::msg::Attitu
   flu_to_frd << msg.roll_rate, msg.pitch_rate, msg.yaw_rate;
   flu_to_frd = frdToFlu(flu_to_frd);
 
-  attitude_rates_reference.body_rate.x = flu_to_frd(0);
-  attitude_rates_reference.body_rate.y = flu_to_frd(1);
-  attitude_rates_reference.body_rate.z = flu_to_frd(2);
+  /* attitude_rates_reference.body_rate.x = flu_to_frd(0); */
+  /* attitude_rates_reference.body_rate.y = flu_to_frd(1); */
+  /* attitude_rates_reference.body_rate.z = flu_to_frd(2); */
 
-  attitude_rates_reference.thrust = -msg.total_thrust_normalized;
+  attitude_rates_reference.body_rate.x = msg.roll_rate;
+  attitude_rates_reference.body_rate.y = -msg.pitch_rate;
+  attitude_rates_reference.body_rate.z = msg.yaw_rate;
+
+  attitude_rates_reference.thrust = msg.total_thrust_normalized;
 
   attitude_rates_reference.header.stamp = get_clock()->now();
 
@@ -530,23 +527,17 @@ void ApApiNode::srvArm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Tri
   /*   return; */
   /* } */
 
-  auto mode_request          = std::make_shared<ardupilot_msgs::srv::ModeSwitch::Request>();
-  mode_request->mode         = 4;
-  bool wait_server_response_ = true;
+  auto mode_request  = std::make_shared<ardupilot_msgs::srv::ModeSwitch::Request>();
+  mode_request->mode = 4;
 
-  auto callback_result = [&](rclcpp::Client<ardupilot_msgs::srv::ModeSwitch>::SharedFuture future) -> void { wait_server_response_ = false; };
-  clt_mode_switch_ap_->async_send_request(mode_request, callback_result);
-  while (wait_server_response_)
-    ;
+  auto response_mode_switch = clt_mode_switch_ap_->async_send_request(mode_request);
+  response_mode_switch.share().wait_for(std::chrono::milliseconds(500));
 
-  auto arm_request      = std::make_shared<ardupilot_msgs::srv::ArmMotors::Request>();
-  arm_request->arm      = true;
-  wait_server_response_ = true;
+  auto arm_request = std::make_shared<ardupilot_msgs::srv::ArmMotors::Request>();
+  arm_request->arm = true;
 
-  callback_result = [&](rclcpp::Client<ardupilot_msgs::srv::ArmMotors>::SharedFuture future) -> void { wait_server_response_ = false; };
-  clt_arm_motors_ap_->async_send_request(arm_request, callback_result);
-  while (wait_server_response_)
-    ;
+  auto response_arm_motors = clt_arm_motors_ap_->async_send_request(arm_request);
+  response_arm_motors.share().wait_for(std::chrono::milliseconds(500));
 
   response->success = true;
   response->message = "arm requested success";
@@ -566,14 +557,11 @@ void ApApiNode::srvDisarm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::
     return;
   }
 
-  auto mode_request               = std::make_shared<ardupilot_msgs::srv::ArmMotors::Request>();
-  mode_request->arm               = false;
-  bool wait_server_response_ = true;
+  auto arm_request = std::make_shared<ardupilot_msgs::srv::ArmMotors::Request>();
+  arm_request->arm = false;
 
-  auto callback_result = [&](rclcpp::Client<ardupilot_msgs::msg::ArmMotors>::SharedFuture future) -> void { wait_server_response_ = false; };
-  clt_arm_motors_ap_->async_send_request(mode_request, callback_result);
-  while (wait_server_response_)
-    ;
+  auto response_arm_motors = clt_arm_motors_ap_->async_send_request(arm_request);
+  response_arm_motors.share().wait_for(std::chrono::milliseconds(500));
 
   response->success = true;
   response->message = "disarm requested success";

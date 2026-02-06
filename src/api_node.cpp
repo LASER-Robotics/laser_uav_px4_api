@@ -69,14 +69,22 @@ CallbackReturn ApiNode::on_activate([[maybe_unused]] const rclcpp_lifecycle::Sta
   pub_offboard_control_mode_px4_->on_activate();
   pub_api_diagnostics_->on_activate();
   pub_nav_odometry_->on_activate();
+<<<<<<< HEAD
   pub_imu_raw_->on_activate();
   pub_imu_combined_->on_activate();
   pub_motor_speed_estimation_->on_activate();
+=======
+  pub_imu_->on_activate();
+>>>>>>> origin/release/1.0
 
   if (_control_input_mode_ == "individual_thrust") {
     pub_motor_speed_reference_px4_->on_activate();
   } else if (_control_input_mode_ == "angular_rates_and_thrust") {
     pub_attitude_rates_reference_px4_->on_activate();
+  }
+
+  if (real_uav_) {
+    pub_motor_speed_estimation_->on_activate();
   }
 
   is_active_ = true;
@@ -95,12 +103,15 @@ CallbackReturn ApiNode::on_deactivate([[maybe_unused]] const rclcpp_lifecycle::S
   pub_imu_raw_->on_deactivate();
   pub_imu_combined_->on_deactivate();
   pub_api_diagnostics_->on_deactivate();
-  pub_motor_speed_estimation_->on_deactivate();
 
   if (_control_input_mode_ == "individual_thrust") {
     pub_motor_speed_reference_px4_->on_deactivate();
   } else if (_control_input_mode_ == "angular_rates_and_thrust") {
     pub_attitude_rates_reference_px4_->on_deactivate();
+  }
+
+  if (real_uav_) {
+    pub_motor_speed_estimation_->on_deactivate();
   }
 
   is_active_ = false;
@@ -118,14 +129,12 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
   sub_sensor_accel_px4_.reset();
   sub_vehicle_status_px4_.reset();
   sub_control_mode_px4_.reset();
-  sub_esc_status_px4_.reset();
 
   pub_offboard_control_mode_px4_.reset();
   pub_nav_odometry_.reset();
   pub_imu_raw_.reset();
   pub_imu_combined_.reset();
   pub_api_diagnostics_.reset();
-  pub_motor_speed_estimation_.reset();
 
   tmr_pub_offboard_control_mode_px4_.reset();
   tmr_pub_motor_speed_reference_px4_.reset();
@@ -137,6 +146,11 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
   } else if (_control_input_mode_ == "angular_rates_and_thrust") {
     pub_attitude_rates_reference_px4_.reset();
     sub_attitude_rates_and_thrust_reference_.reset();
+  }
+
+  if (real_uav_) {
+    sub_esc_status_px4_.reset();
+    pub_motor_speed_estimation_.reset();
   }
 
   return CallbackReturn::SUCCESS;
@@ -164,36 +178,48 @@ void ApiNode::configPubSub() {
   RCLCPP_INFO(get_logger(), "initPubSub");
 
   // Pubs and Subs for Px4 topics
-  sub_odometry_px4_ = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
+  sub_odometry_px4_        = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
                                                                           std::bind(&ApiNode::subOdometryPx4, this, std::placeholders::_1));
 
+<<<<<<< HEAD
   sub_sensor_gyro_px4_     = create_subscription<px4_msgs::msg::SensorGyro>("sensor_gyro_px4_in", rclcpp::SensorDataQoS(),
                                                                         std::bind(&ApiNode::subSensorGyroPx4, this, std::placeholders::_1));
   sub_sensor_accel_px4_    = create_subscription<px4_msgs::msg::SensorAccel>("sensor_accel_px4_in", rclcpp::SensorDataQoS(),
                                                                           std::bind(&ApiNode::subSensorAccelPx4, this, std::placeholders::_1));
   sub_sensor_combined_px4_ = create_subscription<px4_msgs::msg::SensorCombined>("sensor_combined_px4_in", rclcpp::SensorDataQoS(),
                                                                                 std::bind(&ApiNode::subSensorCombinedPx4, this, std::placeholders::_1));
+=======
+  sub_sensor_gyro_px4_  = create_subscription<px4_msgs::msg::SensorGyro>("sensor_gyro_px4_in", rclcpp::SensorDataQoS(),
+                                                                        std::bind(&ApiNode::subSensorGyroPx4, this, std::placeholders::_1));
+  sub_sensor_accel_px4_ = create_subscription<px4_msgs::msg::SensorAccel>("sensor_accel_px4_in", rclcpp::SensorDataQoS(),
+                                                                          std::bind(&ApiNode::subSensorAccelPx4, this, std::placeholders::_1));
+>>>>>>> origin/release/1.0
 
   sub_vehicle_status_px4_ = create_subscription<px4_msgs::msg::VehicleStatus>("vehicle_status_px4_in", rclcpp::SensorDataQoS(),
                                                                               std::bind(&ApiNode::subVehicleStatusPx4, this, std::placeholders::_1));
   sub_control_mode_px4_   = create_subscription<px4_msgs::msg::VehicleControlMode>("vehicle_control_mode_px4_in", rclcpp::SensorDataQoS(),
                                                                                  std::bind(&ApiNode::subControlModePx4, this, std::placeholders::_1));
-  sub_esc_status_px4_     = create_subscription<px4_msgs::msg::EscStatus>("esc_status_px4_in", rclcpp::SensorDataQoS(),
-                                                                      std::bind(&ApiNode::subEscStatusPx4, this, std::placeholders::_1));
+  if (real_uav_) {
+    sub_esc_status_px4_         = create_subscription<px4_msgs::msg::EscStatus>("esc_status_px4_in", rclcpp::SensorDataQoS(),
+                                                                        std::bind(&ApiNode::subEscStatusPx4, this, std::placeholders::_1));
+    pub_motor_speed_estimation_ = create_publisher<laser_msgs::msg::MotorSpeed>("motor_speed_estimation_out", 10);
+  }
 
   pub_vehicle_command_px4_       = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
   pub_offboard_control_mode_px4_ = create_publisher<px4_msgs::msg::OffboardControlMode>("offboard_control_mode_px4_out", 10);
 
-  // Pubs and Subs for System topics
   pub_api_diagnostics_ = create_publisher<laser_msgs::msg::ApiPx4Diagnostics>("api_diagnostics", 10);
 
   pub_nav_odometry_ = create_publisher<nav_msgs::msg::Odometry>("odometry", 10);
 
-  pub_imu_raw_      = create_publisher<sensor_msgs::msg::Imu>("imu_raw", 10);
-  pub_imu_combined_ = create_publisher<sensor_msgs::msg::Imu>("imu_combined", 10);
+  pub_imu_raw_                = create_publisher<sensor_msgs::msg::Imu>("imu_raw", 10);
+  pub_imu_combined_           = create_publisher<sensor_msgs::msg::Imu>("imu_combined", 10);
 
+<<<<<<< HEAD
   pub_motor_speed_estimation_ = create_publisher<laser_msgs::msg::MotorSpeedStamped>("motor_speed_estimation_out", 10);
 
+=======
+>>>>>>> origin/release/1.0
   if (_control_input_mode_ == "individual_thrust") {
     pub_motor_speed_reference_px4_ = create_publisher<px4_msgs::msg::ActuatorMotors>("motor_speed_reference_px4_out", 10);
     sub_motor_speed_reference_     = create_subscription<laser_msgs::msg::MotorSpeed>("motor_speed_reference_in", 1,
@@ -248,10 +274,11 @@ void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
     return;
   }
 
-  laser_msgs::msg::MotorSpeedStamped motor_speed_estimation;
+  if (!real_uav_) {
+    return;
+  }
 
-  motor_speed_estimation.header.stamp    = get_clock()->now();
-  motor_speed_estimation.header.frame_id = "fcu";
+  laser_msgs::msg::MotorSpeed motor_speed_estimation;
 
   for (auto i = 0; i < (int)msg.esc_count; i++) {
     motor_speed_estimation.data.data.push_back(msg.esc[i].esc_rpm * 0.1047);

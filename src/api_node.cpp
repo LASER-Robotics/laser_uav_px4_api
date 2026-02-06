@@ -190,7 +190,7 @@ void ApiNode::configPubSub() {
   if (real_uav_) {
     sub_esc_status_px4_         = create_subscription<px4_msgs::msg::EscStatus>("esc_status_px4_in", rclcpp::SensorDataQoS(),
                                                                         std::bind(&ApiNode::subEscStatusPx4, this, std::placeholders::_1));
-    pub_motor_speed_estimation_ = create_publisher<laser_msgs::msg::MotorSpeed>("motor_speed_estimation_out", 10);
+    pub_motor_speed_estimation_ = create_publisher<laser_msgs::msg::MotorSpeedStamped>("motor_speed_estimation_out", 10);
   }
 
   pub_vehicle_command_px4_       = create_publisher<px4_msgs::msg::VehicleCommand>("vehicle_command_px4_out", 10);
@@ -261,7 +261,10 @@ void ApiNode::subEscStatusPx4(const px4_msgs::msg::EscStatus &msg) {
     return;
   }
 
-  laser_msgs::msg::MotorSpeed motor_speed_estimation;
+  laser_msgs::msg::MotorSpeedStamped motor_speed_estimation;
+
+  motor_speed_estimation.header.stamp    = get_clock()->now();
+  motor_speed_estimation.header.frame_id = "fcu";
 
   for (auto i = 0; i < (int)msg.esc_count; i++) {
     motor_speed_estimation.data.data.push_back(msg.esc[i].esc_rpm * 0.1047);

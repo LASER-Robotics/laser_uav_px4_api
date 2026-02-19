@@ -70,6 +70,7 @@ CallbackReturn ApiNode::on_activate([[maybe_unused]] const rclcpp_lifecycle::Sta
   pub_api_diagnostics_->on_activate();
   pub_nav_odometry_->on_activate();
   pub_imu_->on_activate();
+  pub_garmin_->on_activate();
 
   if (_control_input_mode_ == "individual_thrust") {
     pub_motor_speed_reference_px4_->on_activate();
@@ -95,6 +96,7 @@ CallbackReturn ApiNode::on_deactivate([[maybe_unused]] const rclcpp_lifecycle::S
   pub_offboard_control_mode_px4_->on_deactivate();
   pub_nav_odometry_->on_deactivate();
   pub_imu_->on_deactivate();
+  pub_garmin_->on_deactivate();
   pub_api_diagnostics_->on_deactivate();
 
   if (_control_input_mode_ == "individual_thrust") {
@@ -117,15 +119,18 @@ CallbackReturn ApiNode::on_deactivate([[maybe_unused]] const rclcpp_lifecycle::S
 CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::State &state) {
   RCLCPP_INFO(get_logger(), "Cleaning up");
 
-  sub_odometry_px4_.reset();
+  sub_vehicle_odometry_px4_.reset();
+  sub_vehicle_gps_position_px4_.reset();
   sub_sensor_gyro_px4_.reset();
   sub_sensor_accel_px4_.reset();
+  sub_distance_sensor_px4_.reset();
   sub_vehicle_status_px4_.reset();
   sub_control_mode_px4_.reset();
 
   pub_offboard_control_mode_px4_.reset();
   pub_nav_odometry_.reset();
   pub_imu_.reset();
+  pub_garmin_.reset();
   pub_api_diagnostics_.reset();
 
   tmr_pub_offboard_control_mode_px4_.reset();
@@ -170,13 +175,18 @@ void ApiNode::configPubSub() {
   RCLCPP_INFO(get_logger(), "initPubSub");
 
   // Pubs and Subs for Px4 topics
-  sub_odometry_px4_ = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
-                                                                          std::bind(&ApiNode::subOdometryPx4, this, std::placeholders::_1));
+  sub_vehicle_odometry_px4_ = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
+                                                                          std::bind(&ApiNode::subVehicleOdometryPx4, this, std::placeholders::_1));
+
+  sub_vehicle_gps_position_px4_ = create_subscription<px4_msgs::msg::SensorGps>("vehicle_gps_position_px4_in", rclcpp::SensorDataQoS(),
+                                                                          std::bind(&ApiNode::subVehicleGpsPositionPx4, this, std::placeholders::_1));
 
   sub_sensor_gyro_px4_  = create_subscription<px4_msgs::msg::SensorGyro>("sensor_gyro_px4_in", rclcpp::SensorDataQoS(),
                                                                         std::bind(&ApiNode::subSensorGyroPx4, this, std::placeholders::_1));
   sub_sensor_accel_px4_ = create_subscription<px4_msgs::msg::SensorAccel>("sensor_accel_px4_in", rclcpp::SensorDataQoS(),
                                                                           std::bind(&ApiNode::subSensorAccelPx4, this, std::placeholders::_1));
+  sub_distance_sensor_px4_ = create_subscription<px4_msgs::msg::DistanceSensor>("distance_sensor_px4_in", rclcpp::SensorDataQoS(),
+                                                                          std::bind(&ApiNode::subDistanceSensorPx4, this, std::placeholders::_1));
 
   sub_vehicle_status_px4_ = create_subscription<px4_msgs::msg::VehicleStatus>("vehicle_status_px4_in", rclcpp::SensorDataQoS(),
                                                                               std::bind(&ApiNode::subVehicleStatusPx4, this, std::placeholders::_1));
@@ -196,6 +206,8 @@ void ApiNode::configPubSub() {
   pub_nav_odometry_ = create_publisher<nav_msgs::msg::Odometry>("odometry", 10);
 
   pub_imu_ = create_publisher<sensor_msgs::msg::Imu>("imu", 10);
+
+  pub_garmin_ = create_publisher<laser_msgs::msg::Float64Header>("garmin", 10);
 
   if (_control_input_mode_ == "individual_thrust") {
     pub_motor_speed_reference_px4_ = create_publisher<px4_msgs::msg::ActuatorMotors>("motor_speed_reference_px4_out", 10);
@@ -302,6 +314,20 @@ void ApiNode::subSensorAccelPx4(const px4_msgs::msg::SensorAccel &msg) {
 }
 //}
 
+/* subDistanceSensorPx4() //{ */
+void ApiNode::subDistanceSensorPx4(const px4_msgs::msg::DistanceSensor &msg) {
+  if (!is_active_) {
+    return;
+  }
+
+  laser_msgs::msg::Float64Header garmin_msg;
+  garmin_msg.header.stamp    = get_clock()->now();
+  garmin_msg.header.frame_id  = "fcu";
+  garmin_msg.data = msg.current_distance;
+  pub_garmin_->publish(garmin_msg);
+}
+//}
+
 /* subVehicleStatusPx4() //{ */
 void ApiNode::subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg) {
   if (!is_active_) {
@@ -315,8 +341,19 @@ void ApiNode::subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg) {
 }
 //}
 
-/* subOdometryPx4() //{ */
-void ApiNode::subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
+/* subVehicleGpsPositionPx4() //{ */
+void ApiNode::subVehicleGpsPositionPx4(const px4_msgs::msg::SensorGps &msg) {
+  if (!is_active_) {
+    return;
+  }
+
+  api_diagnostics_.qty_satellites = msg.satellites_used;
+  api_diagnostics_.rf_jamming = msg.jamming_indicator;
+}
+//}
+
+/* subVehicleOdometryPx4() //{ */
+void ApiNode::subVehicleOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg) {
   if (!is_active_) {
     return;
   }

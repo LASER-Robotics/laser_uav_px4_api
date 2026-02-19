@@ -12,6 +12,7 @@
 #include <laser_msgs/msg/attitude_rates_and_thrust.hpp>
 #include <laser_msgs/msg/api_px4_diagnostics.hpp>
 #include <laser_msgs/msg/motor_speed.hpp>
+#include <laser_msgs/msg/float64_header.hpp>
 
 #include <std_srvs/srv/trigger.hpp>
 #include <sensor_msgs/msg/imu.hpp>
@@ -21,6 +22,8 @@
 #include <px4_msgs/msg/vehicle_control_mode.hpp>
 #include <px4_msgs/msg/offboard_control_mode.hpp>
 #include <px4_msgs/msg/vehicle_odometry.hpp>
+#include <px4_msgs/msg/distance_sensor.hpp>
+#include <px4_msgs/msg/sensor_gps.hpp>
 #include <px4_msgs/msg/vehicle_rates_setpoint.hpp>
 #include <px4_msgs/msg/vehicle_status.hpp>
 #include <px4_msgs/msg/esc_status.hpp>
@@ -63,15 +66,22 @@ private:
   rclcpp::Subscription<px4_msgs::msg::VehicleControlMode>::ConstSharedPtr sub_control_mode_px4_;
   void                                                                    subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg);
 
-  rclcpp::Subscription<px4_msgs::msg::VehicleOdometry>::ConstSharedPtr     sub_odometry_px4_;
-  void                                                                     subOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg);
+  rclcpp::Subscription<px4_msgs::msg::VehicleOdometry>::ConstSharedPtr     sub_vehicle_odometry_px4_;
+  void                                                                     subVehicleOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg);
   rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>::SharedPtr pub_nav_odometry_;
+
+  rclcpp::Subscription<px4_msgs::msg::SensorGps>::ConstSharedPtr     sub_vehicle_gps_position_px4_;
+  void                                                                     subVehicleGpsPositionPx4(const px4_msgs::msg::SensorGps &msg);
 
   rclcpp::Subscription<px4_msgs::msg::SensorGyro>::ConstSharedPtr        sub_sensor_gyro_px4_;
   void                                                                   subSensorGyroPx4(const px4_msgs::msg::SensorGyro &msg);
   rclcpp::Subscription<px4_msgs::msg::SensorAccel>::ConstSharedPtr       sub_sensor_accel_px4_;
   void                                                                   subSensorAccelPx4(const px4_msgs::msg::SensorAccel &msg);
   rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::Imu>::SharedPtr pub_imu_;
+
+  rclcpp::Subscription<px4_msgs::msg::DistanceSensor>::ConstSharedPtr sub_distance_sensor_px4_;
+  void                                                                    subDistanceSensorPx4(const px4_msgs::msg::DistanceSensor &msg);
+  rclcpp_lifecycle::LifecyclePublisher<laser_msgs::msg::Float64Header>::SharedPtr pub_garmin_;
 
   rclcpp::Subscription<px4_msgs::msg::VehicleStatus>::ConstSharedPtr sub_vehicle_status_px4_;
   void                                                               subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg);

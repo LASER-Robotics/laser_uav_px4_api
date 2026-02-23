@@ -12,10 +12,11 @@
 #include <laser_msgs/msg/attitude_rates_and_thrust.hpp>
 #include <laser_msgs/msg/api_px4_diagnostics.hpp>
 #include <laser_msgs/msg/motor_speed.hpp>
-#include <laser_msgs/msg/float64_header.hpp>
+#include <laser_msgs/msg/uav_control_diagnostics.hpp>
 
 #include <std_srvs/srv/trigger.hpp>
 #include <sensor_msgs/msg/imu.hpp>
+#include <sensor_msgs/msg/range.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 
 #include <px4_msgs/msg/vehicle_command.hpp>
@@ -70,8 +71,8 @@ private:
   void                                                                     subVehicleOdometryPx4(const px4_msgs::msg::VehicleOdometry &msg);
   rclcpp_lifecycle::LifecyclePublisher<nav_msgs::msg::Odometry>::SharedPtr pub_nav_odometry_;
 
-  rclcpp::Subscription<px4_msgs::msg::SensorGps>::ConstSharedPtr     sub_vehicle_gps_position_px4_;
-  void                                                                     subVehicleGpsPositionPx4(const px4_msgs::msg::SensorGps &msg);
+  rclcpp::Subscription<px4_msgs::msg::SensorGps>::ConstSharedPtr sub_vehicle_gps_position_px4_;
+  void                                                           subVehicleGpsPositionPx4(const px4_msgs::msg::SensorGps &msg);
 
   rclcpp::Subscription<px4_msgs::msg::SensorGyro>::ConstSharedPtr        sub_sensor_gyro_px4_;
   void                                                                   subSensorGyroPx4(const px4_msgs::msg::SensorGyro &msg);
@@ -79,9 +80,9 @@ private:
   void                                                                   subSensorAccelPx4(const px4_msgs::msg::SensorAccel &msg);
   rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::Imu>::SharedPtr pub_imu_;
 
-  rclcpp::Subscription<px4_msgs::msg::DistanceSensor>::ConstSharedPtr sub_distance_sensor_px4_;
-  void                                                                    subDistanceSensorPx4(const px4_msgs::msg::DistanceSensor &msg);
-  rclcpp_lifecycle::LifecyclePublisher<laser_msgs::msg::Float64Header>::SharedPtr pub_garmin_;
+  rclcpp::Subscription<px4_msgs::msg::DistanceSensor>::ConstSharedPtr      sub_distance_sensor_px4_;
+  void                                                                     subDistanceSensorPx4(const px4_msgs::msg::DistanceSensor &msg);
+  rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::Range>::SharedPtr pub_garmin_;
 
   rclcpp::Subscription<px4_msgs::msg::VehicleStatus>::ConstSharedPtr sub_vehicle_status_px4_;
   void                                                               subVehicleStatusPx4(const px4_msgs::msg::VehicleStatus &msg);
@@ -89,6 +90,9 @@ private:
   rclcpp::Subscription<px4_msgs::msg::EscStatus>::ConstSharedPtr               sub_esc_status_px4_;
   void                                                                         subEscStatusPx4(const px4_msgs::msg::EscStatus &msg);
   rclcpp_lifecycle::LifecyclePublisher<laser_msgs::msg::MotorSpeed>::SharedPtr pub_motor_speed_estimation_;
+
+  rclcpp::Subscription<laser_msgs::msg::UavControlDiagnostics>::ConstSharedPtr sub_control_manager_diagnostics_;
+  void                                                                         subControlManagerDiagnostics(const laser_msgs::msg::UavControlDiagnostics &msg);
 
   rclcpp::Subscription<laser_msgs::msg::MotorSpeed>::ConstSharedPtr              sub_motor_speed_reference_;
   void                                                                           subMotorSpeedReference(const laser_msgs::msg::MotorSpeed &msg);
@@ -126,9 +130,10 @@ private:
   Eigen::PermutationMatrix<3>      ned_enu_reflection_xy_;
   Eigen::DiagonalMatrix<double, 3> ned_enu_reflection_z_;
 
-  sensor_msgs::msg::Imu              imu_;
-  laser_msgs::msg::ApiPx4Diagnostics api_diagnostics_;
-  px4_msgs::msg::ActuatorMotors      actuator_motors_reference_;
+  sensor_msgs::msg::Imu                  imu_;
+  laser_msgs::msg::ApiPx4Diagnostics     api_diagnostics_;
+  laser_msgs::msg::UavControlDiagnostics control_manager_diagnostics_;
+  px4_msgs::msg::ActuatorMotors          actuator_motors_reference_;
 
   int target_system_;
 

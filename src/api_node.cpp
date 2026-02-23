@@ -126,6 +126,7 @@ CallbackReturn ApiNode::on_cleanup([[maybe_unused]] const rclcpp_lifecycle::Stat
   sub_distance_sensor_px4_.reset();
   sub_vehicle_status_px4_.reset();
   sub_control_mode_px4_.reset();
+  sub_control_manager_diagnostics_.reset();
 
   pub_offboard_control_mode_px4_.reset();
   pub_nav_odometry_.reset();
@@ -176,17 +177,17 @@ void ApiNode::configPubSub() {
 
   // Pubs and Subs for Px4 topics
   sub_vehicle_odometry_px4_ = create_subscription<px4_msgs::msg::VehicleOdometry>("vehicle_odometry_px4_in", rclcpp::SensorDataQoS(),
-                                                                          std::bind(&ApiNode::subVehicleOdometryPx4, this, std::placeholders::_1));
+                                                                                  std::bind(&ApiNode::subVehicleOdometryPx4, this, std::placeholders::_1));
 
   sub_vehicle_gps_position_px4_ = create_subscription<px4_msgs::msg::SensorGps>("vehicle_gps_position_px4_in", rclcpp::SensorDataQoS(),
-                                                                          std::bind(&ApiNode::subVehicleGpsPositionPx4, this, std::placeholders::_1));
+                                                                                std::bind(&ApiNode::subVehicleGpsPositionPx4, this, std::placeholders::_1));
 
-  sub_sensor_gyro_px4_  = create_subscription<px4_msgs::msg::SensorGyro>("sensor_gyro_px4_in", rclcpp::SensorDataQoS(),
+  sub_sensor_gyro_px4_     = create_subscription<px4_msgs::msg::SensorGyro>("sensor_gyro_px4_in", rclcpp::SensorDataQoS(),
                                                                         std::bind(&ApiNode::subSensorGyroPx4, this, std::placeholders::_1));
-  sub_sensor_accel_px4_ = create_subscription<px4_msgs::msg::SensorAccel>("sensor_accel_px4_in", rclcpp::SensorDataQoS(),
+  sub_sensor_accel_px4_    = create_subscription<px4_msgs::msg::SensorAccel>("sensor_accel_px4_in", rclcpp::SensorDataQoS(),
                                                                           std::bind(&ApiNode::subSensorAccelPx4, this, std::placeholders::_1));
   sub_distance_sensor_px4_ = create_subscription<px4_msgs::msg::DistanceSensor>("distance_sensor_px4_in", rclcpp::SensorDataQoS(),
-                                                                          std::bind(&ApiNode::subDistanceSensorPx4, this, std::placeholders::_1));
+                                                                                std::bind(&ApiNode::subDistanceSensorPx4, this, std::placeholders::_1));
 
   sub_vehicle_status_px4_ = create_subscription<px4_msgs::msg::VehicleStatus>("vehicle_status_px4_in", rclcpp::SensorDataQoS(),
                                                                               std::bind(&ApiNode::subVehicleStatusPx4, this, std::placeholders::_1));
@@ -207,7 +208,10 @@ void ApiNode::configPubSub() {
 
   pub_imu_ = create_publisher<sensor_msgs::msg::Imu>("imu", 10);
 
-  pub_garmin_ = create_publisher<laser_msgs::msg::Float64Header>("garmin", 10);
+  pub_garmin_ = create_publisher<sensor_msgs::msg::Range>("garmin", 10);
+
+  sub_control_manager_diagnostics_ = create_subscription<laser_msgs::msg::UavControlDiagnostics>(
+      "control_manager_diagnostics_in", 1, std::bind(&ApiNode::subControlManagerDiagnostics, this, std::placeholders::_1));
 
   if (_control_input_mode_ == "individual_thrust") {
     pub_motor_speed_reference_px4_ = create_publisher<px4_msgs::msg::ActuatorMotors>("motor_speed_reference_px4_out", 10);
@@ -320,10 +324,14 @@ void ApiNode::subDistanceSensorPx4(const px4_msgs::msg::DistanceSensor &msg) {
     return;
   }
 
-  laser_msgs::msg::Float64Header garmin_msg;
+  sensor_msgs::msg::Range garmin_msg;
   garmin_msg.header.stamp    = get_clock()->now();
-  garmin_msg.header.frame_id  = "fcu";
-  garmin_msg.data = msg.current_distance;
+  garmin_msg.header.frame_id = "fcu";
+  garmin_msg.range           = msg.current_distance;
+  garmin_msg.field_of_view   = 0;
+  garmin_msg.radiation_type  = sensor_msgs::msg::Range::INFRARED;
+  garmin_msg.min_range       = msg.min_distance;
+  garmin_msg.max_range       = msg.max_distance;
   pub_garmin_->publish(garmin_msg);
 }
 //}
@@ -348,7 +356,7 @@ void ApiNode::subVehicleGpsPositionPx4(const px4_msgs::msg::SensorGps &msg) {
   }
 
   api_diagnostics_.qty_satellites = msg.satellites_used;
-  api_diagnostics_.rf_jamming = msg.jamming_indicator;
+  api_diagnostics_.rf_jamming     = msg.jamming_indicator;
 }
 //}
 
@@ -536,6 +544,16 @@ void ApiNode::subMotorSpeedReference(const laser_msgs::msg::MotorSpeed &msg) {
 }
 //}
 
+/* subControlManagerDiagnostics() //{ */
+void ApiNode::subControlManagerDiagnostics(const laser_msgs::msg::UavControlDiagnostics &msg) {
+  if (!is_active_) {
+    return;
+  }
+
+  control_manager_diagnostics_ = msg;
+}
+//}
+
 /* tmrPubMotorSpeedReferencePx4() //{ */
 void ApiNode::tmrPubMotorSpeedReferencePx4() {
   if (!is_active_) {
@@ -565,20 +583,23 @@ void ApiNode::srvArm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Trigg
     return;
   }
 
-  if (real_uav_) {
-    response->success = false;
-    response->message = "arm requested failed, in real drone use the RC to arm";
-    return;
-  }
-
   if (!fw_preflight_checks_pass_) {
     response->success = false;
     response->message = "arm requested failed, preflight checks don't pass in firmware, try again in a few seconds";
     return;
   }
 
-  pubVehicleCommandPx4(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 6);
-  pubVehicleCommandPx4(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 1.0);
+  if (!real_uav_) {
+    pubVehicleCommandPx4(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_DO_SET_MODE, 1, 6);
+  }
+
+  if (!control_manager_diagnostics_.is_fly && !api_diagnostics_.armed) {
+    pubVehicleCommandPx4(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 1.0);
+  } else {
+    response->success = false;
+    response->message = "arm request failed: UAV is already armed or in flight";
+    return;
+  }
 
   response->success = true;
   response->message = "arm requested success";
@@ -592,13 +613,13 @@ void ApiNode::srvDisarm([[maybe_unused]] const std::shared_ptr<std_srvs::srv::Tr
     return;
   }
 
-  if (real_uav_) {
+  if ((!control_manager_diagnostics_.is_fly && !control_manager_diagnostics_.have_goal) && api_diagnostics_.armed) {
+    pubVehicleCommandPx4(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 0.0);
+  } else {
     response->success = false;
-    response->message = "disarm requested failed, in real drone use the RC to disarm";
+    response->message = "arm request failed: UAV is already disarmed";
     return;
   }
-
-  pubVehicleCommandPx4(px4_msgs::msg::VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM, 0.0);
 
   response->success = true;
   response->message = "disarm requested success";

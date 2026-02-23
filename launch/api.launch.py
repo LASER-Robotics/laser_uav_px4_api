@@ -66,6 +66,7 @@ def generate_launch_description():
             ('/' + uav_name + '/vehicle_status_px4_in', '/' + uav_name + '/fmu/out/vehicle_status'),
             ('/' + uav_name + '/vehicle_control_mode_px4_in', '/' + uav_name + '/fmu/out/vehicle_control_mode'),
             ('/' + uav_name + '/individual_thrust_in', '/' + uav_name + '/px4_api/individual_thrust'),
+            ('/' + uav_name + '/control_manager_diagnostics_in', '/' + uav_name + '/control_manager/diagnostics'),
             ('/' + uav_name + '/odometry', '/' + uav_name + '/px4_api/odometry'),
             ('/' + uav_name + '/imu', '/' + uav_name + '/px4_api/imu'),
             ('/' + uav_name + '/garmin', '/' + uav_name + '/px4_api/garmin'),

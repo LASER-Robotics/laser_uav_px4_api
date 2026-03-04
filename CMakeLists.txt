@@ -39,6 +39,7 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR}
 )
 
+
 set(executable_name api)
 
 add_executable(${executable_name}
@@ -73,9 +74,6 @@ install(TARGETS ${library_name}
   RUNTIME DESTINATION bin
 )
 
-install(TARGETS ${executable_name}
-  RUNTIME DESTINATION lib/${PROJECT_NAME}
-)
 
 install(DIRECTORY include/
   DESTINATION include/

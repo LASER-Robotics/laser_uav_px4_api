@@ -13,6 +13,7 @@
 #include <laser_msgs/msg/api_px4_diagnostics.hpp>
 #include <laser_msgs/msg/motor_speed.hpp>
 #include <laser_msgs/msg/uav_control_diagnostics.hpp>
+#include <laser_msgs/msg/pose_with_heading.hpp>
 
 #include <std_srvs/srv/trigger.hpp>
 #include <sensor_msgs/msg/imu.hpp>
@@ -31,6 +32,7 @@
 #include <px4_msgs/msg/sensor_gyro.hpp>
 #include <px4_msgs/msg/sensor_accel.hpp>
 #include <px4_msgs/msg/actuator_motors.hpp>
+#include <px4_msgs/msg/manual_control_setpoint.hpp>
 
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
@@ -63,6 +65,11 @@ private:
   void configPubSub();
   void configTimers();
   void configServices();
+
+  rclcpp::Subscription<px4_msgs::msg::ManualControlSetpoint>::SharedPtr sub_px4_rc_;
+  void                                                                  subRcPx4(const px4_msgs::msg::ManualControlSetpoint &msg);
+
+  rclcpp::Publisher<laser_msgs::msg::PoseWithHeading>::SharedPtr pub_rc_to_goto_;
 
   rclcpp::Subscription<px4_msgs::msg::VehicleControlMode>::ConstSharedPtr sub_control_mode_px4_;
   void                                                                    subControlModePx4(const px4_msgs::msg::VehicleControlMode &msg);
